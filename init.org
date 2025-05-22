@@ -219,6 +219,26 @@
     "pt" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between impl/test")
     "ps" '(projectile-grep :which-key "Search in project")
 
+    ;; Magit
+    "g"  '(:ignore t :which-key "magit")
+    "gG" '(magit-fetch :which-key "fetch")
+    "gC" '(magit-clone :which-key "clone")
+    "gcr" '(magit-init :which-key "init")
+    "gg" '(magit-status :which-key "status")
+    "g/" '(magit-dispatch :which-key "dispatch")
+    "gff" '(magit-find-file :which-key "find file")
+    "gS" '(magit-file-stage :which-key "file stage")
+    "gD" '(magit-file-delete :which-key "file delete")
+    "gfc" '(magit-show-commit :which-key "show commit")
+    "gG" '(magit-status-here :which-key "status here")
+    "gcf" '(magit-commit-fixup :which-key "commit fixup")
+    "gU" '(magit-file-unstage :which-key "file unstage")
+    "gcc" '(magit-commit-create :which-key "commit create")
+    "g." '(magit-file-dispatch :which-key "file dispatch")
+    "gB" '(magit-blame-addition :which-key "blame addition")
+    "gb" '(magit-branch-checkout :which-key "branch checkout")
+    "glr" '(magit-list-repositories :which-key "list repositories")
+
     ;; Code
     "c"  '(:ignore t :which-key "code")
     "cc" '(compile :which-key "compile")
@@ -228,10 +248,6 @@
     "n"  '(:ignore t :which-key "notes")
     "na" '(org-agenda :which-key "org agenda")
     "x" '(org-capture :which-key "org capture")
-
-    ;; Goto
-    "g"  '(:ignore t :which-key "goto")
-    "g/" '(webjump :which-key "webjump")
 
     ;; Undo/Redo
     "u"  '(:ignore t :which-key "undo")
@@ -415,32 +431,32 @@
 
 #+begin_src emacs-lisp :tangle init.el
 
-  (use-package webjump
-    :defer
-    :ensure nil
-    :config
-    (setq webjump-sites
-	  '(
-	    ("ChatGPT" . "https://chatgpt.com/")
-	    ("Claude" . "https://claude.ai/")
-	    ("Todoist" . "https://app.todoist.com/app/today")
-	    ("Microsoft Excel" . "https://excel.cloud.microsoft/")
-	    ("Microsoft Word" . "https://word.cloud.microsoft/")
-	    ("Microsoft One Drive" . "https://appslosrios-my.sharepoint.com/")
-	    ("Pearson Revel Computer Science" . "https://console.pearson.com/console/home/")
-	    ("Discord" . "https://discord.com/channels/@me")
-	    ("Desmos Graphing Calculator" . "https://www.desmos.com/calculator")
-	    ("Readwise Reader" . "https://read.readwise.io/")
-	    ("Canvas Los Rios" . "https://lrccd.instructure.com/")
-	    ("Pearson Realize Math" . "https://mylab.pearson.com/")
-	    ("Deepseek" . "https://chat.deepseek.com/")
-	    ("GitHub" . "https://github.com/")
-	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
-	    ("DuckDuckGo" . [simple-query "www.duckduckgo.com" "www.duckduckgo.com/?q=" ""])
-	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
-	    ("Google Images" . [simple-query "www.google.com" "www.google.com/images?q=" ""])
-	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
-	  ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
+;;  (use-package webjump
+;;    :defer
+;;    :ensure nil
+;;    :config
+;;    (setq webjump-sites
+;;	  '(
+;;	    ("ChatGPT" . "https://chatgpt.com/")
+;;	    ("Claude" . "https://claude.ai/")
+;;	    ("Todoist" . "https://app.todoist.com/app/today")
+;;	    ("Microsoft Excel" . "https://excel.cloud.microsoft/")
+;;	    ("Microsoft Word" . "https://word.cloud.microsoft/")
+;;	    ("Microsoft One Drive" . "https://appslosrios-my.sharepoint.com/")
+;;	    ("Pearson Revel Computer Science" . "https://console.pearson.com/console/home/")
+;;	    ("Discord" . "https://discord.com/channels/@me")
+;;	    ("Desmos Graphing Calculator" . "https://www.desmos.com/calculator")
+;;	    ("Readwise Reader" . "https://read.readwise.io/")
+;;	    ("Canvas Los Rios" . "https://lrccd.instructure.com/")
+;;	    ("Pearson Realize Math" . "https://mylab.pearson.com/")
+;;	    ("Deepseek" . "https://chat.deepseek.com/")
+;;	    ("GitHub" . "https://github.com/")
+;;	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
+;;	    ("DuckDuckGo" . [simple-query "www.duckduckgo.com" "www.duckduckgo.com/?q=" ""])
+;;	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
+;;	    ("Google Images" . [simple-query "www.google.com" "www.google.com/images?q=" ""])
+;;	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
+;;	  ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
 
 #+end_src
 
@@ -450,7 +466,7 @@
 
   (defun efs/org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
-                        (expand-file-name "~/.emacs.d/init.org"))
+                        (expand-file-name "~/dotfiles/init.org"))
       ;; Dynamic scoping to the rescue
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
