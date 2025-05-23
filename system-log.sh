@@ -1,45 +1,41 @@
-sudo pacman -S hyprland
-sudo pacman -S kitty
+sudo pacman -S kitty --noconfirm
 
-sudo pacman -S rofi 
-sudo pacman -S waybar 
-sudo pacman -S network-manager-applet
+sudo pacman -S rofi  --noconfirm
+sudo pacman -S waybar  --noconfirm
+sudo pacman -S network-manager-applet --noconfirm
 
 
-sudo pacman -S obsidian
-sudo pacman -S yazi
-sudo pacman -S emacs
-sudo pacman -S neovim
-sudo pacman -S calibre
-sudo pacman -S ghostty
-sudo pacman -S nautilus
-sudo pacman -S 7zip
-sudo pacman -S wl-clipboard
-sudo pacman -S cliphist
-sudo pacman -S hyprpaper
-sudo pacman -S qt6-wayland
-sudo pacman -S grim \
-sudo pacman -S slurp
-sudo pacman -S pipewire
-sudo pacman -S wireplumber
-sudo pacman -S libnotify
-sudo pacman -S pavucontrol
-sudo pacman -S pulseaudio
+sudo pacman -S obsidian --noconfirm
+sudo pacman -S yazi --noconfirm
+sudo pacman -S emacs --noconfirm
+sudo pacman -S neovim --noconfirm
+sudo pacman -S calibre --noconfirm
+sudo pacman -S ghostty --noconfirm
+sudo pacman -S nautilus --noconfirm
+sudo pacman -S 7zip --noconfirm
+sudo pacman -S wl-clipboard --noconfirm
+sudo pacman -S cliphist --noconfirm
+sudo pacman -S hyprpaper --noconfirm
+sudo pacman -S qt6-wayland --noconfirm
+sudo pacman -S grim --noconfirm
+sudo pacman -S slurp --noconfirm
+sudo pacman -S pipewire --noconfirm
+sudo pacman -S wireplumber --noconfirm
+sudo pacman -S libnotify --noconfirm
+sudo pacman -S pavucontrol --noconfirm
+sudo pacman -S pulseaudio --noconfirm
 
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 yay -S librewolf-bin
 
-# getting macos
-sudo pacman -S --needed qemu libvirt virt-manager wget libguestfs p7zip make \
-    tesseract tesseract-data-eng cdrtools net-tools screen edk2-ovmf
-yay -S dmg2img
-
 git clone --depth 1 --recursive https://github.com/kholia/OSX-KVM.git
 
-
-sudo pacman -Rns qemu-full libvirt virt-manager libguestfs \
-    tesseract tesseract-data-eng cdrtools net-tools screen edk2-ovmf
-yay -Rns dmg2img
-
-sudo pacman -S ttf-firacode-nerd
 sudo pacman -S ttf-meslo-nerd
+
+sudo pacman -S fish --noconfirm
+sudo pacman -S bat --noconfirm
+sudo pacman -S eza --noconfirm
+sudo pacman -S zoxide --noconfirm
+sudo pacman -S fzf --noconfirm
+sudo pacman -S lazygit --noconfirm
+sudo pacman -S starship --noconfirm

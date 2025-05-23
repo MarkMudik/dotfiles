@@ -164,7 +164,6 @@
 ** General
 
 #+begin_src emacs-lisp :tangle init.el
-
   (use-package general
     :after evil
     :config
