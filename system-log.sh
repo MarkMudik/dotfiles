@@ -37,6 +37,7 @@ sudo pacman -S eza --noconfirm
 sudo pacman -S zoxide --noconfirm
 sudo pacman -S fzf --noconfirm
 sudo pacman -S lazygit --noconfirm
+sudo pacman -S ripgrep --noconfirm
 
 yay -S vscode-langservers-extracted
 
