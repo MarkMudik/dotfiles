@@ -8,16 +8,18 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- Setup Mason (LSP installer)
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = {}, -- Disable auto-install
+        ensure_installed = {},
       })
 
-      -- Setup LSP for C++ (clangd)
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      -- Enable snippet support
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      -- clangd setup
       lspconfig.clangd.setup({
         capabilities = capabilities,
         cmd = {
@@ -30,6 +32,22 @@ return {
         single_file_support = true,
       })
 
+      -- html setup
+      lspconfig.html.setup({
+        capabilities = capabilities,
+        cmd = { "vscode-html-language-server", "--stdio" },
+        filetypes = { "html" },
+        init_options = {
+          configurationSection = { "html", "css", "javascript" },
+          embeddedLanguages = {
+            css = true,
+            javascript = true,
+          },
+        },
+        root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+        settings = {},
+      })
+
       -- Keymaps for LSP
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Documentation" })
@@ -40,15 +58,15 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",       -- Optional: Snippet engine
-      "saadparwaiz1/cmp_luasnip",-- Optional: Snippet completions
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
     },
     config = function()
       local cmp = require("cmp")
       cmp.setup({
         sources = {
           { name = "nvim_lsp" },
-          { name = "luasnip" }, -- Optional: Snippets
+          { name = "luasnip" },
           { name = "buffer" },
         },
         mapping = cmp.mapping.preset.insert({

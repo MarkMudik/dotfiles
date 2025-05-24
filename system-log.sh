@@ -32,10 +32,13 @@ git clone --depth 1 --recursive https://github.com/kholia/OSX-KVM.git
 
 sudo pacman -S ttf-meslo-nerd
 
-sudo pacman -S fish --noconfirm
 sudo pacman -S bat --noconfirm
 sudo pacman -S eza --noconfirm
 sudo pacman -S zoxide --noconfirm
 sudo pacman -S fzf --noconfirm
 sudo pacman -S lazygit --noconfirm
-sudo pacman -S starship --noconfirm
+
+yay -S vscode-langservers-extracted
+
+sudo pacman -S steam --noconfirm
+yay -S minecraft-launcher
