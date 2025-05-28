@@ -43,3 +43,6 @@ yay -S vscode-langservers-extracted
 
 sudo pacman -S steam --noconfirm
 yay -S minecraft-launcher
+
+sudo pacman -S zsh --noconfirm
+sudo pacman -S zsh-syntax-highlighting --noconfirm
