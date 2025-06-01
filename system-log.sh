@@ -1,9 +1,13 @@
-sudo pacman -S kitty --noconfirm
+# prerequisite: get yay
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+
+sudo pacman -S ghostty --noconfirm
 
 sudo pacman -S rofi  --noconfirm
 sudo pacman -S waybar  --noconfirm
 sudo pacman -S network-manager-applet --noconfirm
-
+sudo pacman -S openvpn --noconfirm
+sudo pacman -S networkmanager-openvpn --noconfirm
 
 sudo pacman -S obsidian --noconfirm
 sudo pacman -S yazi --noconfirm
@@ -25,10 +29,7 @@ sudo pacman -S libnotify --noconfirm
 sudo pacman -S pavucontrol --noconfirm
 sudo pacman -S pulseaudio --noconfirm
 
-sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 yay -S librewolf-bin
-
-git clone --depth 1 --recursive https://github.com/kholia/OSX-KVM.git
 
 sudo pacman -S ttf-meslo-nerd
 
@@ -36,7 +37,6 @@ sudo pacman -S bat --noconfirm
 sudo pacman -S eza --noconfirm
 sudo pacman -S zoxide --noconfirm
 sudo pacman -S fzf --noconfirm
-sudo pacman -S lazygit --noconfirm
 sudo pacman -S ripgrep --noconfirm
 
 yay -S vscode-langservers-extracted
@@ -46,3 +46,10 @@ yay -S minecraft-launcher
 
 sudo pacman -S zsh --noconfirm
 sudo pacman -S zsh-syntax-highlighting --noconfirm
+
+yay -S stremio
+
+sudo pacman -S qbittorrent --noconfirm
+
+sudo pacman -S zsh-autocomplete --noconfirm
+

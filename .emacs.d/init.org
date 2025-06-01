@@ -174,95 +174,103 @@
 
   (space/leader-keys
     ;; General bindings
-    "RET" '(consult-bookmark :which-key "bookmark")
+    "RET" '(consult-bookmark :which-key "Bookmark")
     ":" '(execute-extended-command :which-key "M-x")
     "'" '(vertico-repeat :which-key "M-x")
-    "/" '(consult-ripgrep :which-key "rgrep current")
+    "/" '(consult-ripgrep :which-key "Rgrep current")
 
 
     ;; File
-    "f"  '(:ignore t :which-key "file")
-    "ff" '(find-file :which-key "find file")
-    "." '(find-file :which-key "find file")
-    "fr" '(consult-recent-file :which-key "recent files")
-    "fd" '(dired :which-key "dired")
-    "fD" '(dired-jump :which-key "dired jump")
+    "f"  '(:ignore t :which-key "File")
+    "ff" '(find-file :which-key "Find file")
+    "." '(find-file :which-key "Find file")
+    "fr" '(consult-recent-file :which-key "Recent files")
+    "fd" '(dired :which-key "Dired")
 
+    ;; Open
+    "o"  '(:ignore t :which-key "Org")
+    "o-" '(dired-jump :which-key "Dired")
+    "oA" '(org-agenda :which-key "Agenda")
+    "of" '(make-frame :which-key "Frame")
+    "oF" '(select-frame-by-name :which-key "Select frame")
+    
     ;; Buffers
-    "b"  '(:ignore t :which-key "buffer")
-    "<" '(consult-buffer :which-key "switch buffer")
-    "bi" '(ibuffer :which-key "ibuffer")
-    "bb" '(switch-to-buffer :which-key "switch buffer")
-    "bk" '(kill-current-buffer :which-key "kill buffer")
-    "bn" '(next-buffer :which-key "next buffer")
-    "bp" '(previous-buffer :which-key "previous buffer")
+    "b"  '(:ignore t :which-key "Buffer")
+    "<" '(consult-buffer :which-key "Switch buffer")
+    "bi" '(ibuffer :which-key "Ibuffer")
+    "bb" '(switch-to-buffer :which-key "Switch buffer")
+    "bk" '(kill-current-buffer :which-key "Kill buffer")
+    "bn" '(next-buffer :which-key "Next buffer")
+    "bp" '(previous-buffer :which-key "Previous buffer")
 
     ;; Window management
-    "w"  '(:ignore t :which-key "window")
-    "ws" '(split-window-below :which-key "split below")
-    "wv" '(split-window-right :which-key "split right")
-    "wd" '(delete-window :which-key "delete window")
-    "wq" '(delete-frame :which-key "delete frame")
-    "wh" '(evil-window-left :which-key "left window")
-    "wl" '(evil-window-right :which-key "right window")
-    "wj" '(evil-window-down :which-key "down window")
-    "wk" '(evil-window-up :which-key "up window")
+    "w"  '(:ignore t :which-key "Window")
+    "ws" '(split-window-below :which-key "Split below")
+    "wv" '(split-window-right :which-key "Split right")
+    "wd" '(delete-window :which-key "Delete window")
+    "wq" '(delete-frame :which-key "Delete frame")
+    "wh" '(evil-window-left :which-key "Left window")
+    "wl" '(evil-window-right :which-key "Right window")
+    "wj" '(evil-window-down :which-key "Down window")
+    "wk" '(evil-window-up :which-key "Up window")
 
     ;; Projectile (file search)
-    "p"  '(:ignore t :which-key "project")
-    "SPC" '(projectile-find-file :which-key "find file")
-    "pf" '(projectile-find-file :which-key "find file")
-    "pb" '(projectile-switch-to-buffer :which-key "switch buffer in project")
-    "pr" '(projectile-recentf :which-key "Recent Files")
+    "p"  '(:ignore t :which-key "Project")
+    "SPC" '(projectile-find-file :which-key "Find file")
+    "pf" '(projectile-find-file :which-key "Find file")
+    "pp" '(projectile-switch-project :which-key "Find file")
+    "pb" '(projectile-switch-to-buffer :which-key "Switch buffer in project")
+    "pr" '(projectile-recentf :which-key "Recent files")
+    "pv" '(projectile-dired :which-key "Dired")
     "pd" '(projectile-find-dir :which-key "Find directory")
     "pt" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between impl/test")
     "ps" '(projectile-grep :which-key "Search in project")
 
     ;; Magit
-    "g"  '(:ignore t :which-key "magit")
-    "gG" '(magit-fetch :which-key "fetch")
-    "gC" '(magit-clone :which-key "clone")
-    "gcr" '(magit-init :which-key "init")
-    "gg" '(magit-status :which-key "status")
-    "g/" '(magit-dispatch :which-key "dispatch")
-    "gff" '(magit-find-file :which-key "find file")
-    "gS" '(magit-file-stage :which-key "file stage")
-    "gD" '(magit-file-delete :which-key "file delete")
-    "gfc" '(magit-show-commit :which-key "show commit")
-    "gG" '(magit-status-here :which-key "status here")
-    "gcf" '(magit-commit-fixup :which-key "commit fixup")
-    "gU" '(magit-file-unstage :which-key "file unstage")
-    "gcc" '(magit-commit-create :which-key "commit create")
-    "g." '(magit-file-dispatch :which-key "file dispatch")
-    "gB" '(magit-blame-addition :which-key "blame addition")
-    "gb" '(magit-branch-checkout :which-key "branch checkout")
-    "glr" '(magit-list-repositories :which-key "list repositories")
+    "g"  '(:ignore t :which-key "Magit")
+    "gG" '(magit-fetch :which-key "Fetch")
+    "gC" '(magit-clone :which-key "Clone")
+    "gcr" '(magit-init :which-key "Init")
+    "gg" '(magit-status :which-key "Status")
+    "g/" '(magit-dispatch :which-key "Dispatch")
+    "gff" '(magit-find-file :which-key "Find file")
+    "gS" '(magit-file-stage :which-key "File stage")
+    "gD" '(magit-file-delete :which-key "File delete")
+    "gfc" '(magit-show-commit :which-key "Show commit")
+    "gG" '(magit-status-here :which-key "Status here")
+    "gcf" '(magit-commit-fixup :which-key "Commit fixup")
+    "gU" '(magit-file-unstage :which-key "File unstage")
+    "gcc" '(magit-commit-create :which-key "Commit create")
+    "g." '(magit-file-dispatch :which-key "File dispatch")
+    "gB" '(magit-blame-addition :which-key "Blame addition")
+    "gb" '(magit-branch-checkout :which-key "Branch checkout")
+    "glr" '(magit-list-repositories :which-key "List repositories")
 
     ;; Code
-    "c"  '(:ignore t :which-key "code")
-    "cc" '(compile :which-key "compile")
-    "cC" '(recompile :which-key "recompile")
+    "c"  '(:ignore t :which-key "Code")
+    "cc" '(compile :which-key "Compile")
+    "cC" '(recompile :which-key "Recompile")
 
     ;; Notes 
-    "n"  '(:ignore t :which-key "notes")
-    "na" '(org-agenda :which-key "org agenda")
-    "x" '(org-capture :which-key "org capture")
+    "n"  '(:ignore t :which-key "Notes")
+    "na" '(org-agenda :which-key "Org agenda")
+    "x" '(org-capture :which-key "Org capture")
 
     ;; Undo/Redo
-    "u"  '(:ignore t :which-key "undo")
-    "uu" '(undo-fu-only-undo :which-key "undo")
-    "ur" '(undo-fu-only-redo :which-key "redo")
-    "ud" '(undo-fu-session-clear :which-key "clear undo history")
+    "u"  '(:ignore t :which-key "Undo")
+    "uu" '(undo-fu-only-undo :which-key "Undo")
+    "ur" '(undo-fu-only-redo :which-key "Redo")
+    "ud" '(undo-fu-session-clear :which-key "Clear undo history")
 
     ;; Avy navigation
-    "s"  '(:ignore t :which-key "avy")
-    "ss" '(avy-goto-char :which-key "avy char")
-    "sf" '(avy-goto-line :which-key "avy line")
-    "sb" '(avy-goto-word-1 :which-key "avy word")
+    "s"  '(:ignore t :which-key "Avy")
+    "ss" '(avy-goto-char :which-key "Avy char")
+    "sf" '(avy-goto-line :which-key "Avy line")
+    "sb" '(avy-goto-word-1 :which-key "Avy word")
 
     ;; Helper
-    "h"  '(:ignore t :which-key "help")
-    "hk" '(describe-key :which-key "describe key")
+    "h"  '(:ignore t :which-key "Help")
+    "hk" '(describe-key :which-key "Describe key")
     ))
 
   (use-package which-key
@@ -333,6 +341,35 @@
 
 #+end_src
 
+* Org
+#+begin_src emacs-lisp :tangle init.el
+(use-package org
+  :ensure t
+  :custom
+  (org-directory "~/notes")
+  ;; Optionally: org-default-notes-file setup
+  ;; (org-default-notes-file (concat org-directory "/20250531T210853--smoothie-recipes.org"))
+  :config
+  (setq org-capture-templates
+        '(("s" "Smoothie" entry
+           (file+headline "~/notes/20250531T210853--smoothie-recipes.org" "Recipes")
+           "** %^{Title}\n:properties:\n:source: %^{Source|Self}\n:end:\n- %?")))
+)
+#+end_src
+
+* Denote
+#+begin_src emacs-lisp :tangle init.el
+(use-package denote
+  :ensure t
+  :init
+  (setq denote-directory (expand-file-name "~/notes/"))
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n o" . denote-open-or-create)
+   ("C-c n s" . denote-search-notes)
+   ("C-c n l" . denote-link)))
+#+end_src
+
 * Editor Nice to Haves
 
 #+begin_src emacs-lisp :tangle init.el
@@ -375,7 +412,7 @@
   
 #+end_src
 
-** LSP (Language Server Protocol) (DISABLED DUE TO INDENTATION ISSUES)
+** LSP (Language Server Protocol)
 
 #+begin_src emacs-lisp :tangle init.el
 

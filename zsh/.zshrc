@@ -45,6 +45,7 @@ bindkey '^S' history-incremental-search-forward
 bindkey '^Y' accept-search
 
 # Aliases
+alias vim='nvim'
 alias cat='bat'
 alias ls='eza --icons --time-style=long-iso --group-directories-first'
 alias grep='grep --color=auto'
