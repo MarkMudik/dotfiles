@@ -10,7 +10,6 @@ sudo pacman -S openvpn --noconfirm
 sudo pacman -S networkmanager-openvpn --noconfirm
 
 sudo pacman -S obsidian --noconfirm
-sudo pacman -S yazi --noconfirm
 sudo pacman -S emacs --noconfirm
 sudo pacman -S neovim --noconfirm
 sudo pacman -S calibre --noconfirm
@@ -53,3 +52,9 @@ sudo pacman -S qbittorrent --noconfirm
 
 sudo pacman -S zsh-autocomplete --noconfirm
 
+sudo pacman -S wine
+sudo pacman -S loupe
+
+sudo pacman -S bluez bluez-utils blueman
+
+yay -S ryujinx

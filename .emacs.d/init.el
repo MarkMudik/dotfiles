@@ -138,7 +138,6 @@
   "'" '(vertico-repeat :which-key "M-x")
   "/" '(consult-ripgrep :which-key "Rgrep current")
 
-
   ;; File
   "f"  '(:ignore t :which-key "File")
   "ff" '(find-file :which-key "Find file")
@@ -152,6 +151,7 @@
   "oA" '(org-agenda :which-key "Agenda")
   "of" '(make-frame :which-key "Frame")
   "oF" '(select-frame-by-name :which-key "Select frame")
+  "oL" '(org-open-at-point :which-key "Open Link")
   
   ;; Buffers
   "b"  '(:ignore t :which-key "Buffer")
@@ -297,8 +297,7 @@
   (setq org-capture-templates
         '(("s" "Smoothie" entry
            (file+headline "~/notes/20250531T210853--smoothie-recipes.org" "Recipes")
-           "** %^{Title}\n:properties:\n:source: %^{Source|Self}\n:end:\n- %?")))
-)
+           "** %^{Title}\n:properties:\n:source: %^{Source|Self}\n:end:\n- %?"))))
 
 (use-package denote
   :ensure t
@@ -338,40 +337,40 @@
 
 (use-package magit)
 
-;;  (use-package lsp-mode
-;;    :ensure t
-;;    :commands lsp
-;;    :hook ((c-mode . lsp)
-;;           (c++-mode . lsp)
-;;           (objc-mode . lsp))
-;;    :config
-;;    (setq lsp-prefer-flymake nil)
-;;    (setq lsp-enable-snippet t)
-;;    (setq lsp-headerline-breadcrumb-enable t)
-;;    )
-;;
-;;  (use-package lsp-ui
-;;    :ensure t
-;;    :commands lsp-ui-mode
-;;    :config
-;;    (setq lsp-ui-sideline-enable t)
-;;    (setq lsp-ui-doc-enable t)
-;;    (setq lsp-ui-imenu-enable t))
-;;
-;;
-;;  (use-package company
-;;    :after lsp-mode
-;;    :hook (lsp-mode . company-mode)
-;;    :bind (:map company-active-map
-;;  			  ("<tab>" . company-complete-selection))
-;;    (:map lsp-mode-map
-;;          ("<tab>" . company-indent-or-complete-common))
-;;    :custom
-;;    (company-minimum-prefix-length 1)
-;;    (company-idle-delay 0.0))
-;;
-;;  (use-package company-box
-;;    :hook (company-mode . company-box-mode))
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :hook ((c-mode . lsp)
+         (c++-mode . lsp)
+         (objc-mode . lsp))
+  :config
+  (setq lsp-prefer-flymake nil)
+  (setq lsp-enable-snippet t)
+  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-enable-indentation nil)
+  )
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-imenu-enable t))
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+			  ("<tab>" . company-complete-selection))
+  (:map lsp-mode-map
+        ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 (use-package yasnippet
   :config
