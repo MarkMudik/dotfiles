@@ -108,20 +108,24 @@
   (setq markdown-fontify-code-blocks-natively t))
 
 (use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-fine-undo t)
-  (setq evil-want-Y-yank-to-eol t)
-  (setq evil-set-undo-system 'undo-redo)
-  :config
-  (evil-mode 1))
+    :ensure t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-fine-undo t)
+    (setq evil-want-Y-yank-to-eol t)
+    (setq evil-set-undo-system 'undo-redo)
+    :config
+    (evil-mode 1))
 
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
+
+;; make sure leader works in dired
+(evil-define-key 'normal dired-mode-map (kbd "SPC") nil)
+
 
 (use-package general
   :after evil
@@ -161,6 +165,13 @@
   "bk" '(kill-current-buffer :which-key "Kill buffer")
   "bn" '(next-buffer :which-key "Next buffer")
   "bp" '(previous-buffer :which-key "Previous buffer")
+  
+  ;; Tabs 
+  "t"  '(:ignore t :which-key "Tab")
+  "tt" '(tab-switch :which-key "Switch")
+  "th" '(tab-next :which-key "Next")
+  "tl" '(tab-previous :which-key "Previous")
+  "tk" '(tab-close :which-key "Close")
 
   ;; Window management
   "w"  '(:ignore t :which-key "Window")
@@ -290,14 +301,30 @@
 (use-package org
   :ensure t
   :custom
-  (org-directory "~/notes")
-  ;; Optionally: org-default-notes-file setup
-  ;; (org-default-notes-file (concat org-directory "/20250531T210853--smoothie-recipes.org"))
-  :config
-  (setq org-capture-templates
-        '(("s" "Smoothie" entry
-           (file+headline "~/notes/20250531T210853--smoothie-recipes.org" "Recipes")
-           "** %^{Title}\n:properties:\n:source: %^{Source|Self}\n:end:\n- %?"))))
+  (org-directory "~/notes"))
+
+(setq org-capture-templates
+      '(("s" "Smoothie" entry
+         (file+headline "~/notes/20250531T210853--smoothie-recipes.org" "Recipes")
+         "** %^{Title}\n:properties:\n:source: %^{Source|Self}\n:end:\n- %?")))
+
+(use-package denote
+  :ensure t
+  :init
+  (setq denote-directory (expand-file-name "~/notes/"))
+  :bind
+  (("C-c n n" . denote)
+   ("C-c n o" . denote-open-or-create)
+   ("C-c n s" . denote-search-notes)
+   ("C-c n l" . denote-link)))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (calc . t)))
+
+(setq org-confirm-babel-evaluate nil)
+(push '("conf-unix" . conf-unix) org-src-lang-modes)
 
 (use-package denote
   :ensure t

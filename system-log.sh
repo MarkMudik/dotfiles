@@ -41,7 +41,6 @@ sudo pacman -S ripgrep --noconfirm
 yay -S vscode-langservers-extracted
 
 sudo pacman -S steam --noconfirm
-yay -S minecraft-launcher
 
 sudo pacman -S zsh --noconfirm
 sudo pacman -S zsh-syntax-highlighting --noconfirm
@@ -53,8 +52,25 @@ sudo pacman -S qbittorrent --noconfirm
 sudo pacman -S zsh-autocomplete --noconfirm
 
 sudo pacman -S wine
+sudo pacman -S winetricks
 sudo pacman -S loupe
 
 sudo pacman -S bluez bluez-utils blueman
 
 yay -S ryujinx
+
+sudo pacman -S kdeconnect
+sudo pacman -S xdg-desktop-portal
+
+sudo pacman -S prismlauncher
+sudo pacman -S libreoffice-fresh
+
+yay -S citron
+
+sudo pacman -S vulkan-tools
+
+sudo pacman -S vulkan-icd-loader
+
+sudo pacman -S less
+
+sudo pacman -S steam

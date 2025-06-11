@@ -49,6 +49,7 @@ alias vim='nvim'
 alias cat='bat'
 alias ls='eza --icons --time-style=long-iso --group-directories-first'
 alias grep='grep --color=auto'
+alias steam='STEAM_FORCE_XWAYLAND=1 steam'
 
 # git
 alias gst='git status'
