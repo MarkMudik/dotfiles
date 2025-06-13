@@ -5,7 +5,7 @@ if status is-interactive
     alias cat='bat'
     alias ls='eza --icons --time-style=long-iso --group-directories-first'
     zoxide init fish --cmd cd | source
-    starship init fish | source
+    # starship init fish | source
 
     set -Ux EDITOR nvim
     set -Ux VISUAL nvim

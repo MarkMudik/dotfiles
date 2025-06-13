@@ -44,6 +44,9 @@ bindkey '^S' history-incremental-search-forward
 # Accept the presented search result
 bindkey '^Y' accept-search
 
+# --- FZF Setup ---
+source <(fzf --zsh)
+
 # Aliases
 alias vim='nvim'
 alias cat='bat'

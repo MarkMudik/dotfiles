@@ -65,8 +65,6 @@ sudo pacman -S xdg-desktop-portal
 sudo pacman -S prismlauncher
 sudo pacman -S libreoffice-fresh
 
-yay -S citron
-
 sudo pacman -S vulkan-tools
 
 sudo pacman -S vulkan-icd-loader
@@ -74,3 +72,9 @@ sudo pacman -S vulkan-icd-loader
 sudo pacman -S less
 
 sudo pacman -S steam
+
+sudo pacman -S yazi
+
+sudo pacman -S fish
+
+yay -S citron
