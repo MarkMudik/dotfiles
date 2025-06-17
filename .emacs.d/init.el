@@ -1,41 +1,41 @@
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file :no-error-if-file-is-missing)
-(setq inhibit-startup-message t)
+;; -*- lexical-binding: t; -*-
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  (load custom-file :no-error-if-file-is-missing)
+  (setq inhibit-startup-message t)
 
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+  (tooltip-mode -1)
 
-(setq initial-major-mode 'org-mode
-      initial-scratch-message ""
-      initial-buffer-choice t)
+  (pixel-scroll-precision-mode t)
 
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
+  (setq initial-major-mode 'org-mode
+        initial-scratch-message ""
+        initial-buffer-choice t)
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode)
 
-(global-visual-line-mode 1)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(tab-bar-mode 1)
+  (global-visual-line-mode 1)
 
-(recentf-mode 1)
-(setq recentf-auto-cleanup 'never)
+  (tab-bar-mode 1)
 
-(setq make-backup-files nil)
-(setq auto-save-default nil)
+  (recentf-mode 1)
+  (setq recentf-auto-cleanup 'never)
 
-(setq use-short-answers t)
+  (setq make-backup-files nil)
+  (setq auto-save-default nil)
 
-(save-place-mode 1)
+  (setq use-short-answers t)
 
-(set-fringe-mode 10)
+  (save-place-mode 1)
 
-(setq scroll-margin 8)
+  (set-fringe-mode 10)
 
-(setq-default indent-tabs-mode t)
-(setq-default tab-width 4)
+  (setq scroll-margin 8)
+
+  (setq-default indent-tabs-mode t)
+  (setq-default tab-width 4)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			   ("org" . "https://orgmode.org/elpa/")
@@ -128,20 +128,10 @@
 
 
 (use-package general
-  :ensure t
-  :init
-  (setq general-override-states '(insert
-                                  emacs
-                                  hybrid
-                                  normal
-                                  visual
-                                  motion
-                                  operator
-                                  replace))
+  :after evil
   :config
   (general-create-definer space/leader-keys
-    :states '(normal visual motion)
-    :keymaps 'override
+    :keymaps '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "C-SPC")
 
