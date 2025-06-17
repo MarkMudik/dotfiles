@@ -85,6 +85,35 @@ else
 fi
 
 # -------------------------------------------------------
+# Xorg / GNOME (optional)
+# -------------------------------------------------------
+xorg_gnome_packages=(
+  xorg-server
+  xorg-apps
+  xorg-xinit
+  xorg-twm
+  xorg-xclock
+  xterm
+  gnome
+  gnome-tweaks
+  gnome-shell-extensions
+  gdm
+)
+
+if [ "$WITH_XORG" = true ]; then
+  echo "Installing Xorg / GNOME packages..."
+  for pkg in "${xorg_gnome_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+
+  echo "Enabling GDM (GNOME Display Manager)..."
+  sudo systemctl enable gdm
+else
+  echo "Skipping Xorg / GNOME packages (use --with-xorg to include them)"
+fi
+
+# -------------------------------------------------------
 # Optional GUI Tools (Prompt Per Package)
 # -------------------------------------------------------
 optional_packages=(
