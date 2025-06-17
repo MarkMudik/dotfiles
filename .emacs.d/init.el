@@ -128,10 +128,20 @@
 
 
 (use-package general
-  :after evil
+  :ensure t
+  :init
+  (setq general-override-states '(insert
+                                  emacs
+                                  hybrid
+                                  normal
+                                  visual
+                                  motion
+                                  operator
+                                  replace))
   :config
   (general-create-definer space/leader-keys
-    :keymaps '(normal insert visual emacs)
+    :states '(normal visual motion)
+    :keymaps 'override
     :prefix "SPC"
     :global-prefix "C-SPC")
 

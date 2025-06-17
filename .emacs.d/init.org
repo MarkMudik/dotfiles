@@ -9,6 +9,8 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 
+(pixel-scroll-precision-mode t)
+
 (setq initial-major-mode 'org-mode
       initial-scratch-message ""
       initial-buffer-choice t)

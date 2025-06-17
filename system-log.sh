@@ -10,10 +10,9 @@ sudo pacman -S openvpn --noconfirm
 sudo pacman -S networkmanager-openvpn --noconfirm
 
 sudo pacman -S obsidian --noconfirm
-sudo pacman -S emacs --noconfirm
+sudo pacman -S emacs-wayland --noconfirm
 sudo pacman -S neovim --noconfirm
 sudo pacman -S calibre --noconfirm
-sudo pacman -S ghostty --noconfirm
 sudo pacman -S nautilus --noconfirm
 sudo pacman -S 7zip --noconfirm
 sudo pacman -S wl-clipboard --noconfirm
@@ -35,31 +34,22 @@ sudo pacman -S ttf-meslo-nerd
 sudo pacman -S bat --noconfirm
 sudo pacman -S eza --noconfirm
 sudo pacman -S zoxide --noconfirm
+sudo pacman -S fd --noconfirm
 sudo pacman -S fzf --noconfirm
 sudo pacman -S ripgrep --noconfirm
 
-yay -S vscode-langservers-extracted
+yay -S vscode-langservers-extracted --noconfirm
 
 sudo pacman -S steam --noconfirm
 
-sudo pacman -S zsh --noconfirm
-sudo pacman -S zsh-syntax-highlighting --noconfirm
-
-yay -S stremio
+yay -S stremio --noconfirm
 
 sudo pacman -S qbittorrent --noconfirm
-
-sudo pacman -S zsh-autocomplete --noconfirm
 
 sudo pacman -S wine
 sudo pacman -S winetricks
 sudo pacman -S loupe
 
-sudo pacman -S bluez bluez-utils blueman
-
-yay -S ryujinx
-
-sudo pacman -S kdeconnect
 sudo pacman -S xdg-desktop-portal
 
 sudo pacman -S prismlauncher
@@ -67,14 +57,13 @@ sudo pacman -S libreoffice-fresh
 
 sudo pacman -S vulkan-tools
 
-sudo pacman -S vulkan-icd-loader
+sudo pacman -S vulkan-icd-loader --noconfirm
 
 sudo pacman -S less
-
-sudo pacman -S steam
 
 sudo pacman -S yazi
 
 sudo pacman -S fish
 
 yay -S citron
+
