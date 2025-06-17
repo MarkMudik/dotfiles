@@ -11,7 +11,7 @@ sudo pacman -S networkmanager-openvpn --noconfirm
 
 sudo pacman -S obsidian --noconfirm
 sudo pacman -S emacs-wayland --noconfirm
-sudo pacman -S neovim --noconfirm
+# sudo pacman -S neovim --noconfirm
 sudo pacman -S calibre --noconfirm
 sudo pacman -S nautilus --noconfirm
 sudo pacman -S 7zip --noconfirm
