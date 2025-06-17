@@ -12,7 +12,7 @@ sudo pacman -S networkmanager-openvpn --noconfirm
 sudo pacman -S obsidian --noconfirm
 sudo pacman -S emacs-wayland --noconfirm
 # sudo pacman -S neovim --noconfirm
-sudo pacman -S calibre --noconfirm
+# sudo pacman -S calibre --noconfirm
 sudo pacman -S nautilus --noconfirm
 sudo pacman -S 7zip --noconfirm
 sudo pacman -S wl-clipboard --noconfirm
@@ -27,9 +27,9 @@ sudo pacman -S libnotify --noconfirm
 sudo pacman -S pavucontrol --noconfirm
 sudo pacman -S pulseaudio --noconfirm
 
-yay -S librewolf-bin
+yay -S librewolf-bin --noconfirm
 
-sudo pacman -S ttf-meslo-nerd
+sudo pacman -S ttf-meslo-nerd --noconfirm
 
 sudo pacman -S bat --noconfirm
 sudo pacman -S eza --noconfirm
@@ -40,30 +40,31 @@ sudo pacman -S ripgrep --noconfirm
 
 yay -S vscode-langservers-extracted --noconfirm
 
-sudo pacman -S steam --noconfirm
+sudo pacman -S steam
 
-yay -S stremio --noconfirm
+yay -S stremio
 
 sudo pacman -S qbittorrent --noconfirm
 
-sudo pacman -S wine
-sudo pacman -S winetricks
-sudo pacman -S loupe
+sudo pacman -S wine --noconfirm
+sudo pacman -S winetricks --noconfirm
 
-sudo pacman -S xdg-desktop-portal
+sudo pacman -S loupe --noconfirm
+
+sudo pacman -S xdg-desktop-portal --noconfirm
 
 sudo pacman -S prismlauncher
-sudo pacman -S libreoffice-fresh
+sudo pacman -S libreoffice-fresh --noconfirm
 
-sudo pacman -S vulkan-tools
+sudo pacman -S vulkan-tools --noconfirm
 
 sudo pacman -S vulkan-icd-loader --noconfirm
 
-sudo pacman -S less
+sudo pacman -S less --noconfirm
 
-sudo pacman -S yazi
+sudo pacman -S yazi --noconfirm
 
-sudo pacman -S fish
+sudo pacman -S fish --noconfirm
 
 yay -S citron
 
