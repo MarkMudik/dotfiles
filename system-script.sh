@@ -29,6 +29,8 @@ echo "Starting installation of categorized packages..."
 # Essential Packages
 # -------------------------------------------------------
 essential_packages=(
+  ghostty
+  dolphin
   git
   base-devel
   openvpn
@@ -102,7 +104,6 @@ xorg_packages=(
   xorg-xinit
   xorg-twm
   xorg-xclock
-  xterm
 )
 
 if [ "$WITH_XORG" = true ]; then
