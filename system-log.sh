@@ -1,70 +1,126 @@
-# prerequisite: get yay
-sudo pacman -S --needed git base-devel --noconfirm
+#!/bin/bash
+set -euo pipefail
 
-sudo pacman -S ghostty --noconfirm
+WITH_HYPRLAND=false
 
-sudo pacman -S rofi  --noconfirm
-sudo pacman -S waybar  --noconfirm
-sudo pacman -S network-manager-applet --noconfirm
-sudo pacman -S openvpn --noconfirm
-sudo pacman -S networkmanager-openvpn --noconfirm
+# Check for --with-hyprland flag
+if [[ "${1:-}" == "--with-hyprland" ]]; then
+  WITH_HYPRLAND=true
+fi
 
-sudo pacman -S obsidian --noconfirm
-sudo pacman -S emacs-wayland --noconfirm
-# sudo pacman -S neovim --noconfirm
-# sudo pacman -S calibre --noconfirm
-sudo pacman -S nautilus --noconfirm
-sudo pacman -S 7zip --noconfirm
-sudo pacman -S wl-clipboard --noconfirm
-sudo pacman -S cliphist --noconfirm
-sudo pacman -S hyprpaper --noconfirm
-sudo pacman -S qt6-wayland --noconfirm
-sudo pacman -S grim --noconfirm
-sudo pacman -S slurp --noconfirm
-sudo pacman -S pipewire --noconfirm
-sudo pacman -S wireplumber --noconfirm
-sudo pacman -S libnotify --noconfirm
-sudo pacman -S pavucontrol --noconfirm
-sudo pacman -S pulseaudio --noconfirm
+echo "Checking for yay..."
+if ! command -v yay &> /dev/null; then
+  echo "Error: 'yay' is not installed. Please install yay first."
+  exit 1
+fi
 
-yay -S librewolf-bin --noconfirm
+echo "Starting installation of categorized packages..."
 
-sudo pacman -S ttf-meslo-nerd --noconfirm
+# -------------------------------------------------------
+# Essential Packages
+# -------------------------------------------------------
+essential_packages=(
+  git
+  base-devel
+  openvpn
+  obsidian
+  emacs
+  ttf-meslo-nerd
+  bat
+  eza
+  zoxide
+  fd
+  fzf
+  ripgrep
+  steam
+  qbittorrent
+  wine
+  winetricks
+  libreoffice-fresh
+  vulkan-tools
+  vulkan-icd-loader
+  less
+  yazi
+  zsh
+)
 
-sudo pacman -S bat --noconfirm
-sudo pacman -S eza --noconfirm
-sudo pacman -S zoxide --noconfirm
-sudo pacman -S fd --noconfirm
-sudo pacman -S fzf --noconfirm
-sudo pacman -S ripgrep --noconfirm
+echo "Installing essential system packages..."
+for pkg in "${essential_packages[@]}"; do
+  echo "-> $pkg"
+  sudo pacman -S --noconfirm --needed "$pkg"
+done
 
-yay -S vscode-langservers-extracted --noconfirm
+# -------------------------------------------------------
+# Hyprland / Wayland Packages (optional)
+# -------------------------------------------------------
+hyprland_packages=(
+  wl-clipboard
+  cliphist
+  hyprpaper
+  qt6-wayland
+  grim
+  slurp
+  pipewire
+  wireplumber
+  libnotify
+  pavucontrol
+  pulseaudio
+  rofi
+  waybar
+  nautilus
+  loupe
+  7zip
+  xdg-desktop-portal
+)
 
-sudo pacman -S steam
+if [ "$WITH_HYPRLAND" = true ]; then
+  echo "Installing Hyprland / Wayland packages..."
+  for pkg in "${hyprland_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+else
+  echo "Skipping Hyprland packages (use --with-hyprland to include them)"
+fi
 
-yay -S stremio
+# -------------------------------------------------------
+# Optional GUI Tools (Prompt Per Package)
+# -------------------------------------------------------
+optional_packages=(
+  calibre
+  neovim
+  prismlauncher
+  network-manager-applet
+)
 
-sudo pacman -S qbittorrent --noconfirm
+echo "Prompting for optional GUI tools..."
+for pkg in "${optional_packages[@]}"; do
+  read -rp "Do you want to install optional package '$pkg'? [y/N]: " choice
+  case "$choice" in
+    [yY][eE][sS]|[yY])
+      echo "Installing $pkg..."
+      sudo pacman -S --noconfirm --needed "$pkg"
+      ;;
+    *)
+      echo "Skipping $pkg."
+      ;;
+  esac
+done
 
-sudo pacman -S wine --noconfirm
-sudo pacman -S winetricks --noconfirm
+# -------------------------------------------------------
+# AUR Packages
+# -------------------------------------------------------
+aur_packages=(
+  librewolf-bin
+  vscode-langservers-extracted
+  stremio
+  # citron
+)
 
-sudo pacman -S loupe --noconfirm
+echo "Installing AUR packages..."
+for pkg in "${aur_packages[@]}"; do
+  echo "-> $pkg"
+  yay -S --noconfirm "$pkg"
+done
 
-sudo pacman -S xdg-desktop-portal --noconfirm
-
-sudo pacman -S prismlauncher
-sudo pacman -S libreoffice-fresh --noconfirm
-
-sudo pacman -S vulkan-tools --noconfirm
-
-sudo pacman -S vulkan-icd-loader --noconfirm
-
-sudo pacman -S less --noconfirm
-
-sudo pacman -S yazi --noconfirm
-
-sudo pacman -S fish --noconfirm
-
-yay -S citron
-
+echo "✅ All packages installed successfully."
