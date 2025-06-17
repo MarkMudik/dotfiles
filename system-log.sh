@@ -2,11 +2,20 @@
 set -euo pipefail
 
 WITH_HYPRLAND=false
+WITH_XORG=false
+WITH_GNOME=false
+WITH_PLASMA=false
 
-# Check for --with-hyprland flag
-if [[ "${1:-}" == "--with-hyprland" ]]; then
-  WITH_HYPRLAND=true
-fi
+# Parse flags (supports any order)
+for arg in "$@"; do
+  case $arg in
+    --with-hyprland) WITH_HYPRLAND=true ;;
+    --with-xorg) WITH_XORG=true ;;
+    --with-gnome) WITH_GNOME=true ;;
+    --with-plasma) WITH_PLASMA=true ;;
+    *) ;;
+  esac
+done
 
 echo "Checking for yay..."
 if ! command -v yay &> /dev/null; then
@@ -85,32 +94,69 @@ else
 fi
 
 # -------------------------------------------------------
-# Xorg / GNOME (optional)
+# Xorg Packages (optional)
 # -------------------------------------------------------
-xorg_gnome_packages=(
+xorg_packages=(
   xorg-server
   xorg-apps
   xorg-xinit
   xorg-twm
   xorg-xclock
   xterm
+)
+
+if [ "$WITH_XORG" = true ]; then
+  echo "Installing Xorg packages..."
+  for pkg in "${xorg_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+else
+  echo "Skipping Xorg packages (use --with-xorg to include them)"
+fi
+
+# -------------------------------------------------------
+# GNOME Packages (optional)
+# -------------------------------------------------------
+gnome_packages=(
   gnome
   gnome-tweaks
   gnome-shell-extensions
   gdm
 )
 
-if [ "$WITH_XORG" = true ]; then
-  echo "Installing Xorg / GNOME packages..."
-  for pkg in "${xorg_gnome_packages[@]}"; do
+if [ "$WITH_GNOME" = true ]; then
+  echo "Installing GNOME packages..."
+  for pkg in "${gnome_packages[@]}"; do
     echo "-> $pkg"
     sudo pacman -S --noconfirm --needed "$pkg"
   done
-
   echo "Enabling GDM (GNOME Display Manager)..."
   sudo systemctl enable gdm
 else
-  echo "Skipping Xorg / GNOME packages (use --with-xorg to include them)"
+  echo "Skipping GNOME packages (use --with-gnome to include them)"
+fi
+
+# -------------------------------------------------------
+# Plasma / KDE Packages (optional)
+# -------------------------------------------------------
+plasma_packages=(
+  plasma
+  plasma-wayland-session
+  kde-applications
+  sddm
+)
+
+if [ "$WITH_PLASMA" = true ]; then
+  echo "Installing Plasma packages..."
+  for pkg in "${plasma_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+  echo "Enabling SDDM (KDE Display Manager)..."
+  sudo systemctl enable sddm
+else
+  echo "Skipping Plasma packages (use --with-plasma to include them)"
 fi
 
 # -------------------------------------------------------
