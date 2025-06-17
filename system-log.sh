@@ -42,6 +42,7 @@ essential_packages=(
   less
   yazi
   zsh
+  openssh
 )
 
 echo "Installing essential system packages..."
