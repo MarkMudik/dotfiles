@@ -29,7 +29,6 @@ echo "Starting installation of categorized packages..."
 # Essential Packages
 # -------------------------------------------------------
 essential_packages=(
-  ghostty
   firefox
   git
   base-devel
@@ -67,6 +66,7 @@ done
 # Hyprland / Wayland Packages (optional)
 # -------------------------------------------------------
 hyprland_packages=(
+  ghostty
   wl-clipboard
   cliphist
   hyprpaper
@@ -147,6 +147,7 @@ plasma_packages=(
   plasma-wayland-session
   kde-applications
   sddm
+  ghostty
 )
 
 if [ "$WITH_PLASMA" = true ]; then
@@ -189,6 +190,7 @@ done
 # AUR Packages
 # -------------------------------------------------------
 aur_packages=(
+  yay -S xcursor-breeze
   vscode-langservers-extracted
   stremio
   # citron
