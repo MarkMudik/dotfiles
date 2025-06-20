@@ -123,10 +123,6 @@
   :config
   (evil-collection-init))
 
-;; make sure leader works in dired
-(evil-define-key 'normal dired-mode-map (kbd "SPC") nil)
-
-
 (use-package general
   :after evil
   :config
@@ -432,7 +428,7 @@
 
 (defun efs/org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/dotfiles/.emacs.d/init.org"))
+                      (expand-file-name "~/dotfiles/emacs/init.org"))
     ;; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))

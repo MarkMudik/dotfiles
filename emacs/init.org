@@ -118,7 +118,7 @@
     (setq markdown-fontify-code-blocks-natively t))
 #+end_src
 * Keybindings
-** Evil mode
+** Evil mode (turning off to try emacs bindings)
 #+begin_src emacs-lisp :tangle init.el
   (use-package evil
     :ensure t
@@ -138,10 +138,6 @@
 #+end_src
 ** General
 #+begin_src emacs-lisp :tangle init.el
-
-  ;; make sure leader works in dired
-  (evil-define-key 'normal dired-mode-map (kbd "SPC") nil)
-
 
   (use-package general
     :after evil
@@ -475,13 +471,14 @@
 #+begin_src emacs-lisp :tangle init.el
   (defun efs/org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
-                        (expand-file-name "~/dotfiles/.emacs.d/init.org"))
+                        (expand-file-name "~/dotfiles/emacs/init.org"))
       ;; Dynamic scoping to the rescue
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
 
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
 #+end_src
+
 * Misc
 #+begin_src emacs-lisp :tangle init.el
   (defun prot/keyboard-quit-dwim ()

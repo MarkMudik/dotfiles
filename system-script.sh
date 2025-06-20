@@ -30,10 +30,11 @@ echo "Starting installation of categorized packages..."
 # -------------------------------------------------------
 essential_packages=(
   ghostty
-  dolphin
+  firefox
   git
   base-devel
   openvpn
+  network-manager-applet
   obsidian
   emacs
   ttf-meslo-nerd
@@ -164,10 +165,10 @@ fi
 # Optional GUI Tools (Prompt Per Package)
 # -------------------------------------------------------
 optional_packages=(
+  dolphin
   calibre
   neovim
   prismlauncher
-  network-manager-applet
 )
 
 echo "Prompting for optional GUI tools..."
@@ -188,7 +189,6 @@ done
 # AUR Packages
 # -------------------------------------------------------
 aur_packages=(
-  librewolf-bin
   vscode-langservers-extracted
   stremio
   # citron
