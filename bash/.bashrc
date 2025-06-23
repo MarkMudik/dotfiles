@@ -12,3 +12,5 @@ PS1='[\u@\h \W]\$ '
 alias emptyTrash='rm -rf ~/.local/share/Trash/{files,info}/*'
 
 eval "$(zoxide init bash)"
+
+export PATH="$HOME/dotfiles/scripts:$PATH"

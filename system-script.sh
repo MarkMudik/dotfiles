@@ -125,6 +125,7 @@ gnome_packages=(
   gnome-tweaks
   gnome-shell-extensions
   gdm
+  cups
 )
 
 if [ "$WITH_GNOME" = true ]; then
