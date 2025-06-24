@@ -158,7 +158,7 @@
   "of" '(make-frame :which-key "Frame")
   "oF" '(select-frame-by-name :which-key "Select frame")
   "oL" '(org-open-at-point :which-key "Open Link")
-  
+
   ;; Buffers
   "b"  '(:ignore t :which-key "Buffer")
   "<" '(consult-buffer :which-key "Switch buffer")
@@ -167,8 +167,8 @@
   "bk" '(kill-current-buffer :which-key "Kill buffer")
   "bn" '(next-buffer :which-key "Next buffer")
   "bp" '(previous-buffer :which-key "Previous buffer")
-  
-  ;; Tabs 
+
+  ;; Tabs
   "t"  '(:ignore t :which-key "Tab")
   "tt" '(tab-switch :which-key "Switch")
   "th" '(tab-next :which-key "Next")
@@ -223,7 +223,7 @@
   "cc" '(compile :which-key "Compile")
   "cC" '(recompile :which-key "Recompile")
 
-  ;; Notes 
+  ;; Notes
   "n"  '(:ignore t :which-key "Notes")
   "na" '(org-agenda :which-key "Org agenda")
   "x" '(org-capture :which-key "Org capture")

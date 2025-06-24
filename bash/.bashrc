@@ -15,3 +15,4 @@ eval "$(zoxide init bash --cmd cd)"
 
 
 export PATH="$HOME/dotfiles/scripts:$PATH"
+export PATH="$HOME/.emacs.d/bin:$PATH"
