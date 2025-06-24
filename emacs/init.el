@@ -3,8 +3,6 @@
   (load custom-file :no-error-if-file-is-missing)
   (setq inhibit-startup-message t)
 
-  (tooltip-mode -1)
-
   (pixel-scroll-precision-mode t)
 
   (setq initial-major-mode 'org-mode
@@ -13,8 +11,6 @@
 
   (setq display-line-numbers-type 'relative)
   (global-display-line-numbers-mode)
-
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
   (global-visual-line-mode 1)
 
@@ -108,20 +104,30 @@
   (setq markdown-fontify-code-blocks-natively t))
 
 (use-package evil
-    :ensure t
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-fine-undo t)
-    (setq evil-want-Y-yank-to-eol t)
-    (setq evil-set-undo-system 'undo-redo)
-    :config
-    (evil-mode 1))
+      :ensure t
+      :init
+      (setq evil-want-integration t)
+      (setq evil-want-keybinding nil)
+      (setq evil-want-fine-undo t)
+      (setq evil-want-Y-yank-to-eol t)
+      (setq evil-set-undo-system 'undo-redo)
+      :config
+      (evil-mode 1))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+
+(with-eval-after-load 'evil
+  ;; Unbind the default Evil search
+  (define-key evil-motion-state-map (kbd "/") nil)
+
+  ;; Bind / to consult-line
+  (define-key evil-motion-state-map (kbd "/") #'consult-line)
+
+  ;; Optional: keep original search on g/
+  (define-key evil-motion-state-map (kbd "g/") #'evil-search-forward))
 
 (use-package general
   :after evil
