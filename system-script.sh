@@ -5,22 +5,40 @@ WITH_HYPRLAND=false
 WITH_XORG=false
 WITH_GNOME=false
 WITH_PLASMA=false
+WITH_HACKING=false
+WITH_QEMU=false
 
-# Parse flags (supports any order)
+# Parse flags
 for arg in "$@"; do
   case $arg in
     --with-hyprland) WITH_HYPRLAND=true ;;
     --with-xorg) WITH_XORG=true ;;
     --with-gnome) WITH_GNOME=true ;;
     --with-plasma) WITH_PLASMA=true ;;
+    --with-hacking) WITH_HACKING=true ;;
+    --with-qemu) WITH_QEMU=true ;;
     *) ;;
   esac
 done
 
-echo "Checking for yay..."
-if ! command -v yay &> /dev/null; then
-  echo "Error: 'yay' is not installed. Please install yay first."
+# Check for sudo
+if ! command -v sudo &>/dev/null; then
+  echo "Error: 'sudo' is required but not installed."
   exit 1
+fi
+
+# Check for yay
+echo "Checking for yay..."
+if ! command -v yay &>/dev/null; then
+  echo "'yay' is not installed."
+  read -rp "Would you like to install yay now? [y/N]: " install_yay
+  if [[ "$install_yay" =~ ^[Yy]$ ]]; then
+    git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+    cd .. && rm -rf yay
+  else
+    echo "Cannot continue without yay. Exiting."
+    exit 1
+  fi
 fi
 
 echo "Starting installation of categorized packages..."
@@ -29,31 +47,11 @@ echo "Starting installation of categorized packages..."
 # Essential Packages
 # -------------------------------------------------------
 essential_packages=(
-  firefox
-  git
-  base-devel
-  openvpn
-  network-manager-applet
-  obsidian
-  emacs
-  ttf-meslo-nerd
-  bat
-  eza
-  zoxide
-  fd
-  fzf
-  ripgrep
-  steam
-  qbittorrent
-  wine
-  winetricks
-  libreoffice-fresh
-  vulkan-tools
-  vulkan-icd-loader
-  less
-  yazi
-  zsh
-  openssh
+  bash-completion firefox git base-devel openvpn network-manager-applet
+  obsidian emacs ttf-meslo-nerd bat eza zoxide fd fzf ripgrep steam
+  qbittorrent wine winetricks libreoffice-fresh vulkan-tools
+  vulkan-icd-loader less openssh
+
 )
 
 echo "Installing essential system packages..."
@@ -66,24 +64,9 @@ done
 # Hyprland / Wayland Packages (optional)
 # -------------------------------------------------------
 hyprland_packages=(
-  ghostty
-  wl-clipboard
-  cliphist
-  hyprpaper
-  qt6-wayland
-  grim
-  slurp
-  pipewire
-  wireplumber
-  libnotify
-  pavucontrol
-  pulseaudio
-  rofi
-  waybar
-  nautilus
-  loupe
-  7zip
-  xdg-desktop-portal
+  hyprland ghostty wl-clipboard cliphist hyprpaper qt6-wayland
+  grim slurp pipewire wireplumber libnotify pavucontrol rofi
+  waybar nautilus loupe 7zip xdg-desktop-portal
 )
 
 if [ "$WITH_HYPRLAND" = true ]; then
@@ -100,11 +83,7 @@ fi
 # Xorg Packages (optional)
 # -------------------------------------------------------
 xorg_packages=(
-  xorg-server
-  xorg-apps
-  xorg-xinit
-  xorg-twm
-  xorg-xclock
+  xorg-server xorg-apps xorg-xinit xorg-twm xorg-xclock
 )
 
 if [ "$WITH_XORG" = true ]; then
@@ -121,11 +100,7 @@ fi
 # GNOME Packages (optional)
 # -------------------------------------------------------
 gnome_packages=(
-  gnome
-  gnome-tweaks
-  gnome-shell-extensions
-  gdm
-  cups
+  gnome gnome-tweaks gnome-shell-extensions gnome-browser-connector gdm cups
 )
 
 if [ "$WITH_GNOME" = true ]; then
@@ -136,6 +111,7 @@ if [ "$WITH_GNOME" = true ]; then
   done
   echo "Enabling GDM (GNOME Display Manager)..."
   sudo systemctl enable gdm
+  echo "You may need to reboot for the display manager to take effect."
 else
   echo "Skipping GNOME packages (use --with-gnome to include them)"
 fi
@@ -144,11 +120,7 @@ fi
 # Plasma / KDE Packages (optional)
 # -------------------------------------------------------
 plasma_packages=(
-  plasma
-  plasma-wayland-session
-  kde-applications
-  sddm
-  ghostty
+  plasma plasma-wayland-session kde-applications sddm ghostty
 )
 
 if [ "$WITH_PLASMA" = true ]; then
@@ -159,6 +131,7 @@ if [ "$WITH_PLASMA" = true ]; then
   done
   echo "Enabling SDDM (KDE Display Manager)..."
   sudo systemctl enable sddm
+  echo "You may need to reboot for the display manager to take effect."
 else
   echo "Skipping Plasma packages (use --with-plasma to include them)"
 fi
@@ -167,10 +140,7 @@ fi
 # Optional GUI Tools (Prompt Per Package)
 # -------------------------------------------------------
 optional_packages=(
-  dolphin
-  calibre
-  neovim
-  prismlauncher
+  dolphin calibre neovim prismlauncher
 )
 
 echo "Prompting for optional GUI tools..."
@@ -191,16 +161,56 @@ done
 # AUR Packages
 # -------------------------------------------------------
 aur_packages=(
-  yay -S xcursor-breeze
-  vscode-langservers-extracted
-  stremio
+  xcursor-breeze vscode-langservers-extracted stremio
   # citron
 )
 
 echo "Installing AUR packages..."
 for pkg in "${aur_packages[@]}"; do
   echo "-> $pkg"
-  yay -S --noconfirm "$pkg"
+  yay -S --noconfirm --needed "$pkg"
 done
+
+# -------------------------------------------------------
+# Cyber Security / Hacking Packages (optional)
+# -------------------------------------------------------
+hacking_packages=(
+  nmap
+  wireshark-cli
+)
+
+if [ "$WITH_HACKING" = true ]; then
+  echo "Installing hacking packages..."
+  for pkg in "${hacking_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+else
+  echo "Skipping hacking packages (use --with-hacking to include them)"
+fi
+
+# -------------------------------------------------------
+# QEMU / Virtualization Packages (optional)
+# -------------------------------------------------------
+qemu_packages=(
+  qemu libvirt virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat
+)
+
+if [ "$WITH_QEMU" = true ]; then
+  echo "Installing QEMU / KVM virtualization packages..."
+  for pkg in "${qemu_packages[@]}"; do
+    echo "-> $pkg"
+    sudo pacman -S --noconfirm --needed "$pkg"
+  done
+
+  echo "Enabling and starting libvirtd service..."
+  sudo systemctl enable --now libvirtd
+
+  echo "Adding user to libvirt group..."
+  sudo usermod -aG libvirt "$(whoami)"
+  echo "-> Run 'newgrp libvirt' or reboot to apply group membership."
+else
+  echo "Skipping QEMU/KVM packages (use --with-qemu to include them)"
+fi
 
 echo "✅ All packages installed successfully."
