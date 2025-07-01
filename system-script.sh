@@ -70,7 +70,7 @@ sudo pacman -S --needed xorg-apps
 sudo pacman -S --needed xorg-xinit
 sudo pacman -S --needed xorg-twm
 sudo pacman -S --needed xorg-xclock
-sudo pacman -S --needed xterm
+sudo pacman -S --needed kitty
 
 #sudo pacman -S --needed gnome
 #sudo pacman -S --needed gnome-tweaks
