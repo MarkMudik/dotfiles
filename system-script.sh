@@ -21,68 +21,65 @@ if ! command -v yay &>/dev/null; then
   fi
 fi
 
-sudo pacman -S --needed bash-completion
-sudo pacman -S --needed firefox
-sudo pacman -S --needed git
-sudo pacman -S --needed base-devel
-sudo pacman -S --needed openvpn
-sudo pacman -S --needed network-manager-applet
-sudo pacman -S --needed obsidian
-sudo pacman -S --needed emacs
-sudo pacman -S --needed ttf-meslo-nerd
-sudo pacman -S --needed bat
-sudo pacman -S --needed zoxide
-sudo pacman -S --needed fd
-sudo pacman -S --needed ripgrep
-sudo pacman -S --needed steam
-sudo pacman -S --needed qbittorrent
-sudo pacman -S --needed wine
-sudo pacman -S --needed winetricks
-sudo pacman -S --needed libreoffice-fresh
-sudo pacman -S --needed vulkan-tools
-sudo pacman -S --needed vulkan-icd-loader
-sudo pacman -S --needed less
-sudo pacman -S --needed openssh
-sudo pacman -S --needed calibre
-sudo pacman -S --needed neovim
+sudo pacman -Syu --needed --noconfirm bash-completion
+sudo pacman -S --needed --noconfirm git
+sudo pacman -S --needed --noconfirm base-devel
+sudo pacman -S --needed --noconfirm obsidian
+sudo pacman -S --needed --noconfirm emacs
+sudo pacman -S --needed --noconfirm ttf-meslo-nerd
+sudo pacman -S --needed --noconfirm bat
+sudo pacman -S --needed --noconfirm zoxide
+sudo pacman -S --needed --noconfirm fd
+sudo pacman -S --needed --noconfirm ripgrep
+sudo pacman -S --needed --noconfirm steam
+sudo pacman -S --needed --noconfirm qbittorrent
+sudo pacman -S --needed --noconfirm wine
+sudo pacman -S --needed --noconfirm winetricks
+sudo pacman -S --needed --noconfirm libreoffice-fresh
+sudo pacman -S --needed --noconfirm vulkan-tools
+sudo pacman -S --needed --noconfirm vulkan-icd-loader
+sudo pacman -S --needed --noconfirm openssh
+sudo pacman -S --needed --noconfirm calibre
+sudo pacman -S --needed --noconfirm neovim
 
-#sudo pacman -S --needed hyprland
-#sudo pacman -S --needed ghostty
-#sudo pacman -S --needed wl-clipboard
-#sudo pacman -S --needed cliphist
-#sudo pacman -S --needed hyprpaper
-#sudo pacman -S --needed qt6-wayland
-#sudo pacman -S --needed grim
-#sudo pacman -S --needed slurp
-#sudo pacman -S --needed pipewire
-#sudo pacman -S --needed wireplumber
-#sudo pacman -S --needed libnotify
-#sudo pacman -S --needed pavucontrol
-#sudo pacman -S --needed rofi
-#sudo pacman -S --needed waybar
-#sudo pacman -S --needed nautilus
-#sudo pacman -S --needed loupe
-#sudo pacman -S --needed 7zip
-#sudo pacman -S --needed xdg-desktop-portal
+#sudo pacman -S --needed --noconfirm hyprland
+#sudo pacman -S --needed --noconfirm ghostty
+#sudo pacman -S --needed --noconfirm wl-clipboard
+#sudo pacman -S --needed --noconfirm cliphist
+#sudo pacman -S --needed --noconfirm hyprpaper
+#sudo pacman -S --needed --noconfirm qt6-wayland
+#sudo pacman -S --needed --noconfirm grim
+#sudo pacman -S --needed --noconfirm slurp
+#sudo pacman -S --needed --noconfirm pipewire
+#sudo pacman -S --needed --noconfirm wireplumber
+#sudo pacman -S --needed --noconfirm libnotify
+#sudo pacman -S --needed --noconfirm pavucontrol
+#sudo pacman -S --needed --noconfirm rofi
+#sudo pacman -S --needed --noconfirm waybar
+#sudo pacman -S --needed --noconfirm nautilus
+#sudo pacman -S --needed --noconfirm loupe
+#sudo pacman -S --needed --noconfirm 7zip
+#sudo pacman -S --needed --noconfirm xdg-desktop-portal
 
-sudo pacman -S --needed xorg-server
-sudo pacman -S --needed xorg-apps
-sudo pacman -S --needed xorg-xinit
-sudo pacman -S --needed xorg-twm
-sudo pacman -S --needed xorg-xclock
-sudo pacman -S --needed kitty
+sudo pacman -S --needed --noconfirm xorg-server
+sudo pacman -S --needed --noconfirm xorg-apps
+sudo pacman -S --needed --noconfirm xorg-xinit
+sudo pacman -S --needed --noconfirm xorg-twm
+sudo pacman -S --needed --noconfirm xorg-xclock
+sudo pacman -S --needed --noconfirm kitty
 
-#sudo pacman -S --needed gnome
-#sudo pacman -S --needed gnome-tweaks
-#sudo pacman -S --needed gnome-shell-extensions
-#sudo pacman -S --needed gnome-browser-connector
-#sudo pacman -S --needed gdm
-#sudo pacman -S --needed cups
+#sudo pacman -S --needed --noconfirm gnome
+#sudo pacman -S --needed --noconfirm gnome-tweaks
+#sudo pacman -S --needed --noconfirm gnome-shell-extensions
+#sudo pacman -S --needed --noconfirm gnome-browser-connector
+#sudo pacman -S --needed --noconfirm gdm
+#sudo pacman -S --needed --noconfirm cups
 
-sudo pacman -S --needed plasma
-sudo pacman -S --needed sddm
+sudo pacman -S --needed --noconfirm plasma
+sudo pacman -S --needed --noconfirm sddm
 
-yay -S --needed vscode-langservers-extracted 
-yay -S --needed stremio
+yay -S --needed --noconfirm vscode-langservers-extracted 
+yay -S --needed --noconfirm stremio
+yay -S --needed --noconfirm librewolf-bin
 
-sudo pacman -S --needed nmap
+sudo pacman -S --needed --noconfirm nmap
