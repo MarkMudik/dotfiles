@@ -42,6 +42,7 @@ sudo pacman -S --needed --noconfirm openssh
 sudo pacman -S --needed --noconfirm calibre
 sudo pacman -S --needed --noconfirm neovim
 sudo pacman -S --needed --noconfirm dolphin
+sudo pacman -S --needed --noconfirm firefox
 
 #sudo pacman -S --needed --noconfirm hyprland
 #sudo pacman -S --needed --noconfirm ghostty
@@ -81,7 +82,6 @@ sudo pacman -S --needed --noconfirm sddm
 
 yay -S --needed --noconfirm vscode-langservers-extracted 
 yay -S --needed --noconfirm stremio
-yay -S --needed --noconfirm librewolf-bin
 
 sudo pacman -S --needed --noconfirm nmap
 

@@ -22,3 +22,7 @@
   (setq evil-escape-key-sequence "jk"
         evil-escape-delay 0.2)
   (evil-escape-mode 1))
+
+(setq initial-major-mode 'org-mode ;; Major mode of new buffers
+      initial-scratch-message ""
+      initial-buffer-choice t)

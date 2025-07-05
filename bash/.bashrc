@@ -78,6 +78,14 @@ wiki() {
   fi
 }
 
+chat() {
+  if [ -z "$*" ]; then
+    xdg-open "https://chatgpt.com/"
+  else
+      echo "Cant search in chatgpt"
+  fi
+}
+
 yt() {
   if [ -z "$*" ]; then
     xdg-open "https://www.youtube.com"
