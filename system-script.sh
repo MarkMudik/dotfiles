@@ -22,6 +22,7 @@ if ! command -v yay &>/dev/null; then
 fi
 
 sudo pacman -Syu --needed --noconfirm bash-completion
+sudo pacman -Syu --needed --noconfirm tree
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm base-devel
 sudo pacman -S --needed --noconfirm obsidian
@@ -30,6 +31,7 @@ sudo pacman -S --needed --noconfirm ttf-meslo-nerd
 sudo pacman -S --needed --noconfirm bat
 sudo pacman -S --needed --noconfirm zoxide
 sudo pacman -S --needed --noconfirm fd
+sudo pacman -S --needed --noconfirm ripgrep
 sudo pacman -S --needed --noconfirm ripgrep
 sudo pacman -S --needed --noconfirm steam
 sudo pacman -S --needed --noconfirm qbittorrent
@@ -41,7 +43,6 @@ sudo pacman -S --needed --noconfirm vulkan-icd-loader
 sudo pacman -S --needed --noconfirm openssh
 sudo pacman -S --needed --noconfirm calibre
 sudo pacman -S --needed --noconfirm neovim
-sudo pacman -S --needed --noconfirm dolphin
 sudo pacman -S --needed --noconfirm firefox
 
 #sudo pacman -S --needed --noconfirm hyprland
@@ -68,21 +69,26 @@ sudo pacman -S --needed --noconfirm xorg-apps
 sudo pacman -S --needed --noconfirm xorg-xinit
 sudo pacman -S --needed --noconfirm xorg-twm
 sudo pacman -S --needed --noconfirm xorg-xclock
-sudo pacman -S --needed --noconfirm kitty
 
-#sudo pacman -S --needed --noconfirm gnome
-#sudo pacman -S --needed --noconfirm gnome-tweaks
-#sudo pacman -S --needed --noconfirm gnome-shell-extensions
-#sudo pacman -S --needed --noconfirm gnome-browser-connector
-#sudo pacman -S --needed --noconfirm gdm
-#sudo pacman -S --needed --noconfirm cups
+#sudo pacman -S --needed --noconfirm plasma
+#sudo pacman -S --needed --noconfirm sddm
+#sudo pacman -S --needed --noconfirm dolphin
+#sudo pacman -S --needed --noconfirm kitty
 
-sudo pacman -S --needed --noconfirm plasma
-sudo pacman -S --needed --noconfirm sddm
+sudo pacman -S --needed --noconfirm gnome
+sudo pacman -S --needed --noconfirm gnome-tweaks
+sudo pacman -S --needed --noconfirm gnome-shell-extensions
+sudo pacman -S --needed --noconfirm gnome-browser-connector
+sudo pacman -S --needed --noconfirm gdm
+sudo pacman -S --needed --noconfirm cups
+sudo pacman -S --needed --noconfirm wl-clipboard
 
 yay -S --needed --noconfirm vscode-langservers-extracted 
 yay -S --needed --noconfirm stremio
+yay -S --needed --noconfirm phinger-cursors
+yay -S --needed --noconfirm jdownloader2
 
 sudo pacman -S --needed --noconfirm nmap
 
 yay -S --needed --noconfirm google-gemini-cli
+

@@ -1,37 +1,44 @@
 ;; -*- lexical-binding: t; -*-
-  (setq custom-file (locate-user-emacs-file "custom.el"))
-  (load custom-file :no-error-if-file-is-missing)
-  (setq inhibit-startup-message t)
 
-  (pixel-scroll-precision-mode t)
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+(setq fast-but-imprecise-scrolling t)
+(setq inhibit-compacting-font-caches t)
 
-  (setq initial-major-mode 'org-mode
-        initial-scratch-message ""
-        initial-buffer-choice t)
+(menu-bar-mode 0)
+      (setq custom-file (locate-user-emacs-file "custom.el"))
+      (load custom-file :no-error-if-file-is-missing)
+      (setq inhibit-startup-message t)
 
-  (setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode)
+      (pixel-scroll-precision-mode t)
 
-  (global-visual-line-mode 1)
+      (setq initial-major-mode 'org-mode
+            initial-scratch-message ""
+            initial-buffer-choice t)
 
-  (tab-bar-mode 1)
+      (setq display-line-numbers-type 'relative)
+      (global-display-line-numbers-mode)
 
-  (recentf-mode 1)
-  (setq recentf-auto-cleanup 'never)
+      (global-visual-line-mode 1)
 
-  (setq make-backup-files nil)
-  (setq auto-save-default nil)
+      (tab-bar-mode 1)
 
-  (setq use-short-answers t)
+      (recentf-mode 1)
+      (setq recentf-auto-cleanup 'never)
 
-  (save-place-mode 1)
+      (setq make-backup-files nil)
+      (setq auto-save-default nil)
 
-  (set-fringe-mode 10)
+      (setq use-short-answers t)
 
-  (setq scroll-margin 8)
+      (save-place-mode 1)
 
-  (setq-default indent-tabs-mode t)
-  (setq-default tab-width 4)
+      (set-fringe-mode 10)
+
+      (setq scroll-margin 8)
+
+      (setq-default indent-tabs-mode t)
+      (setq-default tab-width 4)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			   ("org" . "https://orgmode.org/elpa/")
@@ -44,6 +51,25 @@
 (require 'use-package)
 
 (setq use-package-always-ensure t)
+
+(use-package gcmh
+  :diminish gcmh-mode
+  :config
+  (setq gcmh-idle-delay 5
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+  (gcmh-mode 1))
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
 
 (use-package doom-modeline
     :ensure t
@@ -81,8 +107,7 @@
         completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package consult
-  :bind (("C-s" . consult-line)
-         ("M-y" . consult-yank-pop)
+  :bind (("M-y" . consult-yank-pop)
          ("C-x b" . consult-buffer)
          ("C-x C-r" . consult-recent-file)
          ("M-g g" . consult-goto-line)
@@ -104,30 +129,20 @@
   (setq markdown-fontify-code-blocks-natively t))
 
 (use-package evil
-      :ensure t
-      :init
-      (setq evil-want-integration t)
-      (setq evil-want-keybinding nil)
-      (setq evil-want-fine-undo t)
-      (setq evil-want-Y-yank-to-eol t)
-      (setq evil-set-undo-system 'undo-redo)
-      :config
-      (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
+    :ensure t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-fine-undo t)
+    (setq evil-want-Y-yank-to-eol t)
+    (setq evil-set-undo-system 'undo-redo)
     :config
-    (evil-collection-init))
+    (evil-mode 1))
 
-(with-eval-after-load 'evil
-  ;; Unbind the default Evil search
-  (define-key evil-motion-state-map (kbd "/") nil)
-
-  ;; Bind / to consult-line
-  (define-key evil-motion-state-map (kbd "/") #'consult-line)
-
-  ;; Optional: keep original search on g/
-  (define-key evil-motion-state-map (kbd "g/") #'evil-search-forward))
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
 (use-package general
   :after evil
@@ -313,11 +328,12 @@
 (use-package denote
   :ensure t
   :init
-  (setq denote-directory (expand-file-name "~/notes/"))
+  (setq denote-directory (expand-file-name "~/notes/")
+        denote-file-type 'markdown-yaml) ;; move this to :init for consistency
   :bind
   (("C-c n n" . denote)
    ("C-c n o" . denote-open-or-create)
-   ("C-c n s" . denote-search-notes)
+   ("C-c n s" . denote-search)
    ("C-c n l" . denote-link)))
 
 (org-babel-do-load-languages

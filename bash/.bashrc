@@ -11,6 +11,7 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 
 alias vim="nvim"
+alias emacs-t="emacs -nw --init-directory=~/.config/emacs/"
 export EDITOR="nvim"
 
 alias ls='ls --color=auto'

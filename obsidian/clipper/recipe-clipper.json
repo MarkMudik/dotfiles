@@ -1,0 +1,48 @@
+{
+	"schemaVersion": "0.1.0",
+	"name": "Recipe",
+	"behavior": "create",
+	"noteContentFormat": "{{description}}\n\n## Ingredients\n\n{{schema:recipeIngredient|list:task}}\n\n## Instructions\n\n{{schema:recipeInstructions[*].text|list:task}}\n\n## Nutrition\n\n{{schema:@Recipe:nutrition|uncamel|capitalize|table|replace:(\"@type\":\"Nutrient\",\"Nutrition information\":\"Quantity\")}}",
+	"properties": [
+		{
+			"name": "title",
+			"value": "{{title}}",
+			"type": "text"
+		},
+		{
+			"name": "date",
+			"value": "{{date|date:YYYY-MM-DDTHH:mm:ssZ}}",
+			"type": "date"
+		},
+		{
+			"name": "tags",
+			"value": "recipe",
+			"type": "multitext"
+		},
+		{
+			"name": "identifier",
+			"value": "{{date|date:YYYYMMDDTHHmmss}}",
+			"type": "text"
+		},
+		{
+			"name": "rating",
+			"value": "",
+			"type": "number"
+		},
+		{
+			"name": "image",
+			"value": "{{image}}",
+			"type": "text"
+		},
+		{
+			"name": "url",
+			"value": "{{url}}",
+			"type": "multitext"
+		}
+	],
+	"triggers": [
+		"schema:@Recipe"
+	],
+	"noteNameFormat": "{{date|date:YYYYMMDDTHHmmss}}--{{title|lower|replace:\" \":\"-\"}}__recipe",
+	"path": "/"
+}

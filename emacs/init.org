@@ -1,6 +1,30 @@
 * General
 #+begin_src emacs-lisp :tangle init.el
     ;; -*- lexical-binding: t; -*-
+
+
+;; Garbage Collections
+(setq gc-cons-percentage 0.6)
+
+;; Compile warnings
+;;  (setq warning-minimum-level :emergency)
+(setq native-comp-async-report-warnings-errors 'silent) ;; native-comp warning
+(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+
+
+;; MISC OPTIMIZATIONS ----
+(setq idle-update-delay 1.0)
+
+;; Disabling bidi (bidirectional editing stuff)
+(setq-default bidi-display-reordering 'left-to-right 
+              bidi-paragraph-direction 'left-to-right)
+
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+(setq fast-but-imprecise-scrolling t)
+(setq inhibit-compacting-font-caches t)
+
+(menu-bar-mode 0)
       (setq custom-file (locate-user-emacs-file "custom.el"))
       (load custom-file :no-error-if-file-is-missing)
       (setq inhibit-startup-message t)
@@ -49,6 +73,30 @@
 
   (setq use-package-always-ensure t)
 #+end_src
+
+* Garbage Collections / Collector
+
+#+begin_src emacs-lisp :tangle init.el
+(use-package gcmh
+  :diminish gcmh-mode
+  :config
+  (setq gcmh-idle-delay 5
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+  (gcmh-mode 1))
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+#+end_src
+
 * Appearance
 #+begin_src emacs-lisp :tangle init.el
   (use-package doom-modeline
@@ -89,8 +137,7 @@
           completion-category-overrides '((file (styles partial-completion)))))
 
   (use-package consult
-    :bind (("C-s" . consult-line)
-           ("M-y" . consult-yank-pop)
+    :bind (("M-y" . consult-yank-pop)
            ("C-x b" . consult-buffer)
            ("C-x C-r" . consult-recent-file)
            ("M-g g" . consult-goto-line)
@@ -131,16 +178,6 @@
     :after evil
     :config
     (evil-collection-init))
-
-(with-eval-after-load 'evil
-  ;; Unbind the default Evil search
-  (define-key evil-motion-state-map (kbd "/") nil)
-
-  ;; Bind / to consult-line
-  (define-key evil-motion-state-map (kbd "/") #'consult-line)
-
-  ;; Optional: keep original search on g/
-  (define-key evil-motion-state-map (kbd "g/") #'evil-search-forward))
 
 #+end_src
 ** General
@@ -340,11 +377,12 @@
 (use-package denote
   :ensure t
   :init
-  (setq denote-directory (expand-file-name "~/notes/"))
+  (setq denote-directory (expand-file-name "~/notes/")
+        denote-file-type 'markdown-yaml) ;; move this to :init for consistency
   :bind
   (("C-c n n" . denote)
    ("C-c n o" . denote-open-or-create)
-   ("C-c n s" . denote-search-notes)
+   ("C-c n s" . denote-search)
    ("C-c n l" . denote-link)))
 #+end_src
 ** Org Source Blocks (source)
