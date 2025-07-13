@@ -45,35 +45,11 @@ sudo pacman -S --needed --noconfirm calibre
 sudo pacman -S --needed --noconfirm neovim
 sudo pacman -S --needed --noconfirm firefox
 
-#sudo pacman -S --needed --noconfirm hyprland
-#sudo pacman -S --needed --noconfirm ghostty
-#sudo pacman -S --needed --noconfirm wl-clipboard
-#sudo pacman -S --needed --noconfirm cliphist
-#sudo pacman -S --needed --noconfirm hyprpaper
-#sudo pacman -S --needed --noconfirm qt6-wayland
-#sudo pacman -S --needed --noconfirm grim
-#sudo pacman -S --needed --noconfirm slurp
-#sudo pacman -S --needed --noconfirm pipewire
-#sudo pacman -S --needed --noconfirm wireplumber
-#sudo pacman -S --needed --noconfirm libnotify
-#sudo pacman -S --needed --noconfirm pavucontrol
-#sudo pacman -S --needed --noconfirm rofi
-#sudo pacman -S --needed --noconfirm waybar
-#sudo pacman -S --needed --noconfirm nautilus
-#sudo pacman -S --needed --noconfirm loupe
-#sudo pacman -S --needed --noconfirm 7zip
-#sudo pacman -S --needed --noconfirm xdg-desktop-portal
-
 sudo pacman -S --needed --noconfirm xorg-server
 sudo pacman -S --needed --noconfirm xorg-apps
 sudo pacman -S --needed --noconfirm xorg-xinit
 sudo pacman -S --needed --noconfirm xorg-twm
 sudo pacman -S --needed --noconfirm xorg-xclock
-
-#sudo pacman -S --needed --noconfirm plasma
-#sudo pacman -S --needed --noconfirm sddm
-#sudo pacman -S --needed --noconfirm dolphin
-#sudo pacman -S --needed --noconfirm kitty
 
 sudo pacman -S --needed --noconfirm gnome
 sudo pacman -S --needed --noconfirm gnome-tweaks
@@ -92,3 +68,9 @@ sudo pacman -S --needed --noconfirm nmap
 
 yay -S --needed --noconfirm google-gemini-cli
 
+
+# For virtual machines (vm's)
+sudo pacman -S qemu-full
+sudo pacman -S libvirt
+sudo pacman -S virt-manager
+sudo pacman -S dnsmasq

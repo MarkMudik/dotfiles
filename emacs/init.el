@@ -96,20 +96,9 @@
  
 ;;; Keybinds
 
-;;; Set before evil is loaded or error given
-;(setq evil-want-integration t)
-;(setq evil-want-keybinding nil)
-
-;(use-package evil
-;  :ensure t
-;  :config
-;  (evil-mode 1))
-
-;(use-package evil-collection
-;  :after evil
-;  :ensure t
-;  :config
-;  (evil-collection-init))
+(global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "s-x") 'kill-region)
+(global-set-key (kbd "s-v") 'yank)
 
 (use-package embark
   :ensure t
