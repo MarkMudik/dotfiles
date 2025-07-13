@@ -11,10 +11,11 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 
 alias vim="nvim"
-alias emacs-t="emacs -nw --init-directory=~/.config/emacs/"
-export EDITOR="nvim"
+alias emacs-term="emacs -nw --init-directory=~/.config/emacs/"
+export EDITOR="emacs -nw"
 
 alias ls='ls --color=auto'
+alias cat='bat'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
