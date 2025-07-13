@@ -23,6 +23,7 @@ fi
 
 sudo pacman -Syu --needed --noconfirm bash-completion
 sudo pacman -Syu --needed --noconfirm tree
+sudo pacman -Syu --needed --noconfirm stow
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm base-devel
 sudo pacman -S --needed --noconfirm obsidian

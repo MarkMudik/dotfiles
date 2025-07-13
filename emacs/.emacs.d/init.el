@@ -46,11 +46,26 @@
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
   (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
-
 (use-package modus-themes
   :ensure t
   :config
-  (load-theme 'modus-operandi :no-confirm-loading))
+  (setq modus-themes-mode-line '(accented borderless)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-fringes 'subtle
+        modus-themes-tabs-accented t
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(bold intense)
+        modus-themes-completions 'opinionated
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-scale-headings t
+        modus-themes-region '(bg-only)
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (t . (semilight 1.1))))
+  (load-theme 'modus-operandi t))  ;; suppress confirmation
 
 ;;; Configure the minibuffer and completions
 
@@ -175,22 +190,83 @@
         which-key-min-display-lines 3
         which-key-max-display-columns nil))
 
+;;; Org
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-ellipsis " ⬎" ;; or "…" or " ⤵" or " ▼"
+        org-hide-leading-stars t))
+
+(setq org-feed-alist
+      '(("Bleeping Computer"
+         "https://www.bleepingcomputer.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "BleepingComputer")
+        ("Weekly Wisereads"
+         "https://wise.readwise.io/feed/"
+         "~/notes/20250713T121103--feeds.org" "Weekly Wisereads")
+	("TechCrunch"
+         "https://techcrunch.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "TechCrunch")
+	("Ars Technica"
+         "http://feeds/arstechnica.com/arstechnica/index"
+         "~/notes/20250713T121103--feeds.org" "Ars Technica")
+	("MIT Technology Review"
+         "https://www.technologyreview.com/feed"
+         "~/notes/20250713T121103--feeds.org" "MIT Technology Review")
+	("Wait But Why"
+         "https://www.waitbutwhy.com/feed"
+         "~/notes/20250713T121103--feeds.org" "Wait But Why")
+	("Naval"
+         "https://naval.libsyn.com/rss"
+         "~/notes/20250713T121103--feeds.org" "Naval")))
+
+(add-hook 'org-mode-hook #'visual-line-mode)
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-ellipsis " ⬎"
+        org-hide-leading-stars t)
+  (add-hook 'org-mode-hook #'visual-line-mode))
+
+(setq org-feed-alist
+      '(("Bleeping Computer"
+         "https://www.bleepingcomputer.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "BleepingComputer")
+        ("Weekly Wisereads"
+         "https://wise.readwise.io/feed/"
+         "~/notes/20250713T121103--feeds.org" "Weekly Wisereads")
+        ("TechCrunch"
+         "https://techcrunch.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "TechCrunch")
+        ("Ars Technica"
+         "http://feeds.arstechnica.com/arstechnica/index"
+         "~/notes/20250713T121103--feeds.org" "Ars Technica")
+        ("MIT Technology Review"
+         "https://www.technologyreview.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "MIT Technology Review")
+        ("Wait But Why"
+         "https://waitbutwhy.com/feed/"
+         "~/notes/20250713T121103--feeds.org" "Wait But Why")
+        ("Naval"
+         "https://naval.libsyn.com/rss"
+         "~/notes/20250713T121103--feeds.org" "Naval")))
+
+
 ;;; Denote
 
 (use-package denote
   :ensure t
   :init
   (setq denote-directory (expand-file-name "~/notes/"))
-
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
-
   (setq denote-file-type 'markdown-yaml)
-
   :bind
   (("C-c n n" . denote)
-   ("C-c n s" . denote-subdirectory)
    ("C-c n l" . denote-link)
-   ("C-c n b" . denote-backlinks-buffer)
    ("C-c n r" . denote-rename-file-using-front-matter)
-   ("C-c n d r" . denote-dired-rename-files)))
+   ("C-c n d r" . denote-dired-rename-files)
+   ("C-c n f" . denote-open-or-create)))
+
