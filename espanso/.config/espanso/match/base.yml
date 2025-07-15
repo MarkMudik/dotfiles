@@ -1,0 +1,14 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+matches:
+  # Simple text replacement
+  - trigger: ":samh"
+    replace: "Santiago and Maria Hernandez"
+
+  - trigger: ":esamh"
+    replace: "santiago.and.maria.hernandez@gmail.com"
+
+
+

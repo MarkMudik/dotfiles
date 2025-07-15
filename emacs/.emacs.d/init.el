@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
+(setq user-full-name "MarkieAurelius"
+      user-mail-address "MarkieAurelius@gmail.com")
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
@@ -56,7 +59,6 @@
         modus-themes-tabs-accented t
         modus-themes-paren-match '(bold intense)
         modus-themes-prompts '(bold intense)
-        modus-themes-completions 'opinionated
         modus-themes-org-blocks 'tinted-background
         modus-themes-scale-headings t
         modus-themes-region '(bg-only)
@@ -111,9 +113,21 @@
  
 ;;; Keybinds
 
-(global-set-key (kbd "s-c") 'kill-ring-save)
-(global-set-key (kbd "s-x") 'kill-region)
-(global-set-key (kbd "s-v") 'yank)
+(global-set-key (kbd "C-/") 'webjump)
+
+;(use-package evil
+;  :ensure t
+;  :init
+;  (setq evil-want-integration t)
+;  (setq evil-want-keybinding nil)
+;  :config
+;  (evil-mode 1))
+
+;(use-package evil-collection
+;  :after evil
+;  :ensure t
+;  :config
+;  (evil-collection-init))
 
 (use-package embark
   :ensure t
@@ -195,78 +209,82 @@
 (use-package org
   :ensure nil
   :config
-  (setq org-ellipsis " ⬎" ;; or "…" or " ⤵" or " ▼"
-        org-hide-leading-stars t))
-
-(setq org-feed-alist
-      '(("Bleeping Computer"
-         "https://www.bleepingcomputer.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "BleepingComputer")
-        ("Weekly Wisereads"
-         "https://wise.readwise.io/feed/"
-         "~/notes/20250713T121103--feeds.org" "Weekly Wisereads")
-	("TechCrunch"
-         "https://techcrunch.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "TechCrunch")
-	("Ars Technica"
-         "http://feeds/arstechnica.com/arstechnica/index"
-         "~/notes/20250713T121103--feeds.org" "Ars Technica")
-	("MIT Technology Review"
-         "https://www.technologyreview.com/feed"
-         "~/notes/20250713T121103--feeds.org" "MIT Technology Review")
-	("Wait But Why"
-         "https://www.waitbutwhy.com/feed"
-         "~/notes/20250713T121103--feeds.org" "Wait But Why")
-	("Naval"
-         "https://naval.libsyn.com/rss"
-         "~/notes/20250713T121103--feeds.org" "Naval")))
-
-(add-hook 'org-mode-hook #'visual-line-mode)
-
-(use-package org
-  :ensure nil
-  :config
   (setq org-ellipsis " ⬎"
         org-hide-leading-stars t)
+  (setq org-tags-column 0)
   (add-hook 'org-mode-hook #'visual-line-mode))
 
-(setq org-feed-alist
-      '(("Bleeping Computer"
-         "https://www.bleepingcomputer.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "BleepingComputer")
-        ("Weekly Wisereads"
-         "https://wise.readwise.io/feed/"
-         "~/notes/20250713T121103--feeds.org" "Weekly Wisereads")
-        ("TechCrunch"
-         "https://techcrunch.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "TechCrunch")
-        ("Ars Technica"
-         "http://feeds.arstechnica.com/arstechnica/index"
-         "~/notes/20250713T121103--feeds.org" "Ars Technica")
-        ("MIT Technology Review"
-         "https://www.technologyreview.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "MIT Technology Review")
-        ("Wait But Why"
-         "https://waitbutwhy.com/feed/"
-         "~/notes/20250713T121103--feeds.org" "Wait But Why")
-        ("Naval"
-         "https://naval.libsyn.com/rss"
-         "~/notes/20250713T121103--feeds.org" "Naval")))
+(setq org-capture-templates
+  '(("l" "later" entry
+     (file "~/orgs/20250714T190120--read-it-later.org")
+     "* TODO %x %^g" :empty-lines 1)))
 
+(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c a") #'org-agenda)
 
 ;;; Denote
 
 (use-package denote
   :ensure t
-  :init
-  (setq denote-directory (expand-file-name "~/notes/"))
+  :config
+  (setq denote-directory (expand-file-name "~/orgs/"))
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
-  (setq denote-file-type 'markdown-yaml)
+  (setq denote-file-type 'org)
+  (setq denote-templates
+      '((youtube . "#+url:")
+        (misc . "* Some heading
+
+* Another heading
+
+")))
   :bind
   (("C-c n n" . denote)
    ("C-c n l" . denote-link)
    ("C-c n r" . denote-rename-file-using-front-matter)
    ("C-c n d r" . denote-dired-rename-files)
-   ("C-c n f" . denote-open-or-create)))
+   ("C-c n f" . denote-open-or-create)
+   ("C-c n t" . denote-template)))
 
+;;; Vterm (terminal emulation)
+
+(use-package vterm
+  :ensure t
+  :commands (vterm)
+  :config
+  (setq vterm-shell "/bin/bash"))
+
+(global-set-key (kbd "C-c t") 'vterm)
+
+;;; Multiple Cursors (mc)
+
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+	 ("C-<" . mc/mark-previous-like-this)
+	 ("C-c C->" . mc/mark-next-like-this-word)
+	 ("C-c C-<" . mc/mark-previous-like-this-word)
+	 ("C-c S-n" . mc/insert-numbers)))
+
+;;; Webjump
+
+ (use-package webjump
+   :defer
+   :ensure nil
+   :config
+   (setq webjump-sites
+	  '(
+	    ("ChatGPT" . "https://chatgpt.com/")
+	    ("Todoist" . "https://app.todoist.com/app/today")
+	    ("GitHub" . "https://github.com/")
+	    ("CamelCamelCamel" . "https://camelcamelcamel.com")
+	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
+	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
+	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
+	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
+
+;;; Spacious Padding Mode
+
+(use-package spacious-padding
+  :ensure t
+  :hook (after-init . spacious-padding-mode))

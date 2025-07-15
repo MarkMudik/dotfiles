@@ -22,8 +22,6 @@ if ! command -v yay &>/dev/null; then
 fi
 
 sudo pacman -Syu --needed --noconfirm bash-completion
-sudo pacman -Syu --needed --noconfirm tree
-sudo pacman -Syu --needed --noconfirm stow
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm base-devel
 sudo pacman -S --needed --noconfirm obsidian
@@ -45,6 +43,9 @@ sudo pacman -S --needed --noconfirm openssh
 sudo pacman -S --needed --noconfirm calibre
 sudo pacman -S --needed --noconfirm neovim
 sudo pacman -S --needed --noconfirm firefox
+sudo pacman -S --needed --noconfirm tree
+sudo pacman -S --needed --noconfirm stow
+sudo pacman -S --needed --noconfirm syncthing
 
 sudo pacman -S --needed --noconfirm xorg-server
 sudo pacman -S --needed --noconfirm xorg-apps
@@ -75,3 +76,6 @@ sudo pacman -S qemu-full
 sudo pacman -S libvirt
 sudo pacman -S virt-manager
 sudo pacman -S dnsmasq
+
+# For text snippet expansion
+yay -S espanso-wayland
