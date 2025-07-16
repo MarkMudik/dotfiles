@@ -67,7 +67,7 @@
           (2 . (rainbow background 1.3))
           (3 . (rainbow bold 1.2))
           (t . (semilight 1.1))))
-  (load-theme 'modus-operandi t))  ;; suppress confirmation
+  (load-theme 'modus-operandi t))
 
 ;;; Configure the minibuffer and completions
 
@@ -258,13 +258,13 @@
 
 ;;; Multiple Cursors (mc)
 
-;(use-package multiple-cursors
-;  :ensure t
-;  :bind (("C->" . mc/mark-next-like-this)
-;	 ("C-<" . mc/mark-previous-like-this)
-;	 ("C-c C->" . mc/mark-next-like-this-word)
-;	 ("C-c C-<" . mc/mark-previous-like-this-word)
-;	 ("C-c S-n" . mc/insert-numbers)))
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+	 ("C-<" . mc/mark-previous-like-this)
+	 ("C-c C->" . mc/mark-next-like-this-word)
+	 ("C-c C-<" . mc/mark-previous-like-this-word)
+	 ("C-c S-n" . mc/insert-numbers)))
 
 ;;; Webjump
 

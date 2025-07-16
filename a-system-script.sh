@@ -24,7 +24,6 @@ fi
 sudo pacman -Syu --needed --noconfirm bash-completion
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm base-devel
-sudo pacman -S --needed --noconfirm obsidian
 sudo pacman -S --needed --noconfirm emacs
 sudo pacman -S --needed --noconfirm ttf-meslo-nerd
 sudo pacman -S --needed --noconfirm bat
