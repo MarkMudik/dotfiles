@@ -258,13 +258,13 @@
 
 ;;; Multiple Cursors (mc)
 
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C->" . mc/mark-next-like-this)
-	 ("C-<" . mc/mark-previous-like-this)
-	 ("C-c C->" . mc/mark-next-like-this-word)
-	 ("C-c C-<" . mc/mark-previous-like-this-word)
-	 ("C-c S-n" . mc/insert-numbers)))
+;(use-package multiple-cursors
+;  :ensure t
+;  :bind (("C->" . mc/mark-next-like-this)
+;	 ("C-<" . mc/mark-previous-like-this)
+;	 ("C-c C->" . mc/mark-next-like-this-word)
+;	 ("C-c C-<" . mc/mark-previous-like-this-word)
+;	 ("C-c S-n" . mc/insert-numbers)))
 
 ;;; Webjump
 

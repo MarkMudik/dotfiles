@@ -3,12 +3,21 @@
 # For a complete introduction, visit the official docs at: https://espanso.org/docs/
 
 matches:
-  # Simple text replacement
-  - trigger: ":samh"
+
+  - trigger: "samhn"
     replace: "Santiago and Maria Hernandez"
 
-  - trigger: ":esamh"
+  - trigger: "samhf"
+    replace: "Santiago and Maria"
+
+  - trigger: "samhl"
+    replace: "Hernandez"
+
+  - trigger: "samhe"
     replace: "santiago.and.maria.hernandez@gmail.com"
+    
+  - trigger: "samhp"
+    replace: "Stainless3-obnoxious-settle"
 
 
 
