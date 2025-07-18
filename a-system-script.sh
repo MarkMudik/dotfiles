@@ -44,7 +44,6 @@ sudo pacman -S --needed --noconfirm neovim
 sudo pacman -S --needed --noconfirm firefox
 sudo pacman -S --needed --noconfirm tree
 sudo pacman -S --needed --noconfirm stow
-sudo pacman -S --needed --noconfirm syncthing
 
 sudo pacman -S --needed --noconfirm xorg-server
 sudo pacman -S --needed --noconfirm xorg-apps
@@ -67,14 +66,11 @@ yay -S --needed --noconfirm jdownloader2
 
 sudo pacman -S --needed --noconfirm nmap
 
-yay -S --needed --noconfirm google-gemini-cli
-
-
 # For virtual machines (vm's)
 sudo pacman -S qemu-full
 sudo pacman -S libvirt
 sudo pacman -S virt-manager
 sudo pacman -S dnsmasq
+sudo pacman -S swtpm
 
-# For text snippet expansion
-yay -S espanso-wayland
+yay -S xremap-gnome-bin

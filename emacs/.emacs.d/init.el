@@ -224,6 +224,8 @@
 
 ;;; Denote
 
+(global-unset-key (kbd "C-x f"))
+
 (use-package denote
   :ensure t
   :config
@@ -231,20 +233,9 @@
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
   (setq denote-file-type 'org)
-  (setq denote-templates
-      '((youtube . "#+url:")
-        (misc . "* Some heading
 
-* Another heading
-
-")))
   :bind
-  (("C-c n n" . denote)
-   ("C-c n l" . denote-link)
-   ("C-c n r" . denote-rename-file-using-front-matter)
-   ("C-c n d r" . denote-dired-rename-files)
-   ("C-c n f" . denote-open-or-create)
-   ("C-c n t" . denote-template)))
+  (("C-x f n" . denote-open-or-create)))
 
 ;;; Vterm (terminal emulation)
 
