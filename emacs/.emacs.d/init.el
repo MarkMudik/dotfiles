@@ -110,10 +110,6 @@
   (setq tab-always-indent 'complete)
   (setq corfu-preview-current nil)
   (setq corfu-min-width 20))
- 
-;;; Keybinds
-
-(global-set-key (kbd "C-/") 'webjump)
 
 ;(use-package evil
 ;  :ensure t

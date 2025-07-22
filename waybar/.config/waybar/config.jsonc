@@ -1,50 +1,37 @@
 {
-    "position": "bottom",
-    "layer": "bottom",
-    "spacing": 0,
-    "height": 0,
+  "layer": "top",
+  "position": "top",
+  "height": 40,
 
-    "margin-top": 8,
-    "margin-right": 8,
-    "margin-bottom": 0,
-    "margin-left": 8,
+  "modules-left": ["hyprland/workspaces", "wlr/taskbar"],
+  "modules-center": [],
+  "modules-right": ["tray", "clock"],
 
-    "modules-left": [
-        "hyprland/workspaces"
-    ],
+  "tray": {
+    "spacing": 5,
+  },
 
-    "modules-center": [
-        "clock"
-    ],
+  "hyprland/workspaces": {
+    "format": "{name}",
+  },
 
-    "modules-right": [
-        "tray",
-        "pulseaudio"
-    ],
+  "wlr/taskbar": {
+    "format": "{icon}   {title:.25}",
+    "markup": true,
+    "icon-size": 20,
+    "on-click": "activate",
+  },
 
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "tooltip": false
-    },
+  "clock": {
+    "format": "{:>%I:%M:%S \n %m/%d/%y}",
+    "interval": 1,
+    "align": 1,
+    "justify": "right",
+  },
 
-    "tray": {
-        "spacing": 10,
-        "tooltip": false
-    },
-
-    "clock": {
-        "format": "{:%I:%M %p - %a, %d %b %Y}",
-        "tooltip": false
-    },
-
-    "pulseaudio": {
-        "scroll-step": 1,
-        "max-volume": 100,
-        "format": "vol {volume}%",
-        "format-bluetooth": "vol {volume}%",
-        "nospacing": 1,
-        "on-click": "pavucontrol",
-        "tooltip": false
-    }
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": "Power Off",
+    "on-click": "poweroff",
+  },
 }
