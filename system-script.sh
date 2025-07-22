@@ -63,6 +63,9 @@ sudo pacman -S wl-clipboard
 sudo pacman -S cliphist
 sudo pacman -S dolphin
 sudo pacman -S network-manager-applet
+sudo pacman -S playerctl
+sudo pacman -S hyprcursor
+sudo pacman -S pulseaudio pulseaudio-alse pavucontrol
 
 # For virtual machines (vm's)
 #sudo pacman -S qemu-full
