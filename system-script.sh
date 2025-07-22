@@ -28,6 +28,7 @@ sudo pacman -S --needed --noconfirm emacs
 sudo pacman -S --needed --noconfirm ttf-meslo-nerd
 sudo pacman -S --needed --noconfirm bat
 sudo pacman -S --needed --noconfirm zoxide
+sudo pacman -S --needed --noconfirm fzf
 sudo pacman -S --needed --noconfirm fd
 sudo pacman -S --needed --noconfirm ripgrep
 sudo pacman -S --needed --noconfirm steam
@@ -48,24 +49,24 @@ yay -S --needed --noconfirm stremio
 yay -S --needed --noconfirm phinger-cursors
 
 # Hyprland
-sudo pacman -S swaync
-sudo pacman -S wireplumber
-sudo pacman -S xdg-desktop-portal-hyprland
-sudo pacman -S hyprpolkitagent
-sudo pacman -S qt5-wayland
-sudo pacman -S qt6-wayland
-sudo pacman -S noto-fonts
-sudo pacman -S waybar
-sudo pacman -S hyprpaper
-sudo pacman -S rofi
-sudo pacman -S hyprpicker
-sudo pacman -S wl-clipboard
-sudo pacman -S cliphist
-sudo pacman -S dolphin
-sudo pacman -S network-manager-applet
-sudo pacman -S playerctl
-sudo pacman -S hyprcursor
-sudo pacman -S pulseaudio pulseaudio-alse pavucontrol
+sudo pacman -S --needed --noconfirm swaync
+sudo pacman -S --needed --noconfirm wireplumber
+sudo pacman -S --needed --noconfirm xdg-desktop-portal-hyprland
+sudo pacman -S --needed --noconfirm hyprpolkitagent
+sudo pacman -S --needed --noconfirm qt5-wayland
+sudo pacman -S --needed --noconfirm qt6-wayland
+sudo pacman -S --needed --noconfirm noto-fonts
+sudo pacman -S --needed --noconfirm waybar
+sudo pacman -S --needed --noconfirm hyprpaper
+sudo pacman -S --needed --noconfirm rofi
+sudo pacman -S --needed --noconfirm hyprpicker
+sudo pacman -S --needed --noconfirm wl-clipboard
+sudo pacman -S --needed --noconfirm cliphist
+sudo pacman -S --needed --noconfirm dolphin
+sudo pacman -S --needed --noconfirm network-manager-applet
+sudo pacman -S --needed --noconfirm playerctl
+sudo pacman -S --needed --noconfirm hyprcursor
+sudo pacman -S --needed --noconfirm pulseaudio pulseaudio-alse pavucontrol
 
 # For virtual machines (vm's)
 #sudo pacman -S qemu-full
