@@ -31,11 +31,28 @@
 
 (setq use-short-answers t)
 (setq confirm-kill-emacs 'yes-or-no-p)
-(setq initial-major-mode 'org-mode
-      initial-scratch-message "")
+(setq initial-major-mode 'org-mode ;; Major mode of new buffers
+      initial-scratch-message ""
+      initial-buffer-choice t)
+
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 (setq scroll-margin 6)
+
+
+(savehist-mode 1)
+(use-package recentf
+  :ensure nil
+  :config
+  (setq
+   recentf-auto-cleanup 'never
+   ;; recentf-max-menu-items 0
+   recentf-max-saved-items 200)
+  (setq recentf-filename-handlers
+        (append '(abbreviate-file-name) recentf-filename-handlers))
+  (recentf-mode))
+
+(global-set-key (kbd "C-c r") 'consult-recent-file)
 
 ;;; Appearance
 
@@ -220,18 +237,14 @@
 
 ;;; Denote
 
-(global-unset-key (kbd "C-x f"))
 
 (use-package denote
   :ensure t
   :config
-  (setq denote-directory (expand-file-name "~/orgs/"))
+  (setq denote-directory (expand-file-name "~/notes/"))
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
-  (setq denote-file-type 'org)
-
-  :bind
-  (("C-x f n" . denote-open-or-create)))
+  (setq denote-file-type 'markdown-yaml))
 
 ;;; Vterm (terminal emulation)
 
@@ -275,3 +288,26 @@
 (use-package spacious-padding
   :ensure t
   :hook (after-init . spacious-padding-mode))
+
+;;; mu4e
+(use-package mu4e
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  ;; :defer 20 ; uncomment after a bit of time
+  :config
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-update-interval (* 30 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/.mail/personal")
+
+  (setq mu4e-drafts-folder "[Gmail]/Drafts")
+  (setq mu4e-sent-folder "[Gmail]/Sent Mail")
+  (setq mu4e-refile-folder "[Gmail]/All Mail")
+  (setq mu4e-trash-folder "[Gmail]/Trash")
+
+  (setq mu4e-maildir-shortcuts
+        '((:maildir "Inbox"    :key ?i)
+          (:maildir "[Gmail]/Sent Mail" :key ?s)
+          (:maildir "[Gmail]/Trash"     :key ?t)
+          (:maildir "[Gmail]/Drafts"    :key ?d)
+          (:maildir "[Gmail]/All Mail"  :key ?a))))

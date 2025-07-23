@@ -29,10 +29,10 @@
 (use-package denote
   :ensure t
   :config
-  (setq denote-directory (expand-file-name "~/orgs/"))
+  (setq denote-directory (expand-file-name "~/notes/"))
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
-  (setq denote-file-type 'org))
+  (setq denote-file-type 'markdown-yaml))
 
 (map! :leader
       :desc "Open or create Denote file"

@@ -44,7 +44,7 @@ sudo pacman -S --needed --noconfirm firefox
 sudo pacman -S --needed --noconfirm tree
 sudo pacman -S --needed --noconfirm stow
 
-yay -S --needed --noconfirm vscode-langservers-extracted 
+yay -S --needed --noconfirm vscode-langservers-extracted
 yay -S --needed --noconfirm stremio
 yay -S --needed --noconfirm phinger-cursors
 
@@ -67,10 +67,15 @@ sudo pacman -S --needed --noconfirm network-manager-applet
 sudo pacman -S --needed --noconfirm playerctl
 sudo pacman -S --needed --noconfirm hyprcursor
 sudo pacman -S --needed --noconfirm pulseaudio pulseaudio-alse pavucontrol
+yay -S --needed --noconfirm kindlegen
+yay -S --needed --noconfirm kcc
+sudo pacman -S --needed --noconfirm 7zip
+sudo pacman -S --needed --noconfirm obsidian
 
-# For virtual machines (vm's)
-#sudo pacman -S qemu-full
-#sudo pacman -S libvirt
-#sudo pacman -S virt-manager
-#sudo pacman -S dnsmasq
-#sudo pacman -S swtpm
+sudo pacman -S --needed --noconfirm yazi
+
+sudo pacman -S --needed --noconfirm isync
+yay -S --needed --noconfirm mu
+
+sudo pacman -S --needed --noconfirm openvpn
+sudo pacman -S --needed --noconfirm networkmanager-openvpn
