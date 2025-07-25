@@ -128,20 +128,6 @@
   (setq corfu-preview-current nil)
   (setq corfu-min-width 20))
 
-;(use-package evil
-;  :ensure t
-;  :init
-;  (setq evil-want-integration t)
-;  (setq evil-want-keybinding nil)
-;  :config
-;  (evil-mode 1))
-
-;(use-package evil-collection
-;  :after evil
-;  :ensure t
-;  :config
-;  (evil-collection-init))
-
 (use-package embark
   :ensure t
   :bind (("C-." . embark-act)
@@ -199,9 +185,24 @@
   (avy-style 'at-full)
   (avy-keys (number-sequence ?a ?z)))
 
+;; Magit 
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
+
+;; Projectile
+
+(use-package projectile
+  :ensure t
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/code")
+    (setq projectile-project-search-path '("~/code")))
+  (setq projectile-switch-project-action #'projectile-dired))
 
 ;;; Which Key
 
@@ -245,6 +246,8 @@
   (setq denote-rename-buffer-format "[%t] %b")
   (denote-rename-buffer-mode 1)
   (setq denote-file-type 'markdown-yaml))
+
+(global-set-key (kbd "C-c n") #'denote-open-or-create)
 
 ;;; Vterm (terminal emulation)
 
@@ -311,3 +314,9 @@
           (:maildir "[Gmail]/Trash"     :key ?t)
           (:maildir "[Gmail]/Drafts"    :key ?d)
           (:maildir "[Gmail]/All Mail"  :key ?a))))
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . markdown-mode)
+  :init
+  (setq markdown-command "pandoc"))
