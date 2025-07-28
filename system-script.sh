@@ -1,34 +1,10 @@
 #!/bin/bash
-set -euo pipefail
-
-# Check for sudo
-if ! command -v sudo &>/dev/null; then
-  echo "Error: 'sudo' is required but not installed."
-  exit 1
-fi
-
-# Check for yay
-echo "Checking for yay..."
-if ! command -v yay &>/dev/null; then
-  echo "'yay' is not installed."
-  read -rp "Would you like to install yay now? [y/N]: " install_yay
-  if [[ "$install_yay" =~ ^[Yy]$ ]]; then
-    git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-    cd .. && rm -rf yay
-  else
-    echo "Cannot continue without yay. Exiting."
-    exit 1
-  fi
-fi
 
 sudo pacman -Syu --needed --noconfirm bash-completion
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm base-devel
-sudo pacman -S --needed --noconfirm emacs
 sudo pacman -S --needed --noconfirm ttf-meslo-nerd
-sudo pacman -S --needed --noconfirm bat
 sudo pacman -S --needed --noconfirm zoxide
-sudo pacman -S --needed --noconfirm fzf
 sudo pacman -S --needed --noconfirm fd
 sudo pacman -S --needed --noconfirm ripgrep
 sudo pacman -S --needed --noconfirm steam
@@ -37,12 +13,12 @@ sudo pacman -S --needed --noconfirm wine
 sudo pacman -S --needed --noconfirm winetricks
 sudo pacman -S --needed --noconfirm vulkan-tools
 sudo pacman -S --needed --noconfirm vulkan-icd-loader
-sudo pacman -S --needed --noconfirm openssh
 sudo pacman -S --needed --noconfirm calibre
 sudo pacman -S --needed --noconfirm neovim
-sudo pacman -S --needed --noconfirm firefox
 sudo pacman -S --needed --noconfirm tree
 sudo pacman -S --needed --noconfirm stow
+sudo pacman -S --needed --noconfirm openvpn
+sudo pacman -S --needed --noconfirm networkmanager-openvpn
 
 yay -S --needed --noconfirm vscode-langservers-extracted
 yay -S --needed --noconfirm stremio
@@ -55,7 +31,6 @@ sudo pacman -S --needed --noconfirm xdg-desktop-portal-hyprland
 sudo pacman -S --needed --noconfirm hyprpolkitagent
 sudo pacman -S --needed --noconfirm qt5-wayland
 sudo pacman -S --needed --noconfirm qt6-wayland
-sudo pacman -S --needed --noconfirm noto-fonts
 sudo pacman -S --needed --noconfirm waybar
 sudo pacman -S --needed --noconfirm hyprpaper
 sudo pacman -S --needed --noconfirm rofi
@@ -67,15 +42,12 @@ sudo pacman -S --needed --noconfirm network-manager-applet
 sudo pacman -S --needed --noconfirm playerctl
 sudo pacman -S --needed --noconfirm hyprcursor
 sudo pacman -S --needed --noconfirm pulseaudio pulseaudio-alse pavucontrol
-yay -S --needed --noconfirm kindlegen
-yay -S --needed --noconfirm kcc
 sudo pacman -S --needed --noconfirm 7zip
 sudo pacman -S --needed --noconfirm obsidian
 
 sudo pacman -S --needed --noconfirm yazi
 
-sudo pacman -S --needed --noconfirm isync
-yay -S --needed --noconfirm mu
+sudo pacman -S --needed --noconfirm gnome
+sudo pacman -S --needed --noconfirm gnome-tweaks
 
-sudo pacman -S --needed --noconfirm openvpn
-sudo pacman -S --needed --noconfirm networkmanager-openvpn
+yay -S --needed --noconfirm brave-bin
