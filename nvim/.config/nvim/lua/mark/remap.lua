@@ -1,4 +1,6 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
