@@ -16,11 +16,9 @@ return {
       "Glgrep",
       "Gedit"
     },
-    ft = {"fugitive"}
-  },
+    ft = { "fugitive" },
+    keys = {
+      { "<leader>gg", "<cmd>Git<cr>", desc = "Git status" },
+    },
+  }
 }
-
-
---vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
---vim.keymap.set("n", "<leader>gd", ":Gdiffsplit<CR>", { desc = "Git diff" })
---vim.keymap.set("n", "<leader>gb", ":G blame<CR>", { desc = "Git blame" })

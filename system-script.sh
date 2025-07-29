@@ -37,7 +37,6 @@ sudo pacman -S --needed --noconfirm rofi
 sudo pacman -S --needed --noconfirm hyprpicker
 sudo pacman -S --needed --noconfirm wl-clipboard
 sudo pacman -S --needed --noconfirm cliphist
-sudo pacman -S --needed --noconfirm dolphin
 sudo pacman -S --needed --noconfirm network-manager-applet
 sudo pacman -S --needed --noconfirm playerctl
 sudo pacman -S --needed --noconfirm hyprcursor
@@ -50,4 +49,6 @@ sudo pacman -S --needed --noconfirm yazi
 sudo pacman -S --needed --noconfirm gnome
 sudo pacman -S --needed --noconfirm gnome-tweaks
 
-yay -S --needed --noconfirm brave-bin
+
+sudo pacman -S --needed --noconfirm firefox
+yay -S --needed --noconfirm localsend-bin

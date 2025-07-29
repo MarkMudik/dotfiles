@@ -21,3 +21,6 @@ alias emptyTrash='rm -rf ~/.local/share/Trash/{files,info}/*'
 
 eval "$(zoxide init bash --cmd cd)"
 
+# Makes denote script in ~/dotfiles/scripts/denote executable anywhere
+export PATH="$HOME/dotfiles/scripts:$PATH"
+

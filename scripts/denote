@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Prompt for name and tags
 read -p "Name: " name
 read -p "Tags (comma-separated): " tags
 
@@ -13,18 +12,28 @@ formatted_name=$(echo "$name" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
 # Format tags: trim, commas to underscores
 formatted_tags=$(echo "$tags" | sed 's/ *, */_/g')
 
+# Format ISO date for frontmatter
+iso_date=$(date +"%Y-%m-%dT%H:%M:%S-07:00")
+
+# Format tags for YAML array (convert comma-separated to YAML array format)
+if [ -n "$tags" ]; then
+    yaml_tags=$(echo "$tags" | sed 's/ *, */, /g' | sed 's/^/[/' | sed 's/$/]/')
+else
+    yaml_tags="[]"
+fi
+
 # Combine for filename
 filename="$HOME/notes/${timestamp}--${formatted_name}__${formatted_tags}.md"
 
 # Create the markdown file
 cat > "$filename" <<EOF
-# $name
-
-**Created:** $(date)
-
-**Tags:** $tags
-
 ---
+title:      "$name"
+date:       $iso_date
+tags:       $yaml_tags
+identifier: "$timestamp"
+---
+
 EOF
 
 echo "File created: $filename"
