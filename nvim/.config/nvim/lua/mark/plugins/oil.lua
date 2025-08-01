@@ -8,9 +8,6 @@ return {
 
         columns = {
           "icon",
-          -- "permissions",
-          -- "size",
-          -- "mtime",
         },
 
         buf_options = {
@@ -56,10 +53,6 @@ return {
 
         view_options = {
           show_hidden = true,
-          -- Optionally keep this if you want to define hidden files yourself
-          -- is_hidden_file = function(name, bufnr)
-          --   return vim.startswith(name, ".")
-          -- end,
         },
 
         float = {
@@ -73,7 +66,6 @@ return {
         },
       })
 
-      -- <leader>pv to open Oil
       vim.keymap.set("n", "<leader>pv", require("oil").open, { desc = "Open Oil file browser" })
     end,
   },

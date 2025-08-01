@@ -54,3 +54,7 @@ sudo pacman -S --needed --noconfirm firefox
 yay -S --needed --noconfirm localsend-bin
 
 sudo pacman -S --needed --noconfirm clang
+
+sudo pacman -S --needed --noconfirm gnupg
+
+sudo pacman -S --needed --noconfirm neovide
