@@ -16,3 +16,5 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
 
+vim.keymap.set({ "n", "v" }, "gl", "$", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "gh", "0", { noremap = true, silent = true })

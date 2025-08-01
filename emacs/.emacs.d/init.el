@@ -278,13 +278,13 @@
    (setq webjump-sites
 	  '(
 	    ("ChatGPT" . "https://chatgpt.com/")
-	    ("Todoist" . "https://app.todoist.com/app/today")
 	    ("GitHub" . "https://github.com/")
-	    ("CamelCamelCamel" . "https://camelcamelcamel.com")
 	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
 	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
 	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
 	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
+
+(global-set-key (kbd "C-x /") 'webjump)
 
 ;;; Spacious Padding Mode
 

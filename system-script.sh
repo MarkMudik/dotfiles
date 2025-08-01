@@ -52,3 +52,5 @@ sudo pacman -S --needed --noconfirm gnome-tweaks
 
 sudo pacman -S --needed --noconfirm firefox
 yay -S --needed --noconfirm localsend-bin
+
+sudo pacman -S --needed --noconfirm clang
