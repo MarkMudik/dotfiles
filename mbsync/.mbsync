@@ -1,0 +1,23 @@
+IMAPAccount gmail
+Host imap.gmail.com
+# CHANGE THE REDACTED PARTS
+User <REDACTED>
+PassCmd <REDACTED>
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/Inbox
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+Create Both
+Expunge Both
+SyncState *

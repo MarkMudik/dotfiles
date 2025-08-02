@@ -58,3 +58,6 @@ sudo pacman -S --needed --noconfirm clang
 sudo pacman -S --needed --noconfirm gnupg
 
 sudo pacman -S --needed --noconfirm neovide
+
+sudo pacman -S --needed --noconfirm isync
+yay -S --needed --noconfirm mu

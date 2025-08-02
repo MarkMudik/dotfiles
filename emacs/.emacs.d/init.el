@@ -52,7 +52,6 @@
         (append '(abbreviate-file-name) recentf-filename-handlers))
   (recentf-mode))
 
-(global-set-key (kbd "C-c r") 'consult-recent-file)
 
 ;;; Appearance
 
@@ -233,8 +232,6 @@
      (file "~/orgs/20250714T190120--read-it-later.org")
      "* TODO %x %^g" :empty-lines 1)))
 
-(global-set-key (kbd "C-c c") #'org-capture)
-(global-set-key (kbd "C-c a") #'org-agenda)
 
 ;;; Denote
 
@@ -247,7 +244,6 @@
   (denote-rename-buffer-mode 1)
   (setq denote-file-type 'markdown-yaml))
 
-(global-set-key (kbd "C-c n") #'denote-open-or-create)
 
 ;;; Vterm (terminal emulation)
 
@@ -256,8 +252,6 @@
   :commands (vterm)
   :config
   (setq vterm-shell "/bin/bash"))
-
-(global-set-key (kbd "C-c t") 'vterm)
 
 ;;; Multiple Cursors (mc)
 
@@ -284,7 +278,6 @@
 	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
 	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
 
-(global-set-key (kbd "C-x /") 'webjump)
 
 ;;; Spacious Padding Mode
 
@@ -320,3 +313,13 @@
   :mode ("\\.md\\'" . markdown-mode)
   :init
   (setq markdown-command "pandoc"))
+
+;; Keymaps
+
+(global-set-key (kbd "M-o") #'consult-outline)
+(global-set-key (kbd "C-c r") 'consult-recent-file)
+(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c n") #'denote-open-or-create)
+(global-set-key (kbd "C-c t") 'vterm)
+(global-set-key (kbd "C-x /") 'webjump)
