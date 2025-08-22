@@ -1,0 +1,3454 @@
+#+title: My Literate Emacs Config
+#+options: toc:nil num:t
+
+* Early Init
+
+#+begin_src emacs-lisp :tangle "early-init.el"
+
+;;; -*- lexical-binding: t; -*-
+
+(setq mac-command-modifier       'meta
+      mac-option-modifier        'meta
+      mac-control-modifier       'control
+      mac-right-command-modifier 'control
+      mac-right-option-modifier 'meta)
+
+#+end_src
+
+
+* Prerequisites
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+;;; -*- lexical-binding: t; -*-
+
+(setq user-full-name "MarkieAurelius"
+      user-mail-address "MarkieAurelius@gmail.com")
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file :no-error-if-file-is-missing)
+
+(add-to-list 'load-path (locate-user-emacs-file "prot-lisp"))
+
+#+end_src
+
+* Package Management
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(require 'package)
+(package-initialize)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+#+end_src
+
+* Essentials
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+    (setq make-backup-files nil)
+    (setq create-lockfiles nil)
+    (setq use-short-answers t)
+    (setq confirm-kill-emacs 'yes-or-no-p)
+    (setq initial-major-mode 'lisp-interaction-mode
+        initial-scratch-message ""
+        initial-buffer-choice t)
+
+    (save-place-mode 1)
+
+  (setq visible-bell nil)
+  (setq ring-bell-function 'ignore)
+  (setq scroll-margin 6)
+
+  (setq ispell-alternate-dictionary "/usr/share/dict/words")
+
+  #+end_src
+
+** Native Comp
+#+begin_src emacs-lisp :tangle "init.el"
+
+(when (native-comp-available-p)
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq native-compile-prune-cache t))
+
+#+end_src
+
+
+** Frame
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(setq frame-resize-pixelwise t
+      frame-inhibit-implied-resize 'force
+      frame-title-format '("%b")
+      ring-bell-function 'ignore
+      use-dialog-box t
+      use-file-dialog nil
+      use-short-answers t
+      inhibit-splash-screen t
+      inhibit-startup-screen t
+      inhibit-x-resources t
+      inhibit-startup-echo-area-message user-login-name
+      inhibit-startup-buffer-menu t)
+
+#+end_src
+
+** Recentf
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package recentf
+    :ensure nil
+    :hook (after-init . recentf-mode)
+    :config
+    (setq recentf-max-saved-items 100)
+    (setq recentf-max-menu-items 25)
+    (setq recentf-save-file-modes nil)
+    (setq recentf-keep nil)
+    (setq recentf-auto-cleanup nil)
+    (setq recentf-initialize-file-name-history nil)
+    (setq recentf-filename-handlers nil)
+    (setq recentf-show-file-shortcuts-flag nil))
+
+#+end_src
+
+** Bookmarks
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package bookmark
+  :ensure nil
+  :commands (bookmark-set bookmark-jump bookmark-bmenu-list)
+  :hook (bookmark-bmenu-mode . hl-line-mode)
+  :config
+  (setq bookmark-use-annotations nil)
+  (setq bookmark-automatically-show-annotations nil)
+  (setq bookmark-fringe-mark nil)
+  (setq bookmark-save-flag 1))
+
+#+end_src
+
+** Delsel
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package delsel
+  :ensure nil
+  :hook (after-init . delete-selection-mode))
+
+#+end_src
+
+** Emacs Changes
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package emacs
+    :ensure nil
+    :demand t
+    :config
+    (setq blink-matching-paren nil)
+    (setq custom-unlispify-tag-names nil)
+    (setq delete-pair-blink-delay 0.1)
+    (setq delete-pair-push-mark t)
+    (setq echo-keystrokes-help nil)
+    (setq epa-keys-select-method 'minibuffer)
+    (setq eval-expression-print-length nil)
+    (setq find-library-include-other-files nil)
+    (setq help-window-select t)
+    (setq kill-do-not-save-duplicates t)
+    (setq mode-require-final-newline 'visit-save)
+    (setq next-error-recenter '(4))
+    (setq remote-file-name-inhibit-auto-save t)
+    (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
+    (setq save-interprogram-paste-before-kill t)
+    (setq scroll-error-top-bottom t)
+    (setq tramp-connection-timeout (* 60 10))
+    (setq-default truncate-partial-width-windows nil)
+    (setq tab-first-completion 'word-or-paren-or-punct)
+    (setq-default tab-width 4
+                indent-tabs-mode nil)
+    :bind
+    ( :map global-map
+      ("<f2>" . toggle-input-method)
+      ("<insert>" . nil)
+      ("<menu>" . nil)
+      ("C-x C-d" . nil)
+      ("C-x C-v" . nil)
+      ("C-z" . nil)
+      ("C-x C-z" . nil)
+      ("C-x C-c" . nil)
+      ("C-x C-c C-c" . save-buffers-kill-emacs)
+      ("C-x C-r" . restart-emacs)
+      ("C-h h" . nil)
+      ("M-`" . nil)
+      ("M-o" . delete-blank-lines)
+      ("M-SPC" . cycle-spacing)
+      ("M-z" . zap-up-to-char)
+      ("M-c" . capitalize-dwim)
+      ("M-l" . downcase-dwim)
+      ("M-u" . upcase-dwim)
+      ("M-=" . count-words)
+      ("C-x O" . next-multiframe-window)
+      ("C-h K" . describe-keymap)
+      ("C-x k" . kill-current-buffer)
+      ("C-x K" . kill-buffer)
+      ("C-c s" . scratch-buffer)
+
+      :map ctl-x-x-map
+      ("f" . follow-mode)
+      ("r" . rename-uniquely)
+      ("l" . visual-line-mode)
+      ("v" . variable-pitch-mode)))
+
+#+end_src
+
+** Substitute
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package substitute
+  :ensure t
+  :defer 1
+  :hook (substitute-post-replace . substitute-report-operation)
+  :commands
+  (substitute-target-below-point
+   substitute-target-above-point
+   substitute-target-in-defun
+   substitute-target-in-buffer)
+  :config
+  (setopt substitute-highlight t)
+
+  (setq substitute-fixed-letter-case nil)
+
+  (define-key global-map (kbd "C-c r") #'substitute-prefix-map))
+
+#+end_src
+
+** goto chg
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package goto-chg
+  :ensure t
+  :bind
+  (("C-(" . goto-last-change)
+   ("C-)" . goto-last-change-reverse)))
+
+#+end_src
+
+** Activate and Disable a Few Commands
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(mapc
+ (lambda (command)
+   (put command 'disabled nil))
+ '(list-timers narrow-to-region narrow-to-page upcase-region downcase-region))
+
+;; And disable these
+(mapc
+ (lambda (command)
+   (put command 'disabled t))
+ '(eshell project-eshell overwrite-mode iconify-frame diary))
+
+#+end_src
+
+** Winner
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package winner
+  :ensure nil
+  :hook (after-init . winner-mode)
+  :bind
+  (("C-x <right>" . winner-redo)
+   ("C-x <left>" . winner-undo)))
+
+#+end_src
+
+** Outline
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package outline
+  :ensure nil
+  :bind
+  ("<f10>" . outline-minor-mode)
+  :config
+  (setq outline-minor-mode-highlight nil)
+  (setq outline-minor-mode-cycle t)
+  (setq outline-minor-mode-use-buttons nil)
+  (setq outline-minor-mode-use-margins nil))
+
+#+end_src
+
+** Dictionary
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package dictionary
+  :ensure nil
+  :bind ("C-c d" . dictionary-search)
+  :config
+  (setq dictionary-server "dict.org"
+        dictionary-default-popup-strategy "lev"
+        dictionary-create-buttons nil
+        dictionary-use-single-buffer t))
+
+#+end_src
+
+** Prot-simple
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package prot-simple
+  :ensure nil
+  :demand t
+  :config
+  (setq prot-simple-date-specifier "%F")
+  (setq prot-simple-time-specifier "%R %z")
+
+  (advice-add #'save-buffers-kill-emacs :before #'prot-simple-display-unsaved-buffers-on-exit)
+
+  (prot-simple-override-mode 1)
+
+  :bind
+  ( :map prot-simple-override-mode-map
+    ("C-d" . prot-simple-delete-line)
+
+    ("C-v" . prot-simple-multi-line-below)
+    ("<next>" . prot-simple-multi-line-below)
+    ("M-v" . prot-simple-multi-line-above)
+    ("<prior>" . prot-simple-multi-line-above)
+
+    :map global-map
+    ("<escape>" . prot-simple-keyboard-quit-dwim)
+    ("C-g" . prot-simple-keyboard-quit-dwim)
+    ("C-M-SPC" . prot-simple-mark-sexp)
+    ("C-," . prot-simple-mark-sexp)
+    ;; Commands for lines
+    ("C-S-d" . prot-simple-delete-line-backward)
+    ("C-S-k" . prot-simple-kill-line-backward)
+    ("M-k" . prot-simple-copy-line-forward)
+    ("M-K" . prot-simple-copy-line-backward)
+    ("M-j" . delete-indentation)
+    ("C-w" . prot-simple-kill-region)
+    ("M-w" . prot-simple-kill-ring-save)
+
+    ("C-S-w" . prot-simple-copy-line)
+    ("C-S-y" . prot-simple-yank-replace-line-or-region)
+    ("<C-return>" . prot-simple-new-line-below)
+    ("<C-S-return>" . prot-simple-new-line-above)
+    ("C-x x a" . prot-simple-auto-fill-visual-line-mode) ; auto-fill/visual-line toggle
+    ;; Commands for text insertion or manipulation
+    ("C-=" . prot-simple-insert-date)
+    ("C-<" . prot-simple-escape-url-dwim)
+    ;; "C->" prot-simple-insert-line-prefix-dwim
+    ("M-Z" . prot-simple-zap-to-char-backward)
+    ;; Commands for object transposition
+    ("C-S-p" . prot-simple-move-above-dwim)
+    ("C-S-n" . prot-simple-move-below-dwim)
+    ("C-t" . prot-simple-transpose-chars)
+    ("C-x C-t" . prot-simple-transpose-lines)
+    ("C-S-t" . prot-simple-transpose-paragraphs)
+    ("C-x M-t" . prot-simple-transpose-sentences)
+    ("C-M-t" . prot-simple-transpose-sexps)
+    ("M-t" . prot-simple-transpose-words)
+    ;; Commands for paragraphs
+    ("M-Q" . prot-simple-unfill-region-or-paragraph)
+    ;; Commands for windows and pages
+    ("C-x o" . prot-simple-other-window)
+    ("C-x n k" . prot-simple-delete-page-delimiters)
+    ("M-r" . window-layout-transpose)
+    ("M-S-r" . rotate-windows-back)
+    ;; Commands for buffers
+    ("<C-f2>" . prot-simple-rename-file-and-buffer)
+    ("C-x k" . prot-simple-kill-buffer-current)
+    ("C-x K" . kill-buffer)
+    ("M-s b" . prot-simple-buffers-major-mode)
+    ("M-s v" . prot-simple-buffers-vc-root)
+    ;; Commands for files
+    ("C-x r ." . prot-simple-file-to-register)))
+
+#+end_src
+
+** Auto Revert
+
+#+begin_src emacs-lisp
+
+(use-package autorevert
+  :ensure nil
+  :hook (after-init . global-auto-revert-mode)
+  :config
+  (setq auto-revert-verbose t))
+
+#+end_src
+
+* Appearance
+
+** Basics
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+
+#+end_src
+
+** Font
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(let ((mono-spaced-font "MesloLGL Nerd Font Mono")
+      (proportionately-spaced-font "SF Pro"))
+  (set-face-attribute 'default nil :family mono-spaced-font :height 180)
+  (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
+
+#+end_src
+
+** Modus Theme
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package modus-themes
+    :ensure t
+    :config
+    (setq modus-themes-mode-line '(accented borderless)
+          modus-themes-bold-constructs t
+          modus-themes-italic-constructs t
+          modus-themes-fringes 'subtle
+          modus-themes-tabs-accented t
+          modus-themes-paren-match '(bold intense)
+          modus-themes-prompts '(bold intense)
+          modus-themes-org-blocks 'tinted-background
+          modus-themes-scale-headings t
+          modus-themes-region '(bg-only)
+          modus-themes-headings
+          '((1 . (rainbow overline background 1.2))
+            (2 . (rainbow background 1.1))
+            (3 . (rainbow bold 1.1))
+            (t . (semilight 1.1))))
+    (load-theme 'modus-operandi t))
+
+#+end_src
+
+** Spacious Padding
+
+#+begin_src emacs-lisp :tangle "init.el"
+  
+  (use-package spacious-padding
+  :ensure t
+  :hook (after-init . spacious-padding-mode))
+
+#+end_src
+
+** Line Numbers
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package display-line-numbers
+  :ensure nil
+  :bind
+  ("<f7>" . display-line-numbers-mode)
+  :config
+  (setq-default display-line-numbers-type t)
+  (setq display-line-numbers-major-tick 0)
+  (setq display-line-numbers-minor-tick 0)
+  (setq-default display-line-numbers-widen t))
+
+#+end_src
+
+** Lin
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package lin
+  :ensure t
+  :hook (after-init . lin-global-mode)
+  :config
+  (setq lin-face 'lin-cyan))
+
+#+end_src
+
+** Efn eshadow
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package rfn-eshadow
+  :ensure nil
+  :hook (minibuffer-setup . cursor-intangible-mode)
+  :config
+
+  (setq resize-mini-windows t)
+  (setq read-answer-short t) ; also check `use-short-answers' for Emacs28
+  (setq echo-keystrokes 0.25)
+  (setq kill-ring-max 60) ; Keep it small
+
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+
+  (setq crm-prompt (format "%s %%p" (propertize "[%d]" 'face 'shadow))) ; Emacs 31
+
+  (file-name-shadow-mode 1))
+
+#+end_src
+
+* Minibuffer and Completion
+
+** Minibuffer
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package minibuffer
+  :ensure nil
+  :config
+;;;; Completion styles
+  (setq completion-styles '(basic substring initials flex orderless))
+  (setq completion-pcm-leading-wildcard t)
+(setq completion-auto-deselect nil)
+  (setq completion-auto-help 'always)
+  (setq completion-auto-select 'second-tab)
+  (setq completion-show-help nil)
+  (setq completion-show-inline-help nil)
+  (setq completions-detailed t)
+  (setq completions-format 'one-column)
+  (setq completions-header-format "")
+  (setq completions-highlight-face 'completions-highlight)
+  (setq completions-max-height 10)
+  (setq completions-sort 'historical)
+  (setq completion-eager-display 'auto)
+  (setq minibuffer-completion-auto-choose t)
+  (setq minibuffer-visible-completions nil))
+
+#+end_src
+
+
+** Vertico
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package vertico
+  :ensure t
+  :hook (after-init . vertico-mode)
+  :config
+  (setq vertico-scroll-margin 0)
+  (setq vertico-count 5)
+  (setq vertico-resize t)
+  (setq vertico-cycle t))
+
+#+end_src
+
+** Marginalia
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package marginalia
+  :ensure t
+  :hook (after-init . marginalia-mode)
+  :config
+  (setq marginalia-max-relative-age 0))
+
+#+end_src
+
+** Consult
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package consult
+    :ensure t
+    :hook (completion-list-mode . consult-preview-at-point-mode)
+    :bind
+    ( :map global-map
+      ("M-g M-g" . consult-goto-line)
+      ("M-s M-b" . consult-buffer)
+      ("M-s M-f" . consult-find)
+      ("M-s M-g" . consult-grep)
+      ("M-s M-h" . consult-history)
+      ("M-s M-i" . consult-imenu)
+      ("M-s M-l" . consult-line)
+      ("M-s M-m" . consult-mark)
+      ("M-s M-y" . consult-yank-pop)
+      ("M-s M-s" . consult-outline)
+      :map consult-narrow-map
+      ("?" . consult-narrow-help))
+    :config
+    (setq consult-line-numbers-widen t)
+    (setq consult-async-min-input 3)
+    (setq consult-async-input-debounce 0.5)
+    (setq consult-async-input-throttle 0.8)
+    (setq consult-narrow-key nil)
+    (setq consult-find-args
+          (concat "find . -not ( "
+                  "-path */.git* -prune "
+                  "-or -path */.cache* -prune )")))
+#+end_src
+
+** Orderless
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package orderless
+  :ensure t
+  :demand t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides nil)
+  (setq orderless-matching-styles '(orderless-prefixes orderless-regexp)))
+
+#+end_src
+
+** Savehist
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package savehist
+  :ensure nil
+  :hook (after-init . savehist-mode)
+  :config
+  (setq savehist-file (locate-user-emacs-file "savehist"))
+  (setq history-length 100)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history t)
+  (add-to-list 'savehist-additional-variables 'kill-ring))
+
+#+end_src
+
+** Corfu
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package corfu
+  :ensure t
+  :hook (after-init . global-corfu-mode)
+  :bind (:map corfu-map ("<tab>" . corfu-complete))
+  :config
+  (setq tab-always-indent 'complete)
+  (setq corfu-preview-current nil)
+  (setq corfu-min-width 20))
+
+#+end_src
+
+* LSP
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+;(use-package lsp-mode
+;  :ensure t
+;  :init
+;  ;; Performance tuning
+;  (setq gc-cons-threshold (* 100 1024 1024)
+;        read-process-output-max (* 1024 1024)
+;        lsp-idle-delay 0.1)
+;  :hook 
+;  ((c-mode c++-mode) . lsp)
+;  :commands lsp
+;  :config
+;  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+
+;(use-package lsp-ui
+;  :ensure t
+;  :commands lsp-ui-mode
+;  :config
+;  (setq lsp-ui-doc-enable t
+;        lsp-ui-doc-show-with-cursor t
+;        lsp-ui-sideline-enable t
+;        lsp-ui-sideline-show-hover t))
+
+;(use-package lsp-treemacs
+;  :ensure t
+;  :commands lsp-treemacs-errors-list)
+
+;(use-package company
+;  :ensure t
+;  :init
+;  (setq company-idle-delay 0.0
+;        company-minimum-prefix-length 1)
+;  :config
+;  (global-company-mode 1))
+
+;(use-package flycheck
+;  :ensure t
+;  :init (global-flycheck-mode))
+
+;(use-package projectile
+;  :ensure t
+;  :config
+;  (projectile-mode 1))
+
+;(use-package dap-mode
+;  :ensure t
+;  :after lsp-mode
+;  :config
+;  (dap-auto-configure-mode)
+;  (require 'dap-cpptools))
+
+;(use-package vertico
+;  :ensure t
+;  :init
+;  (vertico-mode))
+
+;(use-package consult-lsp
+;  :ensure t
+;  :after (consult lsp-mode))
+
+;(use-package hydra
+;  :ensure t)
+
+#+end_src
+
+* Embark
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package embark
+    :ensure t
+    :hook (embark-collect-mode . prot-common-truncate-lines-silently)
+    :bind
+    ( :map minibuffer-local-map
+      ("C-c C-c" . embark-collect)
+      ("C-c C-e" . embark-export)))
+
+(use-package embark-consult
+    :ensure t
+    :after (embark consult))
+
+#+end_src
+
+* Search
+
+** Isearch
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package isearch
+  :ensure nil
+  :demand t
+  :config
+  (setq search-whitespace-regexp ".*?"
+        isearch-lax-whitespace t
+        isearch-regexp-lax-whitespace nil)
+  (setq search-highlight t)
+  (setq isearch-lazy-highlight t)
+  (setq lazy-highlight-initial-delay 0.5)
+  (setq lazy-highlight-no-delay-length 4)
+  (setq isearch-lazy-count t)
+  (setq lazy-count-prefix-format "(%s/%s) ")
+  (setq lazy-count-suffix-format nil)
+  (setq isearch-wrap-pause t)
+  (setq isearch-repeat-on-direction-change t)
+  (setq list-matching-lines-jump-to-current-line nil)
+  (add-hook 'occur-mode-hook #'prot-common-truncate-lines-silently)
+  (add-hook 'occur-mode-hook #'hl-line-mode)
+  :bind
+  ( :map global-map
+    ("C-." . isearch-forward-symbol-at-point)
+    :map minibuffer-local-isearch-map
+    ("M-/" . isearch-complete-edit)
+    :map occur-mode-map
+    ("t" . toggle-truncate-lines)
+    :map isearch-mode-map
+    ("C-g" . isearch-cancel)
+    ("M-/" . isearch-complete)))
+
+#+end_src
+
+
+** Wgrep
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(unless (>= emacs-major-version 31)
+  (use-package wgrep
+    :ensure t
+    :after grep
+    :bind
+    ( :map grep-mode-map
+      ("e" . wgrep-change-to-wgrep-mode)
+      ("C-x C-q" . wgrep-change-to-wgrep-mode)
+      ("C-c C-c" . wgrep-finish-edit))
+    :config
+    (setq wgrep-auto-save-buffer t)
+    (setq wgrep-change-readonly-file t)))
+
+#+end_src
+
+* Avy
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package avy
+  :ensure t
+  :bind
+  (("C-:" . avy-goto-char-timer)
+   ("C-'" . avy-goto-char-2)
+   ("M-g w" . avy-goto-word-1)))
+
+#+end_src
+
+* Dired
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package dired
+    :ensure nil
+    :commands (dired)
+    :config
+    (setq dired-kill-when-opening-new-dired-buffer t)
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    (setq delete-by-moving-to-trash t)
+    (setq dired-dwim-target t)
+    (setq dired-auto-revert-buffer #'dired-directory-changed-p)
+    (setq dired-make-directory-clickable t)
+    (setq dired-free-space nil)
+    (setq dired-mouse-drag-files t)
+    
+    (define-key dired-jump-map (kbd "j") nil)
+    (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
+    (setq dired-make-directory-clickable t)
+    (setq dired-free-space nil)
+    (setq dired-mouse-drag-files t)
+    (setq dired-listing-switches
+        "-AGFhlv --group-directories-first --time-style=long-iso")
+
+    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+    (add-hook 'dired-mode-hook #'hl-line-mode))
+
+
+  (use-package dired-subtree
+    :ensure t
+    :after dired
+    :bind
+    ( :map dired-mode-map
+      ("<tab>" . dired-subtree-toggle)
+      ("TAB" . dired-subtree-toggle)
+      ("<backtab>" . dired-subtree-remove)
+      ("S-TAB" . dired-subtree-remove))
+    :config
+    (setq dired-subtree-use-backgrounds nil))
+
+#+end_src
+
+** Wdired
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package wdired
+  :ensure nil
+  :commands (wdired-change-to-wdired-mode)
+  :config
+  (setq wdired-allow-to-change-permissions t)
+  (setq wdired-create-parent-directories t))
+
+#+end_src
+
+* Magit
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (use-package magit
+  :ensure t
+  :bind
+  ( :map global-map
+    ("C-c g" . magit-status)
+    :map magit-mode-map
+    ("C-w" . nil)
+    ("M-w" . nil))
+  :init
+  (setq magit-define-global-key-bindings nil))
+
+#+end_src
+
+* Project
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package project
+  :ensure nil
+  :bind
+  (("C-x p ." . project-dired)
+   ("C-x p C-g" . keyboard-quit)
+   ("C-x p <return>" . project-dired)
+   ("C-x p <delete>" . project-forget-project)))
+
+#+end_src
+
+* Org
+
+** Calendar
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package calendar
+  :ensure nil
+  :commands (calendar)
+  :config
+  (setq calendar-mark-diary-entries-flag nil)
+  (setq calendar-mark-holidays-flag t)
+  (setq calendar-mode-line-format nil)
+  (setq calendar-time-display-form
+        '( 24-hours ":" minutes
+           (when time-zone (format "(%s)" time-zone))))
+  (setq calendar-week-start-day 1)
+  (setq calendar-date-style 'iso)
+  (setq calendar-time-zone-style 'numeric))
+
+#+end_src
+
+** Basic Org Settings
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+      (use-package org
+        :ensure nil
+        :init
+        (setq org-tags-column 0)
+        (setq org-tag-alist nil)
+        (setq org-auto-align-tags nil)
+        (setq org-directory (expand-file-name "~/projects/private/orgs"))
+        (setq org-imenu-depth 7)
+      :bind
+      ( :map global-map
+        ("C-c l" . org-store-link)
+        ("C-c o" . org-open-at-point-global)
+        :map org-mode-map
+        ("C-a" . nil)
+        ("C-d" . nil)
+        ("C-S-d" . nil)
+        ("C-'" . nil)
+        ("C-," . nil)
+        ("M-;" . nil)
+        ("<C-return>" . nil)
+        ("<C-S-return>" . nil)
+        ("C-M-S-<right>" . nil)
+        ("C-M-S-<left>" . nil)
+        ("C-c ;" . nil)
+        ("C-c M-l" . org-insert-last-stored-link)
+        ("C-c C-M-l" . org-toggle-link-display)
+        ("M-." . org-edit-special)
+        :map org-src-mode-map
+        ("M-," . org-edit-src-exit)
+        :map narrow-map
+        ("b" . org-narrow-to-block)
+        ("e" . org-narrow-to-element)
+        ("s" . org-narrow-to-subtree))
+      :config
+      (setq org-ellipsis "⮧")
+      (setq org-special-ctrl-a/e nil)
+      (setq org-special-ctrl-k nil)
+      (setq org-M-RET-may-split-line '((default . nil)))
+      (setq org-hide-emphasis-markers nil)
+      (setq org-hide-macro-markers nil)
+      (setq org-hide-leading-stars nil)
+      (setq org-cycle-separator-lines 0)
+      (setq org-fold-catch-invisible-edits 'show)
+      (setq org-return-follows-link nil)
+      (setq org-loop-over-headlines-in-active-region 'start-level)
+      (setq org-fontify-quote-and-verse-blocks t)
+      (setq org-fontify-whole-block-delimiter-line t)
+      (setq org-track-ordered-property-with-tag t)
+      (setq org-highest-priority ?A)
+      (setq org-lowest-priority ?C)
+      (setq org-default-priority ?A)
+      (setq org-priority-faces nil)
+      (setq org-adapt-indentation nil)
+      (setq org-indent-mode-turns-on-hiding-stars nil)
+      (setq org-indent-indentation-per-level 4)
+
+  (setq org-refile-targets
+        '((org-agenda-files . (:maxlevel . 2))
+          (nil . (:maxlevel . 2))))
+  (setq org-refile-use-outline-path t)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+  (setq org-refile-use-cache t)
+  (setq org-reverse-note-order nil)
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "MAYBE(m)" "|" "CANCELLED(c@)" "DONE(d!)")))
+
+  (setq org-use-fast-todo-selection 'expert)
+
+  (setq org-fontify-done-headline nil)
+  (setq org-fontify-todo-headline nil)
+  (setq org-fontify-whole-heading-line nil)
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-log-note-clock-out nil)
+  (setq org-log-redeadline 'time)
+  (setq org-log-reschedule 'time)
+  (setq org-return-follows-link t)
+  (setq org-link-context-for-files t)
+  (setq org-link-keep-stored-after-insertion nil)
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+      
+#+end_src
+
+** Org Capture
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package org-capture
+  :ensure nil
+  :bind ("C-c c" . org-capture)
+  :config
+  (setq org-capture-templates
+        '(("b" "book" entry
+           (file+headline "20250808T153818--book-management.org" "Book List")
+           "* TODO [#A] %? %^{Title} by %^{Author}"
+           :prepend t)
+          ("f" "financial" entry
+           (file+headline "20250806T204718--finance-management__finance.org" "Financial Tasks")
+           "** TODO %^{priority|[#A]|[#B]|[#C]} %?"
+           :prepend t
+           :empty-lines-before 1
+           :empty-lines-after 1)
+          ("s" "shopping" entry
+           (file+headline "20250812T120909--shopping-cart__finance.org" "Shopping List")
+           "** %^{title}\n\n- link: %?\n- full name:\n- miscellaneous:"
+           :prepend t
+           :empty-lines-before 1
+           :empty-lines-after 1)
+          ("l" "link" entry
+           (file+headline "20250812T123123--content-consumption-management.org" "Content List")
+           "** TODO [[%^{link}][%^{title}]] %^g"
+           :prepend t
+           :empty-lines-before 1
+           :empty-lines-after 1))))
+
+#+end_src
+
+
+** Org Babel Blocks
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-confirm-babel-evaluate nil
+        org-src-window-setup 'current-window
+        org-edit-src-persistent-message nil
+        org-src-fontify-natively t
+        org-src-preserve-indentation t
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 0)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t))))
+
+
+#+end_src
+
+** Org Export
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package org
+  :ensure nil
+  :config
+  (setq org-export-with-toc t)
+  (setq org-export-headline-levels 8)
+  (setq org-export-dispatch-use-expert-ui nil)
+  (setq org-html-htmlize-output-type nil)
+  (setq org-html-head-include-default-style nil)
+  (setq org-html-head-include-scripts nil))
+
+#+end_src
+
+** Org Agenda
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package org
+:ensure nil
+  :bind
+  ( :map global-map
+    ("C-c A" . org-agenda))
+:config
+(setq org-default-notes-file (make-temp-file "emacs-org-notes-")) ; send it to oblivion
+  (setq org-agenda-files (list org-directory))
+  (setq org-agenda-span 'week)
+  (setq org-agenda-start-on-weekday 1)  ; Monday
+  (setq org-agenda-confirm-kill t)
+  (setq org-agenda-show-all-dates t)
+  (setq org-agenda-show-outline-path nil)
+  (setq org-agenda-window-setup 'current-window)
+  (setq org-agenda-skip-comment-trees t)
+  (setq org-agenda-menu-show-matcher t)
+  (setq org-agenda-menu-two-columns nil)
+  (setq org-agenda-sticky nil)
+  (setq org-agenda-custom-commands-contexts nil)
+  (setq org-agenda-max-entries nil)
+  (setq org-agenda-max-todos nil)
+  (setq org-agenda-max-tags nil)
+  (setq org-agenda-max-effort nil)
+
+(setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+          (todo . " %i %-12:c")
+          (tags . " %i %-12:c")
+          (search . " %i %-12:c")))
+  (setq org-agenda-sorting-strategy
+        '(((agenda habit-down time-up priority-down category-keep)
+           (todo priority-down category-keep)
+           (tags priority-down category-keep)
+           (search category-keep))))
+  (setq org-agenda-breadcrumbs-separator "->")
+  (setq org-agenda-todo-keyword-format "%-1s")
+  (setq org-agenda-fontify-priorities 'cookies)
+  (setq org-agenda-category-icon-alist nil)
+  (setq org-agenda-remove-times-when-in-prefix nil)
+  (setq org-agenda-remove-timeranges-from-blocks nil)
+  (setq org-agenda-compact-blocks nil)
+  (setq org-agenda-block-separator ?—)
+
+;;;;; Agenda marks
+  (setq org-agenda-bulk-mark-char "#")
+  (setq org-agenda-persistent-marks nil)
+
+;;;;; Agenda diary entries
+  (setq org-agenda-insert-diary-strategy 'date-tree)
+  (setq org-agenda-insert-diary-extract-time nil)
+  (setq org-agenda-include-diary nil)
+  (setq diary-file (make-temp-file "emacs-diary-"))
+  (setq org-agenda-diary-file 'diary-file)
+
+;;;;; Agenda follow mode
+  (setq org-agenda-start-with-follow-mode nil)
+  (setq org-agenda-follow-indirect t)
+
+;;;;; Agenda multi-item tasks
+  (setq org-agenda-dim-blocked-tasks t)
+  (setq org-agenda-todo-list-sublevels t)
+
+;;;;; Agenda filters and restricted views
+  (setq org-agenda-persistent-filter nil)
+  (setq org-agenda-restriction-lock-highlight-subtree t)
+
+;;;;; Agenda items with deadline and scheduled timestamps
+  (setq org-agenda-include-deadlines t)
+  (setq org-deadline-warning-days 0)
+  (setq org-agenda-skip-scheduled-if-done nil)
+  (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
+  (setq org-agenda-skip-timestamp-if-deadline-is-shown t)
+  (setq org-agenda-skip-deadline-if-done nil)
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled 1)
+  (setq org-agenda-skip-scheduled-delay-if-deadline nil)
+  (setq org-agenda-skip-additional-timestamps-same-entry nil)
+  (setq org-agenda-skip-timestamp-if-done nil)
+  (setq org-agenda-search-headline-for-time nil)
+  (setq org-scheduled-past-days 365)
+  (setq org-deadline-past-days 365)
+  (setq org-agenda-move-date-from-past-immediately-to-today t)
+  (setq org-agenda-show-future-repeats t)
+  (setq org-agenda-prefer-last-repeat nil)
+  (setq org-agenda-timerange-leaders
+        '("" "(%d/%d): "))
+  (setq org-agenda-scheduled-leaders
+        '("Scheduled: " "Sched.%2dx: "))
+  (setq org-agenda-inactive-leader "[")
+  (setq org-agenda-deadline-leaders
+        '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
+  ;; Time grid
+  (setq org-agenda-time-leading-zero t)
+  (setq org-agenda-timegrid-use-ampm nil)
+  (setq org-agenda-use-time-grid t)
+  (setq org-agenda-show-current-time-in-grid t)
+  (setq org-agenda-current-time-string (concat "Now " (make-string 70 ?.)))
+  (setq org-agenda-time-grid
+        '((daily today require-timed)
+          ( 0500 0600 0700 0800 0900 1000
+            1100 1200 1300 1400 1500 1600
+            1700 1800 1900 2000 2100 2200)
+          "" ""))
+  (setq org-agenda-default-appointment-duration nil)
+
+;;;;; Agenda global to-do list
+  (setq org-agenda-todo-ignore-with-date t)
+  (setq org-agenda-todo-ignore-timestamp t)
+  (setq org-agenda-todo-ignore-scheduled t)
+  (setq org-agenda-todo-ignore-deadlines t)
+  (setq org-agenda-todo-ignore-time-comparison-use-seconds t)
+  (setq org-agenda-tags-todo-honor-ignore-options nil)
+
+;;;;; Agenda tagged items
+  (setq org-agenda-show-inherited-tags t)
+  (setq org-agenda-use-tag-inheritance
+        '(todo search agenda))
+  (setq org-agenda-hide-tags-regexp nil)
+  (setq org-agenda-remove-tags nil)
+  (setq org-agenda-tags-column 1)
+
+;;;;; Agenda entry
+  (setq org-agenda-start-with-entry-text-mode nil)
+  (setq org-agenda-entry-text-maxlines 5)
+  (setq org-agenda-entry-text-exclude-regexps nil)
+  (setq org-agenda-entry-text-leaders "    > "))
+
+#+end_src
+
+** Org Modern
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package org-modern
+  :ensure t
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda))
+
+#+end_src
+
+* Eww (Emacs Browser)
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package eww
+  :ensure nil
+  :after prot-simple
+  :commands (eww)
+  :bind
+  ( :map eww-mode-map
+    ("S" . nil)
+    ("b" . prot-simple-buffers-major-mode)
+    ("m" . bookmark-set)
+    :map eww-link-keymap
+    ("v" . nil)
+    :map dired-mode-map
+    ("E" . eww-open-file))
+  :config
+  (setq eww-auto-rename-buffer 'title)
+  (setq eww-header-line-format nil)
+  (setq eww-bookmarks-directory (locate-user-emacs-file "eww-bookmarks/"))
+  (setq eww-history-limit 150)
+  (setq eww-use-external-browser-for-content-type
+        "\\`\\(video/\\|audio\\)")
+  (setq eww-form-checkbox-selected-symbol "[X]")
+  (setq eww-form-checkbox-symbol "[ ]")
+
+  (setq eww-retrieve-command nil)
+
+  (dolist (command '( eww-list-bookmarks eww-add-bookmark eww-bookmark-mode
+                      eww-list-buffers eww-toggle-fonts eww-toggle-colors
+                      eww-switch-to-buffer))
+    (put command 'disabled t)))
+
+#+end_src
+
+* Denote
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package denote
+  :ensure t
+  :hook
+  ((dired-mode . denote-dired-mode))
+  :bind
+  ( :map global-map
+    ("C-c n n" . denote-open-or-create)
+    ("C-c n N" . denote-type)
+    ("C-c n d" . denote-sort-dired)
+    ("C-c n r" . denote-rename-file)
+    :map text-mode-map
+    ("C-c n i" . denote-link)
+    ("C-c n I" . denote-add-links)
+    ("C-c n b" . denote-backlinks)
+    ("C-c n R" . denote-rename-file-using-front-matter)
+    :map dired-mode-map
+    ("C-c C-d C-i" . denote-dired-link-marked-notes)
+    ("C-c C-d C-r" . denote-dired-rename-marked-files)
+    ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
+    ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
+  :config
+  (setq denote-directory (expand-file-name "~/projects/private/orgs/"))
+  (setq denote-file-type 'org)
+  (setq denote-known-keywords '("business"))
+  (setq denote-infer-keywords t)
+  (setq denote-sort-keywords t)
+  (setq denote-excluded-directories-regexp nil)
+  (setq denote-date-format nil)
+  (setq denote-rename-confirmations nil)
+  (setq denote-backlinks-show-context nil)
+  (setq denote-buffer-name-prefix "[D] ")
+  (setq denote-rename-buffer-format "%D")
+
+  (denote-rename-buffer-mode 1))
+
+#+end_src
+
+* Vterm
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package vterm
+  :ensure t
+  :commands (vterm)
+  :config
+  (setq vterm-shell "/bin/bash"))
+
+#+end_src
+
+* Webjump
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+ (use-package webjump
+   :defer
+   :ensure nil
+   :bind
+   ("C-x /" . webjump)
+   :config
+   (setq webjump-sites
+	  '(
+	    ("ChatGPT" . "https://chatgpt.com/")
+	    ("GitHub" . "https://github.com/")
+        ("Doordash" . "https://www.doordash.com/")
+        ("UberEats" . "https://www.ubereats.com/")
+        ("Privacy (cards)" . "https://app.privacy.com/home")	    	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
+	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
+	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
+	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
+
+#+end_src
+
+* Mu4e
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+;(use-package mu4e
+;  :ensure nil
+;  :load-path "/usr/share/emacs/site-lisp/mu4e"
+;  ;:defer 20
+;  :config
+;  ;; General settings
+;  (setq mu4e-change-filenames-when-moving t)
+;  (setq mu4e-update-interval (* 30 60))
+;  (setq mu4e-get-mail-command "mbsync -a")
+;  (setq mu4e-maildir "~/.mail")
+;  (setq mu4e-show-images t)
+  
+  ;; Multiple account setup
+;  (setq mu4e-contexts
+;        (list
+;         ;; Personal account context
+;         (make-mu4e-context
+;          :name "Personal"
+;          :match-func
+;          (lambda (msg)
+;            (when msg
+;              (string-prefix-p "/personal" (mu4e-message-field msg :maildir))))
+;          :vars '((user-mail-address . "REDACTED@gmail.com")
+;                  (user-full-name . "Your Name")
+;                  (mu4e-drafts-folder . "/personal/[Gmail]/Drafts")
+;                  (mu4e-sent-folder . "/personal/[Gmail]/Sent Mail")
+;                  (mu4e-refile-folder . "/personal/[Gmail]/All Mail")
+;                  (mu4e-trash-folder . "/personal/[Gmail]/Trash")))
+;         
+;         ;; Work account context
+;         (make-mu4e-context
+;          :name "Work"
+;          :match-func
+;          (lambda (msg)
+;            (when msg
+;              (string-prefix-p "/work" (mu4e-message-field msg :maildir))))
+;          :vars '((user-mail-address . "REDACTED@gmail.com")
+;                  (user-full-name . "Your Work Name")
+;                  (mu4e-drafts-folder . "/work/[Gmail]/Drafts")
+;                  (mu4e-sent-folder . "/work/[Gmail]/Sent Mail")
+;                  (mu4e-refile-folder . "/work/[Gmail]/All Mail")
+;                  (mu4e-trash-folder . "/work/[Gmail]/Trash")
+;                  ;; SMTP settings for sending from work
+;                  (smtpmail-smtp-server . "smtp.gmail.com")
+;                  (smtpmail-smtp-service . 587)
+;                  (smtpmail-stream-type . starttls)
+;                  (smtpmail-smtp-user . "REDACTED@gmail.com")))))
+  
+;  ;; Context switching behavior
+;  (setq mu4e-context-policy 'pick-first)
+;  (setq mu4e-compose-context-policy 'ask)
+  
+  ;; Updated maildir shortcuts for both accounts
+;  (setq mu4e-maildir-shortcuts
+;        '(;; Personal shortcuts
+;          (:maildir "/personal/Inbox"              :key ?i)
+;          (:maildir "/personal/[Gmail]/Sent Mail"  :key ?s)
+;          (:maildir "/personal/[Gmail]/Trash"      :key ?t)
+;          (:maildir "/personal/[Gmail]/Drafts"     :key ?d)
+;          (:maildir "/personal/[Gmail]/All Mail"   :key ?a)
+;          ;; Work shortcuts
+;          (:maildir "/work/Inbox"                  :key ?I)
+;          (:maildir "/work/[Gmail]/Sent Mail"      :key ?S)
+;          (:maildir "/work/[Gmail]/Trash"          :key ?T)
+;          (:maildir "/work/[Gmail]/Drafts"         :key ?D)
+;          (:maildir "/work/[Gmail]/All Mail"       :key ?A)))
+  
+;  ;; Optional: Set a default context
+;  (setq mu4e-context-policy 'pick-first)
+  
+  ;; Optional: Bookmarks for quick access to both accounts
+;  (setq mu4e-bookmarks
+;        '(;; Personal bookmarks
+;          (:name "Personal Unread" :query "flag:unread AND maildir:/personal/*" :key ?u)
+;          (:name "Personal Today" :query "date:today..now AND maildir:/personal/*" :key ?U)
+;          ;; Work bookmarks  
+;          (:name "Work Unread" :query "flag:unread AND maildir:/work/*" :key ?w)
+;          (:name "Work Today" :query "date:today..now AND maildir:/work/*" :key ?W)
+;          ;; Combined bookmarks
+;          (:name "All Unread" :query "flag:unread" :key ?n)
+;          (:name "All Today" :query "date:today..now" :key ?N))))
+
+#+end_src
+
+* Markdown
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . markdown-mode)
+  :init
+  (setq markdown-command "pandoc"))
+
+#+end_src
+
+* Yasnippets
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package yasnippet
+  :ensure t
+  :init
+  (yas-global-mode 1))
+
+#+end_src
+
+* Eww
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package eww
+  :ensure nil
+  :commands (eww)
+  :bind
+  ( :map eww-mode-map
+    ("S" . nil)
+    ("m" . bookmark-set)
+    :map eww-link-keymap
+    ("v" . nil)
+    :map dired-mode-map
+    ("E" . eww-open-file))
+  :config
+  (setq eww-auto-rename-buffer 'title)
+  (setq eww-header-line-format nil)
+  (setq eww-bookmarks-directory (locate-user-emacs-file "eww-bookmarks/"))
+  (setq eww-history-limit 150)
+  (setq eww-form-checkbox-selected-symbol "[X]")
+  (setq eww-form-checkbox-symbol "[ ]"))
+
+#+end_src
+
+
+* Keybinds
+
+** Which Key
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package which-key
+  :diminish which-key-mode
+  :init
+  (which-key-mode)
+  (which-key-setup-minibuffer)
+  :config
+  (setq which-key-idle-delay 0.3)
+  (setq which-key-prefix-prefix "◉ ")
+  (setq which-key-sort-order 'which-key-key-order-alpha
+        which-key-min-display-lines 3
+        which-key-max-display-columns nil))
+
+#+end_src
+
+* Windows
+
+** Tab Bar Mode
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package tab-bar
+  :ensure nil
+  :config
+  (setq tab-bar-new-button-show nil)
+  (setq tab-bar-close-button-show nil)
+  (setq tab-bar-show 1))
+
+#+end_src
+
+* Parenthesis
+
+** Electric
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package electric
+  :ensure nil
+  :hook
+  (prog-mode . electric-indent-local-mode)
+  :config
+  (electric-pair-mode -1)
+  (electric-quote-mode -1)
+  (electric-indent-mode -1))
+
+#+end_src
+
+* Emacs Popup Windows
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(defun prot-window-delete-popup-frame (&rest _)
+  "Kill selected selected frame if it has parameter `prot-window-popup-frame'.
+Use this function via a hook."
+  (when (frame-parameter nil 'prot-window-popup-frame)
+    (delete-frame)))
+
+(defmacro prot-window-define-with-popup-frame (command)
+  "Define interactive function which calls COMMAND in a new frame.
+Make the new frame have the `prot-window-popup-frame' parameter."
+  `(defun ,(intern (format "prot-window-popup-%s" command)) ()
+     ,(format "Run `%s' in a popup frame with `prot-window-popup-frame' parameter.
+Also see `prot-window-delete-popup-frame'." command)
+     (interactive)
+     (let ((frame (make-frame '((prot-window-popup-frame . t)))))
+       (select-frame frame)
+       (switch-to-buffer " prot-window-hidden-buffer-for-popup-frame")
+       (condition-case nil
+           (call-interactively ',command)
+         ((quit error user-error)
+          (delete-frame frame))))))
+
+(declare-function org-capture "org-capture" (&optional goto keys))
+(defvar org-capture-after-finalize-hook)
+
+;;;###autoload (autoload 'prot-window-popup-org-capture "prot-window")
+(prot-window-define-with-popup-frame org-capture)
+
+(add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame)
+
+(declare-function tmr "tmr" (time &optional description acknowledgep))
+(defvar tmr-timer-created-functions)
+
+;;;###autoload (autoload 'prot-window-popup-tmr "prot-window")
+(prot-window-define-with-popup-frame tmr)
+
+(add-hook 'tmr-timer-created-functions #'prot-window-delete-popup-frame)
+
+#+end_src
+
+* Shell
+
+#+begin_src emacs-lisp
+
+(use-package shell
+  :ensure nil
+  :bind
+  ( :map shell-mode-map
+    ("C-c C-k" . comint-clear-buffer)
+    ("C-c C-w" . comint-write-output))
+  :config
+  ;; Check my .bashrc which handles `comint-terminfo-terminal':
+  ;;
+  ;; # Default pager.  The check for the terminal is useful for Emacs with
+  ;; # M-x shell (which is how I usually interact with bash these days).
+  ;; #
+  ;; # The COLORTERM is documented in (info "(emacs) General Variables").
+  ;; # I found the reference to `dumb-emacs-ansi' in (info "(emacs)
+  ;; # Connection Variables").
+  ;; if [ "$TERM" = "dumb" ] && [ "$INSIDE_EMACS" ] || [ "$TERM" = "dumb-emacs-ansi" ] && [ "$INSIDE_EMACS" ]
+  ;; then
+  ;;     export PAGER="cat"
+  ;;     alias less="cat"
+  ;;     export TERM=dumb-emacs-ansi
+  ;;     export COLORTERM=1
+  ;; else
+  ;;     # Quit once you try to scroll past the end of the file.
+  ;;     export PAGER="less --quit-at-eof"
+  ;; fi
+  (setq shell-command-prompt-show-cwd t) ; Emacs 27.1
+  (setq shell-input-autoexpand 'input)
+  (setq shell-highlight-undef-enable t) ; Emacs 29.1
+  (setq shell-has-auto-cd nil) ; Emacs 29.1
+  (setq shell-get-old-input-include-continuation-lines t) ; Emacs 30.1
+  (setq shell-kill-buffer-on-exit t) ; Emacs 29.1
+  (setq shell-completion-fignore '("~" "#" "%"))
+  (setq tramp-default-remote-shell "/bin/bash")
+
+  (setq shell-font-lock-keywords
+        '(("[ \t]\\([+-][^ \t\n]+\\)" 1 font-lock-builtin-face)
+          ("^[^ \t\n]+:.*" . font-lock-string-face)
+          ("^\\[[1-9][0-9]*\\]" . font-lock-constant-face))))
+
+(use-package prot-shell
+  :ensure nil
+  :bind (("<f1>" . prot-shell)) ; I don't use F1 for help commands
+  :hook (shell-mode . prot-shell-mode))
+
+#+end_src
+
+
+* Auto Tangle to init.el
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+  (defun efs/org-babel-tangle-config ()
+    (when (string-equal (buffer-file-name)
+                        (expand-file-name "~/projects/public/dotfiles/emacs/.emacs.d/init.org"))
+      (let ((org-confirm-babel-evaluate nil))
+        (org-babel-tangle))))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
+#+end_src
+
+* Modules
+
+** prot-simple
+
+#+begin_src emacs-lisp  :tangle "prot-lisp/prot-simple.el" :mkdirp yes
+
+;;; prot-simple.el --- Common commands for my dotemacs -*- lexical-binding: t -*-
+
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
+
+;; Author: Protesilaos Stavrou <info@protesilaos.com>
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "30.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;;
+;; Common commands for my Emacs: <https://protesilaos.com/emacs/dotemacs/>.
+;;
+;; Remember that every piece of Elisp that I write is for my own
+;; educational and recreational purposes.  I am not a programmer and I
+;; do not recommend that you copy any of this if you are not certain of
+;; what it does.
+
+;;; Code:
+
+(eval-when-compile
+  (require 'cl-lib))
+(require 'prot-common)
+
+(defgroup prot-simple ()
+  "Generic utilities for my dotemacs."
+  :group 'editing)
+
+(defcustom prot-simple-date-specifier "%F"
+  "Date specifier for `format-time-string'.
+Used by `prot-simple-inset-date'."
+  :type 'string
+  :group 'prot-simple)
+
+(defcustom prot-simple-time-specifier "%R %z"
+  "Time specifier for `format-time-string'.
+Used by `prot-simple-inset-date'."
+  :type 'string
+  :group 'prot-simple)
+
+;;; Commands
+
+;;;; General commands
+
+;;;###autoload
+(defun prot-simple-sudo ()
+  "Find the current file or directory using `sudo'."
+  (interactive)
+  (let ((destination (or buffer-file-name default-directory))
+        (auto-save-default nil))
+    (if (string= (file-remote-p destination 'method) "sudo")
+        (user-error "Already using `sudo'")
+      (find-file (format "/sudo::/%s" destination)))))
+
+(defun prot-simple--mark (bounds)
+  "Mark between BOUNDS as a cons cell of beginning and end positions."
+  (push-mark (car bounds))
+  (goto-char (cdr bounds))
+  (activate-mark))
+
+;;;###autoload
+(defun prot-simple-mark-sexp ()
+  "Mark symbolic expression at or near point.
+Repeat to extend the region forward to the next symbolic
+expression."
+  (interactive)
+  (if (and (region-active-p)
+           (eq last-command this-command))
+      (ignore-errors (forward-sexp 1))
+    (when-let* ((thing (cond
+                        ((thing-at-point 'url) 'url)
+                        ((thing-at-point 'sexp) 'sexp)
+                        ((thing-at-point 'string) 'string)
+                        ((thing-at-point 'word) 'word))))
+      (prot-simple--mark (bounds-of-thing-at-point thing)))))
+
+;;;###autoload
+(defun prot-simple-keyboard-quit-dwim ()
+  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+
+The generic `keyboard-quit' does not do the expected thing when
+the minibuffer is open.  Whereas we want it to close the
+minibuffer, even without explicitly focusing it.
+
+The DWIM behaviour of this command is as follows:
+
+- When the region is active, disable it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- When the Completions buffer is selected, close it.
+- In every other case use the regular `keyboard-quit'."
+  (interactive)
+  (cond
+   ((region-active-p)
+    (keyboard-quit))
+   ((derived-mode-p 'completion-list-mode)
+    (delete-completion-window))
+   ((> (minibuffer-depth) 0)
+    (abort-recursive-edit))
+   (t
+    (keyboard-quit))))
+
+;; DEPRECATED 2023-12-26: I have not used `prot-simple-describe-symbol'
+;; since a very long time.  The idea is fine, but having a key binding
+;; to provide a shortcut for C-h o RET is wasteful.
+
+;; (autoload 'symbol-at-point "thingatpt")
+;;
+;; ;;;###autoload
+;; (defun prot-simple-describe-symbol ()
+;;   "Run `describe-symbol' for the `symbol-at-point'."
+;;   (interactive)
+;;   (describe-symbol (symbol-at-point)))
+
+;; DEPRECATED 2023-12-26: The `prot-simple-goto-definition' is a good
+;; idea but it needs more work.  Ultimately though, it is easier to
+;; just produce a Help buffer and just go to the source from there by
+;; typing 's'.
+
+;; (declare-function help--symbol-completion-table "help-fns" (string pred action))
+;;
+;; ;;;###autoload
+;; (defun prot-simple-goto-definition (symbol)
+;;   "Prompt for SYMBOL and go to its source.
+;; When called from Lisp, SYMBOL is a string."
+;;   (interactive
+;;    (list
+;;     (completing-read "Go to source of SYMBOL: "
+;;                      #'help--symbol-completion-table
+;;                      nil :require-match)))
+;;   (xref-find-definitions symbol))
+
+;; DEPRECATED 2023-12-26: I have no need for these commands.  I was
+;; just experimenting with a simple implementation.  It is not robust.
+;; I can fix it, but I will still not use it, so I am deprecating it
+;; instead.
+
+;; (autoload 'number-at-point "thingatpt")
+;;
+;; (defun prot-simple--number-operate (number amount operation)
+;;   "Perform OPERATION on NUMBER given AMOUNT and return the result.
+;; OPERATION is the keyword `:increment' or `:decrement' to perform
+;; `1+' or `1-', respectively."
+;;   (when (and (numberp number) (numberp amount))
+;;     (let ((fn (pcase operation
+;;                 (:increment #'+)
+;;                 (:decrement #'-)
+;;                 (_ (user-error "Unknown operation `%s' for number `%s'" operation number)))))
+;;       (funcall fn number amount))))
+;;
+;; (defun prot-simple--number-replace (number amount operation)
+;;   "Perform OPERATION on NUMBER at point by AMOUNT."
+;;   (when-let* ((bounds (bounds-of-thing-at-point 'number))
+;;               (replacement (prot-simple--number-operate number amount operation)))
+;;     (delete-region (car bounds) (cdr bounds))
+;;     (save-excursion
+;;       (insert (number-to-string replacement)))))
+;;
+;; ;;;###autoload
+;; (defun prot-simple-number-increment (number amount)
+;;   "Increment NUMBER by AMOUNT.
+;; When called interactively, NUMBER is the one at point, while
+;; AMOUNT is either 1 or that of a number prefix argument."
+;;   (interactive
+;;    (list
+;;     (number-at-point)
+;;     (prefix-numeric-value current-prefix-arg)))
+;;   (prot-simple--number-replace number amount :increment))
+;;
+;; ;;;###autoload
+;; (defun prot-simple-number-decrement (number amount)
+;;   "Decrement NUMBER by AMOUNT.
+;; When called interactively, NUMBER is the one at point, while
+;; AMOUNT is either 1 or that of a number prefix argument."
+;;   (interactive
+;;    (list
+;;     (number-at-point)
+;;     (prefix-numeric-value current-prefix-arg)))
+;;   (prot-simple--number-replace number amount :decrement))
+
+;;;; Commands for lines
+
+;;;###autoload
+(defun prot-simple-new-line-below (n)
+  "Create N empty lines below the current one.
+When called interactively without a prefix numeric argument, N is
+1."
+  (interactive "p")
+  (goto-char (line-end-position))
+  (dotimes (_ n) (insert "\n")))
+
+;;;###autoload
+(defun prot-simple-new-line-above (n)
+  "Create N empty lines above the current one.
+When called interactively without a prefix numeric argument, N is
+1."
+  (interactive "p")
+  (let ((point-min (point-min)))
+    (if (or (bobp)
+            (eq (point) point-min)
+            (eq (line-number-at-pos point-min) 1))
+        (progn
+          (goto-char (line-beginning-position))
+          (dotimes (_ n) (insert "\n"))
+          (forward-line (- n)))
+      (forward-line (- n))
+      (prot-simple-new-line-below n))))
+
+;;;###autoload
+(defun prot-simple-copy-line ()
+  "Copy the current line to the `kill-ring'."
+  (interactive)
+  (copy-region-as-kill (line-beginning-position) (line-end-position)))
+
+(make-obsolete 'prot-simple-copy-line-or-region 'prot-simple-copy-line "2023-09-26")
+
+;;;###autoload
+(defun prot-simple-kill-ring-save (&optional beg end)
+  "Copy the current region or line.
+When the region is active, use `kill-ring-save' between the BEG and END
+positions.  Otherwise, copy the current line."
+  ;; NOTE 2025-02-23: Using (interactive "r") returns an error before
+  ;; running the body of this function if there is no mark.  This
+  ;; happens when visiting a file.
+  (interactive
+   (when (region-active-p)
+     (list
+      (region-beginning)
+      (region-end))))
+  (if (and beg end)
+      (copy-region-as-kill beg end)
+    (prot-simple-copy-line))
+  (setq this-command 'kill-ring-save))
+
+;;;###autoload
+(defun prot-simple-kill-region (&optional beg end)
+  "Do `kill-region' when the region is active, else `kill-ring-save' symbol at point."
+  (interactive
+   (when (region-active-p)
+     (list
+      (region-beginning)
+      (region-end))))
+  (if (and beg end)
+      (kill-region beg end)
+    (prot-simple-mark-sexp)
+    (copy-region-as-kill (region-beginning) (region-end)))
+  (setq this-command 'kill-ring-save))
+
+(defun prot-simple--duplicate-buffer-substring (boundaries)
+  "Duplicate buffer substring between BOUNDARIES.
+BOUNDARIES is a cons cell representing buffer positions."
+  (unless (consp boundaries)
+    (error "`%s' is not a cons cell" boundaries))
+  (let ((beg (car boundaries))
+        (end (cdr boundaries)))
+    (goto-char end)
+    (newline)
+    (insert (buffer-substring-no-properties beg end))))
+
+;;;###autoload
+(defun prot-simple-duplicate-line-or-region ()
+  "Duplicate the current line or active region."
+  (interactive)
+  (unless mark-ring                  ; needed when entering a new buffer
+    (push-mark (point) t nil))
+  (prot-simple--duplicate-buffer-substring
+   (if (region-active-p)
+       (cons (region-beginning) (region-end))
+     (cons (line-beginning-position) (line-end-position))))
+  (setq this-command 'yank))
+
+;;;###autoload
+(defun prot-simple-yank-replace-line-or-region ()
+  "Replace line or region with latest kill.
+This command can then be followed by the standard
+`yank-pop' (default is bound to \\[yank-pop])."
+  (interactive)
+  (if (use-region-p)
+      (delete-region (region-beginning) (region-end))
+    (delete-region (line-beginning-position) (line-end-position)))
+  (yank)
+  (setq this-command 'yank))
+
+;;;###autoload
+(defun prot-simple-multi-line-below ()
+  "Move half a screen below."
+  (interactive)
+  (forward-line (floor (window-height) 2))
+  (setq this-command 'scroll-up-command))
+
+;;;###autoload
+(defun prot-simple-multi-line-above ()
+  "Move half a screen above."
+  (interactive)
+  (forward-line (- (floor (window-height) 2)))
+  (setq this-command 'scroll-down-command))
+
+;;;###autoload
+(defun prot-simple-kill-line-backward ()
+  "Kill from point to the beginning of the line."
+  (interactive)
+  (kill-line 0)
+  (setq this-command 'kill-line))
+
+;;;###autoload
+(defun prot-simple-copy-line-forward (n)
+  "Copy from point to the end of the Nth line.
+Without numeric prefix argument N, operate on the current line."
+  (interactive "p")
+  (let ((point (point))
+        (end (line-end-position n))
+        (max (point-max)))
+    (copy-region-as-kill
+     point
+     (if (> end max)
+         max
+       end)))
+  (setq this-command 'kill-ring-save))
+
+;;;###autoload
+(defun prot-simple-copy-line-backward (n)
+  "Copy from point to the beginning of the Nth line.
+Without numeric prefix argument N, operate on the current line."
+  (interactive "p")
+  (let ((point (point))
+        (beg (line-beginning-position n))
+        (min (point-min)))
+    (copy-region-as-kill
+     point
+     (if (< beg min)
+         min
+       beg)))
+  (setq this-command 'kill-ring-save))
+
+;;;###autoload
+(defun prot-simple-delete-line ()
+  "Delete (not kill) from point to the end of the line."
+  (interactive)
+  (let* ((point (point))
+         (end (line-end-position))
+         (end+ (+ end 1)))
+    (cond
+     ((> end+ (point-max)) (delete-region point end))
+     ((= point end) (delete-region point end+))
+     (t (delete-region point end))))
+  (setq this-command 'delete-region))
+
+;;;###autoload
+(defun prot-simple-delete-line-backward ()
+  "Delete (not kill) from point to the beginning of the line."
+  (interactive)
+  (let* ((point (point))
+         (beg (line-beginning-position))
+         (beg- (- beg 1)))
+    (cond
+     ((< beg- (point-min)) (delete-region beg point))
+     ((= point beg) (delete-region beg- point))
+     (t (delete-region beg point))))
+  (setq this-command 'delete-region))
+
+;;;###autoload
+(define-minor-mode prot-simple-auto-fill-visual-line-mode
+  "Enable `visual-line-mode' and disable `auto-fill-mode' in the current buffer."
+  :global nil
+  (if prot-simple-auto-fill-visual-line-mode
+      (progn
+        (auto-fill-mode -1)
+        (visual-line-mode 1))
+    (auto-fill-mode 1)
+    (visual-line-mode -1)))
+
+;;;; Commands for text insertion or manipulation
+
+;;;###autoload
+(defun prot-simple-insert-date (&optional arg)
+  "Insert the current date as `prot-simple-date-specifier'.
+
+With optional prefix ARG (\\[universal-argument]) also append the
+current time understood as `prot-simple-time-specifier'.
+
+When region is active, delete the highlighted text and replace it
+with the specified date."
+  (interactive "P")
+  (let* ((date prot-simple-date-specifier)
+         (time prot-simple-time-specifier)
+         (format (if arg (format "%s %s" date time) date)))
+    (when (use-region-p)
+      (delete-region (region-beginning) (region-end)))
+    (insert (format-time-string format))))
+
+(defun prot-simple--pos-url-on-line (char)
+  "Return position of `prot-common-url-regexp' at CHAR."
+  (when (integer-or-marker-p char)
+    (save-excursion
+      (goto-char char)
+      (re-search-forward prot-common-url-regexp (line-end-position) :noerror))))
+
+;;;###autoload
+(defun prot-simple-escape-url-line (char)
+  "Escape all URLs or email addresses on the current line.
+When called from Lisp CHAR is a buffer position to operate from
+until the end of the line.  In interactive use, CHAR corresponds
+to `line-beginning-position'."
+  (interactive
+   (list
+    (if current-prefix-arg
+        (re-search-forward
+         prot-common-url-regexp
+         (line-end-position) :no-error
+         (prefix-numeric-value current-prefix-arg))
+      (line-beginning-position))))
+  (when-let* ((regexp-end (prot-simple--pos-url-on-line char)))
+    (goto-char regexp-end)
+    (unless (looking-at ">")
+      (insert ">")
+      (when (search-backward "\s" (line-beginning-position) :noerror)
+        (forward-char 1))
+      (insert "<"))
+    (prot-simple-escape-url-line (1+ regexp-end)))
+  (goto-char (line-end-position)))
+
+;; Thanks to Bruno Boal for the original `prot-simple-escape-url-region'.
+;; Check Bruno's Emacs config: <https://github.com/BBoal/emacs-config>.
+
+;;;###autoload
+(defun prot-simple-escape-url-region (&optional beg end)
+  "Apply `prot-simple-escape-url-line' on region lines between BEG and END."
+  (interactive
+   (if (region-active-p)
+       (list (region-beginning) (region-end))
+     (error "There is no region!")))
+  (let ((beg (min beg end))
+        (end (max beg end)))
+    (save-excursion
+      (goto-char beg)
+      (setq beg (line-beginning-position))
+      (while (<= beg end)
+        (prot-simple-escape-url-line beg)
+        (beginning-of-line 2)
+        (setq beg (point))))))
+
+;;;###autoload
+(defun prot-simple-escape-url-dwim ()
+  "Escape URL on the current line or lines implied by the active region.
+Call the commands `prot-simple-escape-url-line' and
+`prot-simple-escape-url-region' ."
+  (interactive)
+  (if (region-active-p)
+      (prot-simple-escape-url-region (region-beginning) (region-end))
+    (prot-simple-escape-url-line (line-beginning-position))))
+
+;;;###autoload
+(defun prot-simple-zap-to-char-backward (char &optional arg)
+  "Backward `zap-to-char' for CHAR.
+Optional ARG is a numeric prefix to match ARGth occurance of
+CHAR."
+  (interactive
+   (list
+    (read-char-from-minibuffer "Zap to char: " nil 'read-char-history)
+    (prefix-numeric-value current-prefix-arg)))
+  (zap-to-char (- arg) char t))
+
+(defvar prot-simple-flush-and-diff-history nil
+  "Minibuffer history for `prot-simple-flush-and-diff'.")
+
+;;;###autoload
+(defun prot-simple-flush-and-diff (regexp beg end)
+  "Call `flush-lines' for REGEXP and produce diff if file is modified.
+When region is active, operate between the region boundaries
+demarcated by BEG and END."
+  (interactive
+   (let ((regionp (region-active-p)))
+     (list
+      (read-regexp "Flush lines using REGEXP: " nil 'prot-simple-flush-and-diff-history)
+      (and regionp (region-beginning))
+      (and regionp (region-end)))))
+  (flush-lines regexp (or beg (point-min)) (or end (point-max)) :no-message)
+  (when (and (buffer-modified-p) buffer-file-name)
+    (diff-buffer-with-file (current-buffer))))
+
+;; FIXME 2023-09-28: The line prefix is problematic.  I plan to rewrite it.
+
+;; (defcustom prot-simple-line-prefix-strings '(">" "+" "-")
+;;   "List of strings used as line prefixes.
+;; The command which serves as the point of entry is
+;; `prot-simple-insert-line-prefix'."
+;;   :type '(repeat string)
+;;   :group 'prot-simple)
+;;
+;; (defun prot-simple--line-prefix-regexp (&optional string)
+;;   "Format regular expression for `prot-simple--line-prefix-p'.
+;; With optional STRING use it directly.  Else format the regexp by
+;; concatenating `prot-simple-line-prefix-strings'."
+;;   (if string
+;;       (format "^%s " string)
+;;     (format "^[%s] " (apply #'concat prot-simple-line-prefix-strings))))
+;;
+;; (defun prot-simple--line-prefix-p (&optional string)
+;;   "Return non-nil if line beginning has an appropriate string prefix.
+;; With optional STRING test that it is at the beginning of the line."
+;;   (save-excursion
+;;     (goto-char (line-beginning-position))
+;;     (looking-at (prot-simple--line-prefix-regexp string))))
+;;
+;; (defun prot-simple--line-prefix-insert (string)
+;;   "Insert STRING at the beginning of the line, followed by a space."
+;;   (save-excursion
+;;     (goto-char (line-beginning-position))
+;;     (insert string)
+;;     (insert " ")))
+;;
+;; (defun prot-simple--line-prefix-infer-string ()
+;;   "Return line prefix string if it matches `prot-simple--line-prefix-p'."
+;;   (when (prot-simple--line-prefix-p)
+;;     (string-trim
+;;      (buffer-substring-no-properties (match-beginning 0) (match-end 0)))))
+;;
+;; (defun prot-simple--line-prefix-toggle (string)
+;;   "Insert or remove STRING at the beginning of the line."
+;;   (if (prot-simple--line-prefix-p string)
+;;       (delete-region (match-beginning 0) (match-end 0))
+;;     (prot-simple--line-prefix-insert string)))
+;;
+;; (defvar prot-simple--line-prefix-history nil
+;;   "Minibuffer history of `prot-simple--line-prefix-prompt'.")
+;;
+;; (defun prot-simple--line-prefix-prompt ()
+;;   "Prompt for string to use as line prefix.
+;; Provide `prot-simple-line-prefix-strings' as completion
+;; candidates, though accept arbitrary input."
+;;   (let ((default (car prot-simple--line-prefix-history)))
+;;     (completing-read
+;;      (format-prompt "Select line prefix" default)
+;;      prot-simple-line-prefix-strings
+;;      nil nil nil
+;;      'prot-simple--line-prefix-history default)))
+;;
+;; (defun prot-simple-line-prefix-infer-or-prompt ()
+;;   "Infer string for line prefix or prompt for one."
+;;   (or (prot-simple--line-prefix-infer-string)
+;;       (prot-simple--line-prefix-prompt)))
+;;
+;; ;;;###autoload
+;; (defun prot-simple-insert-line-prefix-dwim (string)
+;;   "Toggle presence of STRING at the beginning of the line.
+;;
+;; When called interactively try to infer STRING based on the line
+;; prefix.  If one is found among `prot-simple-line-prefix-strings',
+;; perform a removal outright.
+;;
+;; If no string can be inferred, prompt for STRING among
+;; `prot-simple-line-prefix-strings'.  Accept arbitrary strings at
+;; the prompt.
+;;
+;; When the region is active, toggle the presence of STRING for each
+;; line in the region."
+;;   (interactive (list (prot-simple-line-prefix-infer-or-prompt)))
+;;   (if-let* ((region-p (region-active-p))
+;;             (beg (region-beginning))
+;;             (end (line-number-at-pos (region-end))))
+;;       (progn
+;;         (goto-char beg)
+;;         (push-mark (point))
+;;         (while (<= (line-number-at-pos (point)) end)
+;;           (prot-simple--line-prefix-toggle string)
+;;           (forward-line 1)))
+;;     (prot-simple--line-prefix-toggle string)))
+
+;;;; Commands for object transposition
+
+;; The "move" functions all the way to `prot-simple-move-below-dwim'
+;; are courtesy of Bruno Boal: <https://git.sr.ht/~bboal>.  With minor
+;; tweaks by me.
+(defun prot-simple--move-line (count dir)
+  "Move line or region COUNTth times in DIR direction."
+  (let* ((start (pos-bol))
+         (end (pos-eol))
+         diff-eol-point
+         diff-eol-mark)
+    (when-let* (((use-region-p))
+                (pos (point))
+                (mrk (mark))
+                (line-diff-mark-point (1+ (- (line-number-at-pos mrk)
+                                             (line-number-at-pos pos)))))
+      (if (> pos mrk)
+          (setq start (pos-bol line-diff-mark-point)) ; pos-bol of where the mark is
+        (setq end (pos-eol line-diff-mark-point)))    ; pos-eol of the line where the mark is
+      (setq diff-eol-mark (1+ (- end mrk))))          ; 1+ to get the \n
+    ;; this is valid for region or a single line
+    (setq diff-eol-point (1+ (- end (point))))
+    (let* ((max (point-max))
+           (end (1+ end))
+           (end (if (> end max) max end))
+           (deactivate-mark)
+           (lines (delete-and-extract-region start end)))
+      (forward-line (* count dir))
+      ;; Handle the special case when there isn't a newline as the eob.
+      (when (and (eq (point) max)
+                 (/= (current-column) 0))
+        (insert "\n"))
+      (insert lines)
+      ;; if user provided a region
+      (when diff-eol-mark
+        (set-mark (- (point) diff-eol-mark)))
+      ;; either way go to same point location reference initial motion
+      (goto-char (- (point) diff-eol-point)))))
+
+(defun prot-simple--move-line-user-error (boundary)
+  "Return `user-error' with message accounting for BOUNDARY.
+BOUNDARY is a buffer position, expected to be `point-min' or `point-max'."
+  (when-let* ((bound (line-number-at-pos boundary))
+              (scope (cond
+                      ((and (use-region-p)
+                            (or (= (line-number-at-pos (point)) bound)
+                                (= (line-number-at-pos (mark)) bound)))
+                       "region is ")
+                      ((= (line-number-at-pos (point)) bound)
+                       "")
+                      (t nil))))
+    (user-error (format "Warning: %salready in the last line!" scope))))
+
+(defun prot-simple-move-above-dwim (arg)
+  "Move line or region ARGth times up.
+If ARG is nil, do it one time."
+  (interactive "p")
+  (unless (prot-simple--move-line-user-error (point-min))
+    (prot-simple--move-line arg -1)))
+
+(defun prot-simple-move-below-dwim (arg)
+  "Move line or region ARGth times down.
+If ARG is nil, do it one time."
+  (interactive "p")
+  (unless (prot-simple--move-line-user-error (point-max))
+    (prot-simple--move-line arg 1)))
+
+(defmacro prot-simple-define-transpose (scope)
+  "Define transposition command for SCOPE.
+SCOPE is the text object to operate on.  The command's name is
+prot-simple-transpose-SCOPE."
+  `(defun ,(intern (format "prot-simple-transpose-%s" scope)) (arg)
+     ,(format "Transpose %s.
+Transposition over an active region will swap the object at
+the region beginning with the one at the region end." scope)
+     (interactive "p")
+     (let ((fn (intern (format "%s-%s" "transpose" ,scope))))
+       (if (use-region-p)
+           (funcall fn 0)
+         (funcall fn arg)))))
+
+;;;###autoload (autoload 'prot-simple-transpose-lines "prot-simple")
+;;;###autoload (autoload 'prot-simple-transpose-paragraphs "prot-simple")
+;;;###autoload (autoload 'prot-simple-transpose-sentences "prot-simple")
+;;;###autoload (autoload 'prot-simple-transpose-sexps "prot-simple")
+;;;###autoload (autoload 'prot-simple-transpose-words "prot-simple")
+(prot-simple-define-transpose "lines")
+(prot-simple-define-transpose "paragraphs")
+(prot-simple-define-transpose "sentences")
+(prot-simple-define-transpose "sexps")
+(prot-simple-define-transpose "words")
+
+;;;###autoload
+(defun prot-simple-transpose-chars ()
+  "Always transposes the two characters before point.
+There is no dragging the character forward.  This is the
+behaviour of `transpose-chars' when point is at the end of the
+line."
+  (interactive)
+  (if (eq (point) (line-end-position))
+      (transpose-chars 1)
+    (transpose-chars -1)
+    (forward-char)))
+
+;;;; Commands for paragraphs
+
+;;;###autoload
+(defun prot-simple-unfill-region-or-paragraph (&optional beg end)
+  "Unfill paragraph or, when active, the region.
+Join all lines in region delimited by BEG and END, if active,
+while respecting any empty lines (so multiple paragraphs are not
+joined, just unfilled).  If no region is active, operate on the
+paragraph.  The idea is to produce the opposite effect of both
+`fill-paragraph' and `fill-region'."
+  (interactive "r")
+  (let ((fill-column most-positive-fixnum))
+    (if (use-region-p)
+        (fill-region beg end)
+      (fill-paragraph))))
+
+;;;; Commands for windows and pages
+
+;;;###autoload
+(defun prot-simple-other-window ()
+  "Wrapper for `other-window' and `next-multiframe-window'.
+If there is only one window and multiple frames, call
+`next-multiframe-window'.  Otherwise, call `other-window'."
+  (interactive)
+  (if (and (one-window-p) (length> (frame-list) 1))
+      (progn
+        (call-interactively #'next-multiframe-window)
+        (setq this-command #'next-multiframe-window))
+    (call-interactively #'other-window)
+    (setq this-command #'other-window)))
+
+;;;###autoload
+(defun prot-simple-narrow-visible-window ()
+  "Narrow buffer to wisible window area.
+Also check `prot-simple-narrow-dwim'."
+  (interactive)
+  (let* ((bounds (prot-common-window-bounds))
+         (window-area (- (cdr bounds) (car bounds)))
+         (buffer-area (- (point-max) (point-min))))
+    (if (/= buffer-area window-area)
+        (narrow-to-region (car bounds) (cdr bounds))
+      (user-error "Buffer fits in the window; won't narrow"))))
+
+;;;###autoload
+(defun prot-simple-narrow-dwim ()
+  "Do-what-I-mean narrowing.
+If region is active, narrow the buffer to the region's
+boundaries.
+
+If pages are defined by virtue of `prot-common-page-p', narrow to
+the current page boundaries.
+
+If no region is active and no pages exist, narrow to the visible
+portion of the window.
+
+If narrowing is in effect, widen the view."
+  (interactive)
+  (unless mark-ring                  ; needed when entering a new buffer
+    (push-mark (point) t nil))
+  (cond
+   ((and (use-region-p)
+         (null (buffer-narrowed-p)))
+    (narrow-to-region (region-beginning) (region-end)))
+   ((prot-common-page-p)
+    (narrow-to-page))
+   ((null (buffer-narrowed-p))
+    (prot-simple-narrow-visible-window))
+   ((widen))))
+
+(defun prot-simple--narrow-to-page (count &optional back)
+  "Narrow to COUNTth page with optional BACK motion."
+  (if back
+      (narrow-to-page (or (- count) -1))
+    (narrow-to-page (or (abs count) 1)))
+  ;; Avoids the problem of skipping pages while cycling back and forth.
+  (goto-char (point-min)))
+
+;;;###autoload
+(defun prot-simple-forward-page-dwim (&optional count)
+  "Move to next or COUNTth page forward.
+If buffer is narrowed to the page, keep the effect while
+performing the motion.  Always move point to the beginning of the
+narrowed page."
+  (interactive "p")
+  (if (buffer-narrowed-p)
+      (prot-simple--narrow-to-page count)
+    (forward-page count)
+    (setq this-command 'forward-page)))
+
+;;;###autoload
+(defun prot-simple-backward-page-dwim (&optional count)
+  "Move to previous or COUNTth page backward.
+If buffer is narrowed to the page, keep the effect while
+performing the motion.  Always move point to the beginning of the
+narrowed page."
+  (interactive "p")
+  (if (buffer-narrowed-p)
+      (prot-simple--narrow-to-page count t)
+    (backward-page count)
+    (setq this-command 'backward-page)))
+
+;;;###autoload
+(defun prot-simple-delete-page-delimiters (&optional beg end)
+  "Delete lines with just page delimiters in the current buffer.
+When region is active, only operate on the region between BEG and
+END, representing the point and mark."
+  (interactive "r")
+  (let (b e)
+    (if (use-region-p)
+        (setq b beg
+              e end)
+      (setq b (point-min)
+            e (point-max)))
+    (widen)
+    (flush-lines (format "%s$" page-delimiter) b e)
+    (setq this-command 'flush-lines)))
+
+;; NOTE 2023-06-18: The idea of narrowing to a defun in an indirect
+;; buffer is still experimental.
+(defun prot-simple-narrow--guess-defun-symbol ()
+  "Try to return symbol of current defun as a string."
+  (save-excursion
+    (beginning-of-defun)
+    (search-forward " ")
+    (thing-at-point 'symbol :no-properties)))
+
+;;;###autoload
+(defun prot-simple-narrow-to-cloned-buffer ()
+  "Narrow to defun in cloned buffer.
+Name the buffer after the defun's symbol."
+  (interactive)
+  (clone-indirect-buffer-other-window
+   (format "%s -- %s"
+           (buffer-name)
+           (prot-simple-narrow--guess-defun-symbol))
+   :display)
+  (narrow-to-defun))
+
+;;;; Commands for buffers
+
+(defun prot-simple--display-unsaved-buffers (buffers buffer-menu-name)
+  "Produce buffer menu listing BUFFERS called BUFFER-MENU-NAME."
+  (let ((old-buf (current-buffer))
+        (buf (get-buffer-create buffer-menu-name)))
+    (with-current-buffer buf
+      (Buffer-menu-mode)
+      (setq-local Buffer-menu-files-only nil
+                  Buffer-menu-buffer-list buffers
+                  Buffer-menu-filter-predicate nil)
+      (list-buffers--refresh buffers old-buf)
+      (tabulated-list-print))
+    (display-buffer buf)))
+
+(defun prot-simple--get-unsaved-buffers ()
+  "Get list of unsaved buffers."
+  (seq-filter
+   (lambda (buffer)
+     (and (buffer-file-name buffer)
+          (buffer-modified-p buffer)))
+   (buffer-list)))
+
+;;;###autoload
+(defun prot-simple-display-unsaved-buffers ()
+  "Produce buffer menu listing unsaved file-visiting buffers."
+  (interactive)
+  (if-let* ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
+      (prot-simple--display-unsaved-buffers unsaved-buffers "*Unsaved buffers*")
+    (message "No unsaved buffers")))
+
+(defun prot-simple-display-unsaved-buffers-on-exit (&rest _)
+  "Produce buffer menu listing unsaved file-visiting buffers.
+Add this as :before advice to `save-buffers-kill-emacs'."
+  (when-let* ((unsaved-buffers (prot-simple--get-unsaved-buffers)))
+    (prot-simple--display-unsaved-buffers unsaved-buffers "*Unsaved buffers*")))
+
+;;;###autoload
+(defun prot-simple-copy-current-buffer-name ()
+  "Add the current buffer's name to the `kill-ring'."
+  (declare (interactive-only t))
+  (interactive)
+  (kill-new (buffer-name (current-buffer))))
+
+;;;###autoload
+(defun prot-simple-copy-current-buffer-file ()
+  "Add the current buffer's file path to the `kill-ring'."
+  (declare (interactive-only t))
+  (interactive)
+  (if buffer-file-name
+      (kill-new buffer-file-name)
+    (user-error "%s is not associated with a file" (buffer-name (current-buffer)))))
+
+;;;###autoload
+(defun prot-simple-kill-buffer (buffer)
+  "Kill current BUFFER without confirmation.
+When called interactively, prompt for BUFFER."
+  (interactive (list (read-buffer "Select buffer: ")))
+  (let ((kill-buffer-query-functions nil))
+    (kill-buffer (or buffer (current-buffer)))))
+
+;;;###autoload
+(defun prot-simple-kill-buffer-current (&optional arg)
+  "Kill current buffer.
+With optional prefix ARG (\\[universal-argument]) delete the
+buffer's window as well.  Kill the window regardless of ARG if it
+satisfies `prot-common-window-small-p' and it has no previous
+buffers in its history."
+  (interactive "P")
+  (let ((kill-buffer-query-functions nil))
+    (if (or (and (prot-common-window-small-p)
+                 (null (window-prev-buffers)))
+            (and arg (not (one-window-p))))
+        (kill-buffer-and-window)
+      (kill-buffer))))
+
+;;;###autoload
+(defun prot-simple-rename-file-and-buffer (name)
+  "Apply NAME to current file and rename its buffer.
+Do not try to make a new directory or anything fancy."
+  (interactive
+   (list (read-string "Rename current file: " (buffer-file-name))))
+  (let ((file (buffer-file-name)))
+    (if (vc-registered file)
+        (vc-rename-file file name)
+      (rename-file file name))
+    (set-visited-file-name name t t)))
+
+(defun prot-simple--buffer-major-mode-prompt ()
+  "Prompt of `prot-simple-buffers-major-mode'.
+Limit list of buffers to those matching the current
+`major-mode' or its derivatives."
+  (let ((read-buffer-function nil)
+        (current-major-mode major-mode))
+    (read-buffer
+     (format "Buffer for %s: " major-mode)
+     nil
+     :require-match
+     (lambda (pair) ; pair is (name-string . buffer-object)
+       (with-current-buffer (cdr pair)
+         (derived-mode-p current-major-mode))))))
+
+;;;###autoload
+(defun prot-simple-buffers-major-mode ()
+  "Select BUFFER matching the current one's major mode."
+  (interactive)
+  (switch-to-buffer (prot-simple--buffer-major-mode-prompt)))
+
+(defun prot-simple--buffer-vc-root-prompt ()
+  "Prompt of `prot-simple-buffers-vc-root'."
+  (let ((root (or (vc-root-dir)
+                  (locate-dominating-file "." ".git")))
+        (read-buffer-function nil))
+    (read-buffer
+     (format "Buffers in %s: " root)
+     nil t
+     (lambda (pair) ; pair is (name-string . buffer-object)
+       (with-current-buffer (cdr pair) (string-match-p root default-directory))))))
+
+;;;###autoload
+(defun prot-simple-buffers-vc-root ()
+  "Select buffer matching the current one's VC root."
+  (interactive)
+  (switch-to-buffer (prot-simple--buffer-vc-root-prompt)))
+
+;;;###autoload
+(defun prot-simple-swap-window-buffers (counter)
+  "Swap states of live buffers.
+With two windows, transpose their buffers.  With more windows,
+perform a clockwise rotation.  Do not alter the window layout.
+Just move the buffers around.
+
+With COUNTER as a prefix argument, do the rotation
+counter-clockwise."
+  (interactive "P")
+  (when-let* ((winlist (if counter (reverse (window-list)) (window-list)))
+              (wincount (count-windows))
+              ((> wincount 1)))
+    (dotimes (i (- wincount 1))
+      (window-swap-states (elt winlist i) (elt winlist (+ i 1))))))
+
+;;;; Commands for files
+
+(cl-defmethod register--type ((_regval vector)) 'vector)
+
+(cl-defmethod register-val-describe ((val vector) _verbose)
+  (if-let* ((pos (aref val 2))
+            (file (aref val 1)))
+      (princ (format "%s at position %s" file pos))
+    (princ "Garbage data")))
+
+;;;###autoload
+(defun prot-simple-file-to-register (register)
+  "Store current location of file's point in REGISTER."
+  (interactive (list (register-read-with-preview "File with point to register: ")))
+  (set-register register (vector 'file-with-point (buffer-file-name) (point))))
+
+(defvar prot-simple-file-to-register-jump-hook nil
+  "Normal hook called after jumping to a file register.
+See `prot-simple-file-to-register'.")
+
+;;;###autoload
+(cl-defmethod register-val-jump-to ((val vector) delete)
+  "Handle how to jump to a location register.
+This is like the default, but does not ask to visit a file: it does it
+outright."
+  (cond
+   ((eq (aref val 0) 'file-with-point)
+    (find-file (aref val 1))
+    (goto-char (aref val 2))
+    (run-hooks 'prot-simple-file-to-register-jump-hook))
+   (t (cl-call-next-method val delete))))
+
+;;;; Commands of a general nature
+
+(autoload 'color-rgb-to-hex "color")
+(autoload 'color-name-to-rgb "color")
+
+(defun prot-simple-accessible-colors (variant)
+  "Return list of accessible `defined-colors'.
+VARIANT is either `dark' or `light'."
+  (let ((variant-color (if (eq variant 'black) "#000000" "#ffffff")))
+    (seq-filter
+     (lambda (c)
+       (let* ((rgb (color-name-to-rgb c))
+              (r (nth 0 rgb))
+              (g (nth 1 rgb))
+              (b (nth 2 rgb))
+              (hex (color-rgb-to-hex r g b 2)))
+         (when (>= (prot-common-contrast variant-color hex) 4.5)
+           c)))
+     (defined-colors))))
+
+(defun prot-simple--list-accessible-colors-prompt ()
+  "Use `read-multiple-choice' to return white or black background."
+  (intern
+   (cadr
+    (read-multiple-choice
+     "Variant"
+     '((?b "black" "Black background")
+       (?w "white" "White background"))
+     "Choose between white or black background."))))
+
+;;;###autoload
+(defun prot-simple-list-accessible-colors (variant)
+  "Return buffer with list of accessible `defined-colors'.
+VARIANT is either `dark' or `light'."
+  (interactive (list (prot-simple--list-accessible-colors-prompt)))
+  (list-colors-display (prot-simple-accessible-colors variant)))
+
+;;;; Global minor mode to override key maps
+
+(defvar prot-simple-override-mode-map (make-sparse-keymap)
+  "Key map of `prot-simple-override-mode'.
+Enable that mode to have its key bindings take effect over those of the
+major mode.")
+
+(define-minor-mode prot-simple-override-mode
+  "Enable the `prot-simple-override-mode-map'."
+  :init-value nil
+  :global t
+  :keymap prot-simple-override-mode-map)
+
+(provide 'prot-simple)
+;;; prot-simple.el ends here
+
+#+end_src
+
+** Prot-common
+
+#+begin_src emacs-lisp :tangle "prot-lisp/prot-common.el" :mkdirp yes
+;;; prot-common.el --- Common functions for my dotemacs -*- lexical-binding: t -*-
+
+;; Copyright (C) 2020-2025  Protesilaos Stavrou
+
+;; Author: Protesilaos Stavrou <info@protesilaos.com>
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "30.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or (at
+;; your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;;
+;; Common functions for my Emacs: <https://protesilaos.com/emacs/dotemacs/>.
+;;
+;; Remember that every piece of Elisp that I write is for my own
+;; educational and recreational purposes.  I am not a programmer and I
+;; do not recommend that you copy any of this if you are not certain of
+;; what it does.
+
+;;; Code:
+
+(eval-when-compile
+  (require 'subr-x)
+  (require 'cl-lib))
+
+(defgroup prot-common ()
+  "Auxiliary functions for my dotemacs."
+  :group 'editing)
+
+;;;###autoload
+(defun prot-common-number-even-p (n)
+  "Test if N is an even number."
+  (if (numberp n)
+      (= (% n 2) 0)
+    (error "%s is not a number" n)))
+
+;;;###autoload
+(defun prot-common-number-integer-p (n)
+  "Test if N is an integer."
+  (if (integerp n)
+      n
+    (error "%s is not an integer" n)))
+
+;;;###autoload
+(defun prot-common-number-integer-positive-p (n)
+  "Test if N is a positive integer."
+  (if (prot-common-number-integer-p n)
+      (> n 0)
+    (error "%s is not a positive integer" n)))
+
+;; Thanks to Gabriel for providing a cleaner version of
+;; `prot-common-number-negative': <https://github.com/gabriel376>.
+;;;###autoload
+(defun prot-common-number-negative (n)
+  "Make N negative."
+  (if (and (numberp n) (> n 0))
+      (* -1 n)
+    (error "%s is not a valid positive number" n)))
+
+;;;###autoload
+(defun prot-common-reverse-percentage (number percent change-p)
+  "Determine the original value of NUMBER given PERCENT.
+
+CHANGE-P should specify the increase or decrease.  For simplicity,
+nil means decrease while non-nil stands for an increase.
+
+NUMBER must satisfy `numberp', while PERCENT must be `natnump'."
+  (unless (numberp number)
+    (user-error "NUMBER must satisfy numberp"))
+  (unless (natnump percent)
+    (user-error "PERCENT must satisfy natnump"))
+  (let* ((pc (/ (float percent) 100))
+         (pc-change (if change-p (+ 1 pc) pc))
+         (n (if change-p pc-change (float (- 1 pc-change)))))
+    ;; FIXME 2021-12-21: If float, round to 4 decimal points.
+    (/ number n)))
+
+;;;###autoload
+(defun prot-common-percentage-change (n-original n-final)
+  "Find percentage change between N-ORIGINAL and N-FINAL numbers.
+
+When the percentage is not an integer, it is rounded to 4
+floating points: 16.666666666666664 => 16.667."
+  (unless (numberp n-original)
+    (user-error "N-ORIGINAL must satisfy numberp"))
+  (unless (numberp n-final)
+    (user-error "N-FINAL must satisfy numberp"))
+  (let* ((difference (float (abs (- n-original n-final))))
+         (n (* (/ difference n-original) 100))
+         (round (floor n)))
+    ;; FIXME 2021-12-21: Any way to avoid the `string-to-number'?
+    (if (> n round) (string-to-number (format "%0.4f" n)) round)))
+
+;; REVIEW 2023-04-07 07:43 +0300: I just wrote the conversions from
+;; seconds.  Hopefully they are correct, but I need to double check.
+(defun prot-common-seconds-to-minutes (seconds)
+  "Convert a number representing SECONDS to MM:SS notation."
+  (let ((minutes (/ seconds 60))
+        (seconds (% seconds 60)))
+    (format "%.2d:%.2d" minutes seconds)))
+
+(defun prot-common-seconds-to-hours (seconds)
+  "Convert a number representing SECONDS to HH:MM:SS notation."
+  (let* ((hours (/ seconds 3600))
+         (minutes (/ (% seconds 3600) 60))
+         (seconds (% seconds 60)))
+    (format "%.2d:%.2d:%.2d" hours minutes seconds)))
+
+;;;###autoload
+(defun prot-common-seconds-to-minutes-or-hours (seconds)
+  "Convert SECONDS to either minutes or hours, depending on the value."
+  (if (> seconds 3599)
+      (prot-common-seconds-to-hours seconds)
+    (prot-common-seconds-to-minutes seconds)))
+
+;;;###autoload
+(defun prot-common-rotate-list-of-symbol (symbol)
+  "Rotate list value of SYMBOL by moving its car to the end.
+Return the first element before performing the rotation.
+
+This means that if `sample-list' has an initial value of `(one
+two three)', this function will first return `one' and update the
+value of `sample-list' to `(two three one)'.  Subsequent calls
+will continue rotating accordingly."
+  (unless (symbolp symbol)
+    (user-error "%s is not a symbol" symbol))
+  (when-let* ((value (symbol-value symbol))
+              (list (and (listp value) value))
+              (first (car list)))
+    (set symbol (append (cdr list) (list first)))
+    first))
+
+;;;###autoload
+(defun prot-common-empty-buffer-p ()
+  "Test whether the buffer is empty."
+  (or (= (point-min) (point-max))
+      (save-excursion
+        (goto-char (point-min))
+        (while (and (looking-at "^\\([a-zA-Z]+: ?\\)?$")
+                    (zerop (forward-line 1))))
+        (eobp))))
+
+;;;###autoload
+(defun prot-common-minor-modes-active ()
+  "Return list of active minor modes for the current buffer."
+  (let ((active-modes))
+    (mapc (lambda (m)
+            (when (and (boundp m) (symbol-value m))
+              (push m active-modes)))
+          minor-mode-list)
+    active-modes))
+
+;;;###autoload
+(defun prot-common-truncate-lines-silently ()
+  "Toggle line truncation without printing messages."
+  (let ((inhibit-message t))
+    (toggle-truncate-lines t)))
+
+;; NOTE 2023-08-12: I tried the `clear-message-function', but it did
+;; not work.  What I need is very simple and this gets the job done.
+;;;###autoload
+(defun prot-common-clear-minibuffer-message (&rest _)
+  "Print an empty message to clear the echo area.
+Use this as advice :after a noisy function."
+  (message ""))
+
+;;;###autoload
+(defun prot-common-disable-hl-line ()
+  "Disable Hl-Line-Mode (for hooks)."
+  (hl-line-mode -1))
+
+;;;###autoload
+(defun prot-common-window-bounds ()
+  "Return start and end points in the window as a cons cell."
+  (cons (window-start) (window-end)))
+
+;;;###autoload
+(defun prot-common-page-p ()
+  "Return non-nil if there is a `page-delimiter' in the buffer."
+  (or (save-excursion (re-search-forward page-delimiter nil t))
+      (save-excursion (re-search-backward page-delimiter nil t))))
+
+;;;###autoload
+(defun prot-common-window-small-p ()
+  "Return non-nil if window is small.
+Check if the `window-width' or `window-height' is less than
+`split-width-threshold' and `split-height-threshold',
+respectively."
+  (or (and (numberp split-width-threshold)
+           (< (window-total-width) split-width-threshold))
+      (and (numberp split-height-threshold)
+           (> (window-total-height) split-height-threshold))))
+
+(defun prot-common-window-narrow-p ()
+  "Return non-nil if window is narrow.
+Check if the `window-width' is less than `split-width-threshold'."
+  (and (numberp split-width-threshold)
+       (< (window-total-width) split-width-threshold)))
+
+;;;###autoload
+(defun prot-common-three-or-more-windows-p (&optional frame)
+  "Return non-nil if three or more windows occupy FRAME.
+If FRAME is non-nil, inspect the current frame."
+  (>= (length (window-list frame :no-minibuffer)) 3))
+
+;;;###autoload
+(defun prot-common-read-data (file)
+  "Read Elisp data from FILE."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (read (current-buffer))))
+
+;;;###autoload
+(defun prot-common-completion-category ()
+  "Return completion category."
+  (when-let* ((window (active-minibuffer-window)))
+    (with-current-buffer (window-buffer window)
+      (completion-metadata-get
+       (completion-metadata (buffer-substring-no-properties
+                             (minibuffer-prompt-end)
+                             (max (minibuffer-prompt-end) (point)))
+                            minibuffer-completion-table
+                            minibuffer-completion-predicate)
+       'category))))
+
+;; Thanks to Omar Antolín Camarena for providing this snippet!
+;;;###autoload
+(defun prot-common-completion-table (category candidates)
+  "Pass appropriate metadata CATEGORY to completion CANDIDATES.
+
+This is intended for bespoke functions that need to pass
+completion metadata that can then be parsed by other
+tools (e.g. `embark')."
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (category . ,category))
+      (complete-with-action action candidates string pred))))
+
+;;;###autoload
+(defun prot-common-completion-table-no-sort (category candidates)
+  "Pass appropriate metadata CATEGORY to completion CANDIDATES.
+Like `prot-common-completion-table' but also disable sorting."
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (category . ,category)
+                   (display-sort-function . ,#'identity))
+      (complete-with-action action candidates string pred))))
+
+;; Thanks to Igor Lima for the `prot-common-crm-exclude-selected-p':
+;; <https://github.com/0x462e41>.
+;; This is used as a filter predicate in the relevant prompts.
+(defvar crm-separator)
+
+;;;###autoload
+(defun prot-common-crm-exclude-selected-p (input)
+  "Filter out INPUT from `completing-read-multiple'.
+Hide non-destructively the selected entries from the completion
+table, thus avoiding the risk of inputting the same match twice.
+
+To be used as the PREDICATE of `completing-read-multiple'."
+  (if-let* ((pos (string-match-p crm-separator input))
+            (rev-input (reverse input))
+            (element (reverse
+                      (substring rev-input 0
+                                 (string-match-p crm-separator rev-input))))
+            (flag t))
+      (progn
+        (while pos
+          (if (string= (substring input 0 pos) element)
+              (setq pos nil)
+            (setq input (substring input (1+ pos))
+                  pos (string-match-p crm-separator input)
+                  flag (when pos t))))
+        (not flag))
+    t))
+
+;; The `prot-common-line-regexp-p' and `prot-common--line-regexp-alist'
+;; are contributed by Gabriel: <https://github.com/gabriel376>.  They
+;; provide a more elegant approach to using a macro, as shown further
+;; below.
+(defvar prot-common--line-regexp-alist
+  '((empty . "[\s\t]*$")
+    (indent . "^[\s\t]+")
+    (non-empty . "^.+$")
+    (list . "^\\([\s\t#*+]+\\|[0-9]+[^\s]?[).]+\\)")
+    (heading . "^[=-]+"))
+  "Alist of regexp types used by `prot-common-line-regexp-p'.")
+
+(defun prot-common-line-regexp-p (type &optional n)
+  "Test for TYPE on line.
+TYPE is the car of a cons cell in
+`prot-common--line-regexp-alist'.  It matches a regular
+expression.
+
+With optional N, search in the Nth line from point."
+  (save-excursion
+    (goto-char (line-beginning-position))
+    (and (not (bobp))
+         (or (beginning-of-line n) t)
+         (save-match-data
+           (looking-at
+            (alist-get type prot-common--line-regexp-alist))))))
+
+;; The `prot-common-shell-command-with-exit-code-and-output' function is
+;; courtesy of Harold Carr, who also sent a patch that improved
+;; `prot-eww-download-html' (from the `prot-eww.el' library).
+;;
+;; More about Harold: <http://haroldcarr.com/about/>.
+(defun prot-common-shell-command-with-exit-code-and-output (command &rest args)
+  "Run COMMAND with ARGS.
+Return the exit code and output in a list."
+  (with-temp-buffer
+    (list (apply 'call-process command nil (current-buffer) nil args)
+          (buffer-string))))
+
+(defvar prot-common-url-regexp
+  (concat
+   "~?\\<\\([-a-zA-Z0-9+&@#/%?=~_|!:,.;]*\\)"
+   "[.@]"
+   "\\([-a-zA-Z0-9+&@#/%?=~_|!:,.;]+\\)\\>/?")
+  "Regular expression to match (most?) URLs or email addresses.")
+
+(autoload 'auth-source-search "auth-source")
+
+;;;###autoload
+(defun prot-common-auth-get-field (host prop)
+  "Find PROP in `auth-sources' for HOST entry."
+  (when-let* ((source (auth-source-search :host host)))
+    (if (eq prop :secret)
+        (funcall (plist-get (car source) prop))
+      (plist-get (flatten-list source) prop))))
+
+;;;###autoload
+(defun prot-common-parse-file-as-list (file)
+  "Return the contents of FILE as a list of strings.
+Strings are split at newline characters and are then trimmed for
+negative space.
+
+Use this function to provide a list of candidates for
+completion (per `completing-read')."
+  (split-string
+   (with-temp-buffer
+     (insert-file-contents file)
+     (buffer-substring-no-properties (point-min) (point-max)))
+   "\n" :omit-nulls "[\s\f\t\n\r\v]+"))
+
+(defun prot-common-ignore (&rest _)
+  "Use this as override advice to make a function do nothing."
+  nil)
+
+;; NOTE 2023-06-02: The `prot-common-wcag-formula' and
+;; `prot-common-contrast' are taken verbatim from my `modus-themes'
+;; and renamed to have the prefix `prot-common-' instead of
+;; `modus-themes-'.  This is all my code, of course, but I do it this
+;; way to ensure that this file is self-contained in case someone
+;; copies it.
+
+;; This is the WCAG formula: <https://www.w3.org/TR/WCAG20-TECHS/G18.html>.
+(defun prot-common-wcag-formula (hex)
+  "Get WCAG value of color value HEX.
+The value is defined in hexadecimal RGB notation, such #123456."
+  (cl-loop for k in '(0.2126 0.7152 0.0722)
+           for x in (color-name-to-rgb hex)
+           sum (* k (if (<= x 0.03928)
+                        (/ x 12.92)
+                      (expt (/ (+ x 0.055) 1.055) 2.4)))))
+
+;;;###autoload
+(defun prot-common-contrast (c1 c2)
+  "Measure WCAG contrast ratio between C1 and C2.
+C1 and C2 are color values written in hexadecimal RGB."
+  (let ((ct (/ (+ (prot-common-wcag-formula c1) 0.05)
+               (+ (prot-common-wcag-formula c2) 0.05))))
+    (max ct (/ ct))))
+
+;;;; EXPERIMENTAL macros (not meant to be used anywhere)
+
+;; TODO 2023-09-30: Try the same with `cl-defmacro' and &key
+(defmacro prot-common-if (condition &rest consequences)
+  "Separate the CONSEQUENCES of CONDITION semantically.
+Like `if', `when', `unless' but done by using `:then' and `:else'
+keywords.  The forms under each keyword of `:then' and `:else'
+belong to the given subset of CONSEQUENCES.
+
+- The absence of `:else' means: (if CONDITION (progn CONSEQUENCES)).
+- The absence of `:then' means: (if CONDITION nil CONSEQUENCES).
+- Otherwise: (if CONDITION (progn then-CONSEQUENCES) else-CONSEQUENCES)."
+  (declare (indent 1))
+  (let (then-consequences else-consequences last-kw)
+    (dolist (elt consequences)
+      (let ((is-keyword (keywordp elt)))
+        (cond
+         ((and (not is-keyword) (eq last-kw :then))
+          (push elt then-consequences))
+         ((and (not is-keyword) (eq last-kw :else))
+          (push elt else-consequences))
+         ((and is-keyword (eq elt :then))
+          (setq last-kw :then))
+         ((and is-keyword (eq elt :else))
+          (setq last-kw :else)))))
+    `(if ,condition
+         ,(if then-consequences
+              `(progn ,@(nreverse then-consequences))
+            nil)
+       ,@(nreverse else-consequences))))
+
+(provide 'prot-common)
+;;; prot-common.el ends here
+#+end_src
+
+** Prot Shell
+
+#+begin_src emacs-lisp :tangle "prot-lisp/prot-shell.el" :mkdirp yes
+;;; prot-shell.el --- M-x shell extensions for my dotemacs -*- lexical-binding: t -*-
+
+;; Copyright (C) 2023-2025  Protesilaos Stavrou
+
+;; Author: Protesilaos Stavrou <info@protesilaos.com>
+;; URL: https://protesilaos.com/emacs/dotemacs
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "30.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;;
+;; This covers my shell.el extensions, for use in my Emacs setup:
+;; <https://protesilaos.com/emacs/dotemacs>.
+;;
+;; Remember that every piece of Elisp that I write is for my own
+;; educational and recreational purposes.  I am not a programmer and I
+;; do not recommend that you copy any of this if you are not certain of
+;; what it does.
+
+;;; Code:
+
+(require 'shell)
+
+;;;; Helper functions
+
+(defun prot-shell--beginning-of-prompt-p ()
+  "Return non-nil if point is at the beginning of a shell prompt."
+  (if comint-use-prompt-regexp
+      (looking-back comint-prompt-regexp (line-beginning-position))
+    (eq (point) (comint-line-beginning-position))))
+
+(defun prot-shell--insert-and-send (&rest args)
+  "Insert and execute ARGS in the last shell prompt.
+ARGS is a list of strings."
+  (if (prot-shell--beginning-of-prompt-p)
+      (progn
+        (insert (mapconcat #'identity args " "))
+        (comint-send-input))
+    (user-error "Not at the beginning of prompt; won't insert: %s" args)))
+
+(defun prot-shell--last-input ()
+  "Return last input as a string."
+  (buffer-substring-no-properties
+   comint-last-input-start
+   comint-last-input-end))
+
+;;;; Input from shell command history using completion
+
+(defun prot-shell--build-input-history ()
+  "Return `comint-input-ring' as a list."
+  (when (and (ring-p comint-input-ring)
+	         (not (ring-empty-p comint-input-ring)))
+    (let (history)
+      ;; We have to build up a list ourselves from the ring vector.
+      (dotimes (index (ring-length comint-input-ring))
+        (push (ring-ref comint-input-ring index) history))
+      (delete-dups history))))
+
+(defvar prot-shell--input-history-completion-history nil
+  "Minibuffer history of `prot-shell--input-history-prompt'.
+Not to be confused with the shell input history, which is stored
+in the `comint-input-ring' (see `prot-shell--build-input-history').")
+
+(defun prot-shell--input-history-prompt ()
+  "Prompt for completion against `prot-shell--build-input-history'."
+  (let* ((history (prot-shell--build-input-history))
+         (default (car history)))
+    (completing-read
+     (format-prompt "Insert input from history" default)
+     history nil :require-match nil
+     'prot-shell--input-history-completion-history
+     default)))
+
+;;;###autoload
+(defun prot-shell-input-from-history ()
+  "Insert command from shell input history.
+Only account for the history Emacs knows about, ignoring
+`comint-input-ring-file-name' (e.g. ~/.bash_history)."
+  (declare (interactive-only t))
+  (interactive)
+  (prot-shell--insert-and-send
+   (prot-shell--input-history-prompt)))
+
+;;;; Directory navigation
+
+;;;;; Directory tracking
+
+(defvar prot-shell-cd-directories nil
+  "List of accumulated `shell-last-dir'.")
+
+(with-eval-after-load 'savehist
+  (add-to-list 'savehist-additional-variables 'prot-shell-cd-directories))
+
+(defun prot-shell-track-cd (&rest _)
+  "Track shell input of cd commands.
+Push `shell-last-dir' to `prot-shell-cd-directories'."
+  (when-let* ((input (prot-shell--last-input))
+              ((string-match-p "cd " input)))
+    (push shell-last-dir prot-shell-cd-directories)))
+
+(defun prot-shell-update-name-on-cd (&rest _)
+  "Update the shell buffer name after a cd for use in `prot-shell'."
+  (when-let* ((input (prot-shell--last-input))
+              ((string-match-p "cd " input)))
+    (rename-buffer (format "*prot-shell in %s*" default-directory) :make-unique)))
+
+(defvar prot-shell--cd-history nil
+  "Minibuffer history for `prot-shell-cd'.")
+
+(defun prot-shell--cd-prompt ()
+  "Prompt for a directory among `prot-shell-cd-directories'."
+  (if-let* ((history prot-shell-cd-directories)
+            (dirs (cons default-directory history))
+            (def (if (listp dirs) (car dirs) shell-last-dir)))
+      (completing-read
+       (format-prompt "Select directory" def)
+       dirs nil :require-match nil 'prot-shell--cd-history def)
+    (user-error "No directories have been tracked")))
+
+;;;###autoload
+(defun prot-shell-cd ()
+  "Switch to `prot-shell-cd-directories' using minibuffer completion."
+  (declare (interactive-only t))
+  (interactive)
+  (prot-shell--insert-and-send
+   "cd"
+   (prot-shell--cd-prompt)))
+
+;;;;; VC root directory
+
+(defun prot-shell--get-vc-root-dir ()
+  "Return `vc-root-dir' or root of present Git repository."
+  (or (vc-root-dir)
+      (locate-dominating-file "." ".git")))
+
+;;;###autoload
+(defun prot-shell-cd-vc-root-dir ()
+  "Change into the `vc-root-dir'."
+  (interactive)
+  (if-let* ((root (prot-shell--get-vc-root-dir)))
+      (prot-shell--insert-and-send "cd" root)
+    (user-error "Cannot find the VC root of `%s'" default-directory)))
+
+;; NOTE 2025-06-23: Emacs 31 supports shell bookmarks, so I no longer
+;; need this.  I am keeping it here for reference.
+
+;; ;;;; Bookmark support
+;;
+;; ;; NOTE 2023-08-18: I sent this to the Emacs maintainers as a patch
+;; ;; (bug#65039).  I received approval to proceed with the change, but I
+;; ;; did not do it because a user reported an issue with SSH (TRAMP).  I
+;; ;; do not have access to SSH and am not familiar with such workflows.
+;; ;; If/when that changes, I will try again.  In the meantime, this is
+;; ;; good code and it works for me.
+;;
+;; ;; Adapted from esh-mode.el
+;; (declare-function bookmark-prop-get "bookmark" (bookmark prop))
+;;
+;; (defun prot-shell-bookmark-name ()
+;;   "Return name of bookmark based on currect directory."
+;;   (format "prot-shell-%s"
+;;           (file-name-nondirectory
+;;            (directory-file-name
+;;             (file-name-directory default-directory)))))
+;;
+;; (defvar sh-shell-file)
+;;
+;; (defun prot-shell-bookmark-make-record ()
+;;   "Create a bookmark for the current Shell buffer."
+;;   `(,(prot-shell-bookmark-name)
+;;     (location . ,default-directory)
+;;     (shell-file-name . ,sh-shell-file)
+;;     (handler . prot-shell-bookmark-jump)))
+;;
+;; ;;;###autoload
+;; (defun prot-shell-bookmark-jump (bookmark)
+;;   "Default BOOKMARK handler for Shell buffers."
+;;   (let ((default-directory (bookmark-prop-get bookmark 'location))
+;;         (explicit-shell-file-name (bookmark-prop-get bookmark 'shell-file-name)))
+;;     (shell (get-buffer-create (car bookmark)))))
+;;
+;; (put 'prot-shell-bookmark-jump 'bookmark-handler-type "Shell")
+
+;; ;;;; Convert YouTube links to Invidious
+;;
+;; (defvar prot-shell-invidious-domains
+;;   '("invidious.io.lol"
+;;     "invidious.lunar.icu"
+;;     "iv.nboeck.de"
+;;     "vid.priv.au"
+;;     "invidious.tiekoetter.com"
+;;     "inv.in.projectsegfau.lt"
+;;     "onion.tube"
+;;     "yt.artemislena.eu"
+;;     "invidious.no-logs.com"
+;;     "yewtu.be"
+;;     "invidious.projectsegfau.lt"
+;;     "yt.oelrichsgarcia.de"
+;;     "invidious.0011.lt"
+;;     "inv.zzls.xyz"
+;;     "inv.bp.projectsegfau.lt"
+;;     "invidious.flokinet.to"
+;;     "iv.ggtyler.dev"
+;;     "invidious.slipfox.xyz"
+;;     "vid.puffyan.us"
+;;     "inv.pistasjis.net"
+;;     "inv.citw.lgbt"
+;;     "invidious.protokolla.fi"
+;;     "inv.makerlab.tech"
+;;     "inv.tux.pizza"
+;;     "invidious.privacydev.net")
+;;   "List of Invidious domains.")
+;;
+;; (defvar prot-shell-youtube-domains
+;;   '("www.youtube.com"
+;;     "youtu.be")
+;;   "List of YouTube domains.")
+;;
+;; (defvar prot-shell-yt-invidious-domains
+;;   (append prot-shell-youtube-domains
+;;           prot-shell-invidious-domains)
+;;   "List of YouTube and Invidious domains.")
+;;
+;; (defun prot-shell--get-random-invidious-instance ()
+;;   "Return `random' index from `prot-shell-invidious-domains'."
+;;   (nth
+;;    (random (length prot-shell-invidious-domains))
+;;    prot-shell-invidious-domains))
+;;
+;; ;;;###autoload
+;; (defun prot-shell-invidious ()
+;;   "Convert `prot-shell-yt-invidious-domains' into a random Invidious instance."
+;;   (interactive)
+;;   (save-excursion
+;;     (goto-char (line-beginning-position))
+;;     (while (re-search-forward (regexp-opt prot-shell-yt-invidious-domains) (line-end-position) :no-error)
+;;       (replace-match (prot-shell--get-random-invidious-instance)))))
+
+;;;; Built-in Emacs commands
+
+;; ;; `comint-input-filter-functions'
+;; (defun prot-shell--intercept-input (input)
+;;   (when (string-match-p "man " input)
+;;     (comint-interrupt-subjob)
+;;     ;; TODO 2023-08-18: The idea is to interrupt the input, and split
+;;     ;; it such that, say, "man echo" becomes (man "echo")
+;;     ;;
+;;     ;; (let ((proc (get-buffer-process (current-buffer)))
+;; 	;;       (inhibit-read-only t)
+;; 	;;       replacement)
+;;     ;;   (save-excursion
+;;     ;;     (let ((pmark (progn (goto-char (process-mark proc))
+;; 	;; 		                (forward-line 0)
+;; 	;; 		                (point-marker))))
+;; 	;;       (delete-region comint-last-input-end pmark)
+;; 	;;       (goto-char (process-mark proc))
+;; 	;;       (setq replacement (concat "*** Called command externally ***\n"
+;; 	;; 			                    (buffer-substring pmark (point))))
+;; 	;;       (delete-region pmark (point))))
+;;     ;;   (comint-output-filter proc replacement))
+;;     ))
+;;
+;; (add-hook 'comint-input-filter-functions #'prot-shell--intercept-input)
+
+;;;; General commands
+
+(defun prot-shell--history-or-motion (history-fn motion-fn arg)
+  "Call HISTORY-FN or MOTION-FN with ARG depending on where point is.
+If `prot-shell--beginning-of-prompt-p' returns non-nil call
+HISTORY-FN, else MOTION-FN."
+  (let ((fn (if (or (prot-shell--beginning-of-prompt-p)
+                    (eq last-command 'comint-next-input)
+                    (eq last-command 'comint-previous-input))
+                history-fn
+              motion-fn)))
+    (funcall-interactively fn arg)
+    (setq this-command fn)))
+
+;;;###autoload
+(defun prot-shell-up-dwim (arg)
+  "Return previous ARGth history input or go ARGth lines up.
+If point is at the beginning of a shell prompt, return previous
+input, otherwise perform buffer motion."
+  (interactive "^p")
+  (prot-shell--history-or-motion 'comint-previous-input 'previous-line arg))
+
+;;;###autoload
+(defun prot-shell-down-dwim (arg)
+  "Return next ARGth history input or or go ARGth lines down.
+If point is at the beginning of a shell prompt, return previous
+input, otherwise perform buffer motion."
+  (interactive "^p")
+  (prot-shell--history-or-motion 'comint-next-input 'next-line arg))
+
+;;;###autoload
+(defun prot-shell ()
+  "Like `shell' but always start a new shell.
+Name the shell buffer after the `default-directory'.  If the name of
+that buffer already exists, then reuse it."
+  (interactive)
+  (with-current-buffer (shell (format "*prot-shell in %s*" default-directory))
+    (add-hook 'comint-output-filter-functions #'prot-shell-update-name-on-cd nil :local)))
+
+;;;; Minor mode setup
+
+(defvar-keymap prot-shell-mode-map
+  :doc "Key map for `prot-shell-mode'."
+  "<up>" #'prot-shell-up-dwim
+  "<down>" #'prot-shell-down-dwim
+  "C-c C-d" #'prot-shell-cd
+  ;; "C-c C-i" #'prot-shell-invidious
+  "C-c C-j" #'prot-shell-input-from-history
+  "C-c C-." #'prot-shell-cd-vc-root-dir
+  "C-c C-r" #'prot-shell-cd-vc-root-dir)
+
+(define-minor-mode prot-shell-mode
+  "Provide extra functionality for the Emacs `shell'.
+Add a bookmark handler for shell buffer and activate the
+`prot-shell-mode-map':
+\\{prot-shell-mode-map}"
+  :init-value nil
+  :global nil
+  (if prot-shell-mode
+      (progn
+        (add-hook 'comint-output-filter-functions #'prot-shell-track-cd nil :local)
+        (setq-local bookmark-make-record-function #'prot-shell-bookmark-make-record))
+    (remove-hook 'comint-output-filter-functions #'prot-shell-track-cd :local)
+    (setq-local bookmark-make-record-function nil)))
+
+(provide 'prot-shell)
+;;; prot-shell.el ends here
+#+end_src

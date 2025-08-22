@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: org-options
+# key: opt
+# --
+
+#+options: toc:nil num:nil author:nil date:nil timestamp:nil
