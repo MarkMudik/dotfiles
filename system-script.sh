@@ -5,7 +5,7 @@ sudo pacman -S --needed --noconfirm emacs-wayland
 sudo pacman -S --needed --noconfirm git
 sudo pacman -S --needed --noconfirm less
 sudo pacman -S --needed --noconfirm base-devel
-sudo pacman -S --needed --noconfirm ttf-meslo-nerd
+sudo pacman -S --needed --noconfirm ttf-iosevka-nerd
 sudo pacman -S --needed --noconfirm fd
 sudo pacman -S --needed --noconfirm ripgrep
 sudo pacman -S --needed --noconfirm steam
@@ -76,7 +76,8 @@ sudo pacman -S --needed --noconfirm yazi
 
 sudo pacman -S --needed --noconfirm thunderbird
 
-sudo pacman -S --needed --noconfirm fish
+sudo pacman -S --needed --noconfirm zsh
+sudo pacman -S --needed --noconfirm zsh-syntax-highlighting
 
 yay -S zotero-bin
 

@@ -3,5 +3,5 @@
 if hyprctl clients | grep -q "class: emacs"; then
   hyprctl dispatch focuswindow "class:^(emacs)$"
 else
-  emacs &
+  emacsclient -nc
 fi

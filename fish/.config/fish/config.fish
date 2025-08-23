@@ -8,7 +8,7 @@ set -Ux HISTCONTROL ignoredups:erasedups
 
 # Aliases
 alias vim="nvim"
-set -Ux EDITOR nvim
+set -Ux EDITOR emacsclient
 
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
