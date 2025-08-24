@@ -401,7 +401,7 @@
 
 #+begin_src emacs-lisp :tangle "init.el"
 
-(let ((mono-spaced-font "MesloLGL Nerd Font Mono")
+(let ((mono-spaced-font "Iosevka Nerd Font Mono")
       (proportionately-spaced-font "SF Pro"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 180)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)

@@ -11,8 +11,7 @@ autoload -Uz compinit promptinit
 compinit
 promptinit
 
-# This will set the default prompt to the walters theme
-prompt walters
+source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 # History settings
 HISTSIZE=10000
