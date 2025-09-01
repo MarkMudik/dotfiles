@@ -21,7 +21,6 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt APPEND_HISTORY
 
 # Editor
-alias vim="nvim"
 export EDITOR="emacsclient"
 
 # Aliases

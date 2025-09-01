@@ -47,7 +47,7 @@ sudo pacman -S --needed --noconfirm hyprlock
 sudo pacman -S --needed --noconfirm libnewt
 
 sudo pacman -S --needed --noconfirm 7zip
-sudo pacman -S --needed --noconfirm obsidian
+yay -S --needed --noconfirm obsidian
 
 sudo pacman -S --needed --noconfirm clang
 
@@ -83,3 +83,10 @@ yay -S zotero-bin
 
 sudo pacman -S --needed --noconfirm grim
 sudo pacman -S --needed --noconfirm slurp
+
+sudo pacman -S --needed --noconfirm fzf
+
+mkdir -p ~/.zsh
+git clone https://github.com/Aloxaf/fzf-tab ~/.zsh/fzf-tab/
+
+sudo pacman -S python-pip
