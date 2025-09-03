@@ -25,3 +25,8 @@
           ("Discord" . "https://discord.com/channels/@me")
           ("YouTube Search" . [simple-query "www.youtube.com" "https://www.youtube.com/results?search_query="])
           )))
+
+
+(map! :leader
+      :desc "Webjump"
+      "o w" #'webjump)

@@ -64,7 +64,7 @@ sudo pacman -S --needed --noconfirm rust
 
 yay -S --needed --noconfirm zen-browser-bin
 
-sudo pacman -S --needed --noconfirm nautilus
+sudo pacman -S --needed --noconfirm thunar # file manager
 
 sudo pacman -S --needed --noconfirm rclone
 
