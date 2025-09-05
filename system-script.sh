@@ -76,8 +76,11 @@ sudo pacman -S --needed --noconfirm yazi
 
 sudo pacman -S --needed --noconfirm thunderbird
 
-sudo pacman -S --needed --noconfirm zsh
-sudo pacman -S --needed --noconfirm zsh-syntax-highlighting
+# For zsh but I started using fish
+#sudo pacman -S --needed --noconfirm zsh
+#sudo pacman -S --needed --noconfirm zsh-syntax-highlighting
+#mkdir -p ~/.zsh
+#git clone https://github.com/Aloxaf/fzf-tab ~/.zsh/fzf-tab/
 
 yay -S zotero-bin
 
@@ -86,7 +89,6 @@ sudo pacman -S --needed --noconfirm slurp
 
 sudo pacman -S --needed --noconfirm fzf
 
-mkdir -p ~/.zsh
-git clone https://github.com/Aloxaf/fzf-tab ~/.zsh/fzf-tab/
 
 sudo pacman -S python-pip
+sudo pacman -S fish
