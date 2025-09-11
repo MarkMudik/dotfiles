@@ -263,7 +263,7 @@
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
 
-(let ((mono-spaced-font "MesloLGL Nerd Font Mono")
+(let ((mono-spaced-font "Iosevka Nerd Font Mono")
       (proportionately-spaced-font "SF Pro"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 180)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
@@ -417,68 +417,6 @@
   (setq tab-always-indent 'complete)
   (setq corfu-preview-current nil)
   (setq corfu-min-width 20))
-
-;(use-package lsp-mode
-;  :ensure t
-;  :init
-;  ;; Performance tuning
-;  (setq gc-cons-threshold (* 100 1024 1024)
-;        read-process-output-max (* 1024 1024)
-;        lsp-idle-delay 0.1)
-;  :hook 
-;  ((c-mode c++-mode) . lsp)
-;  :commands lsp
-;  :config
-;  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
-
-;(use-package lsp-ui
-;  :ensure t
-;  :commands lsp-ui-mode
-;  :config
-;  (setq lsp-ui-doc-enable t
-;        lsp-ui-doc-show-with-cursor t
-;        lsp-ui-sideline-enable t
-;        lsp-ui-sideline-show-hover t))
-
-;(use-package lsp-treemacs
-;  :ensure t
-;  :commands lsp-treemacs-errors-list)
-
-;(use-package company
-;  :ensure t
-;  :init
-;  (setq company-idle-delay 0.0
-;        company-minimum-prefix-length 1)
-;  :config
-;  (global-company-mode 1))
-
-;(use-package flycheck
-;  :ensure t
-;  :init (global-flycheck-mode))
-
-;(use-package projectile
-;  :ensure t
-;  :config
-;  (projectile-mode 1))
-
-;(use-package dap-mode
-;  :ensure t
-;  :after lsp-mode
-;  :config
-;  (dap-auto-configure-mode)
-;  (require 'dap-cpptools))
-
-;(use-package vertico
-;  :ensure t
-;  :init
-;  (vertico-mode))
-
-;(use-package consult-lsp
-;  :ensure t
-;  :after (consult lsp-mode))
-
-;(use-package hydra
-;  :ensure t)
 
 (use-package embark
     :ensure t
@@ -921,6 +859,25 @@
                       eww-switch-to-buffer))
     (put command 'disabled t)))
 
+(use-package eww
+  :ensure nil
+  :commands (eww)
+  :bind
+  ( :map eww-mode-map
+    ("S" . nil)
+    ("m" . bookmark-set)
+    :map eww-link-keymap
+    ("v" . nil)
+    :map dired-mode-map
+    ("E" . eww-open-file))
+  :config
+  (setq eww-auto-rename-buffer 'title)
+  (setq eww-header-line-format nil)
+  (setq eww-bookmarks-directory (locate-user-emacs-file "eww-bookmarks/"))
+  (setq eww-history-limit 150)
+  (setq eww-form-checkbox-selected-symbol "[X]")
+  (setq eww-form-checkbox-symbol "[ ]"))
+
 (use-package denote
   :ensure t
   :hook
@@ -1072,25 +1029,6 @@
   :init
   (yas-global-mode 1))
 
-(use-package eww
-  :ensure nil
-  :commands (eww)
-  :bind
-  ( :map eww-mode-map
-    ("S" . nil)
-    ("m" . bookmark-set)
-    :map eww-link-keymap
-    ("v" . nil)
-    :map dired-mode-map
-    ("E" . eww-open-file))
-  :config
-  (setq eww-auto-rename-buffer 'title)
-  (setq eww-header-line-format nil)
-  (setq eww-bookmarks-directory (locate-user-emacs-file "eww-bookmarks/"))
-  (setq eww-history-limit 150)
-  (setq eww-form-checkbox-selected-symbol "[X]")
-  (setq eww-form-checkbox-symbol "[ ]"))
-
 (use-package which-key
   :diminish which-key-mode
   :init
@@ -1118,43 +1056,6 @@
   (electric-pair-mode -1)
   (electric-quote-mode -1)
   (electric-indent-mode -1))
-
-(defun prot-window-delete-popup-frame (&rest _)
-  "Kill selected selected frame if it has parameter `prot-window-popup-frame'.
-Use this function via a hook."
-  (when (frame-parameter nil 'prot-window-popup-frame)
-    (delete-frame)))
-
-(defmacro prot-window-define-with-popup-frame (command)
-  "Define interactive function which calls COMMAND in a new frame.
-Make the new frame have the `prot-window-popup-frame' parameter."
-  `(defun ,(intern (format "prot-window-popup-%s" command)) ()
-     ,(format "Run `%s' in a popup frame with `prot-window-popup-frame' parameter.
-Also see `prot-window-delete-popup-frame'." command)
-     (interactive)
-     (let ((frame (make-frame '((prot-window-popup-frame . t)))))
-       (select-frame frame)
-       (switch-to-buffer " prot-window-hidden-buffer-for-popup-frame")
-       (condition-case nil
-           (call-interactively ',command)
-         ((quit error user-error)
-          (delete-frame frame))))))
-
-(declare-function org-capture "org-capture" (&optional goto keys))
-(defvar org-capture-after-finalize-hook)
-
-;;;###autoload (autoload 'prot-window-popup-org-capture "prot-window")
-(prot-window-define-with-popup-frame org-capture)
-
-(add-hook 'org-capture-after-finalize-hook #'prot-window-delete-popup-frame)
-
-(declare-function tmr "tmr" (time &optional description acknowledgep))
-(defvar tmr-timer-created-functions)
-
-;;;###autoload (autoload 'prot-window-popup-tmr "prot-window")
-(prot-window-define-with-popup-frame tmr)
-
-(add-hook 'tmr-timer-created-functions #'prot-window-delete-popup-frame)
 
   (defun efs/org-babel-tangle-config ()
     (when (string-equal (buffer-file-name)
