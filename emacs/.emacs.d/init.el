@@ -899,8 +899,9 @@
     ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
     ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
   :config
-  (setq denote-directory (expand-file-name "~/projects/private/orgs/"))
-  (setq denote-file-type 'org)
+  (setq denote-directory (expand-file-name "~/projects/private/notes/Denote"))
+  ;(setq denote-file-type 'markdown-yaml)
+  (setq denote-file-type 'markdown-yaml)
   (setq denote-known-keywords '("business"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
@@ -929,94 +930,13 @@
 	  '(
 	    ("ChatGPT" . "https://chatgpt.com/")
 	    ("GitHub" . "https://github.com/")
-        ("Doordash" . "https://www.doordash.com/")
-        ("UberEats" . "https://www.ubereats.com/")
         ("Privacy (cards)" . "https://app.privacy.com/home")	    	    ("Amazon" . [simple-query "https://www.amazon.com/" "https://www.amazon.com/s?k=" ""])
 	    ("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""])
 	    ("YouTube" . [simple-query "www.youtube.com/feed/subscriptions" "www.youtube.com/results?search_query=" ""])
-	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""]))))
-
-;(use-package mu4e
-;  :ensure nil
-;  :load-path "/usr/share/emacs/site-lisp/mu4e"
-;  ;:defer 20
-;  :config
-;  ;; General settings
-;  (setq mu4e-change-filenames-when-moving t)
-;  (setq mu4e-update-interval (* 30 60))
-;  (setq mu4e-get-mail-command "mbsync -a")
-;  (setq mu4e-maildir "~/.mail")
-;  (setq mu4e-show-images t)
-  
-  ;; Multiple account setup
-;  (setq mu4e-contexts
-;        (list
-;         ;; Personal account context
-;         (make-mu4e-context
-;          :name "Personal"
-;          :match-func
-;          (lambda (msg)
-;            (when msg
-;              (string-prefix-p "/personal" (mu4e-message-field msg :maildir))))
-;          :vars '((user-mail-address . "REDACTED@gmail.com")
-;                  (user-full-name . "Your Name")
-;                  (mu4e-drafts-folder . "/personal/[Gmail]/Drafts")
-;                  (mu4e-sent-folder . "/personal/[Gmail]/Sent Mail")
-;                  (mu4e-refile-folder . "/personal/[Gmail]/All Mail")
-;                  (mu4e-trash-folder . "/personal/[Gmail]/Trash")))
-;         
-;         ;; Work account context
-;         (make-mu4e-context
-;          :name "Work"
-;          :match-func
-;          (lambda (msg)
-;            (when msg
-;              (string-prefix-p "/work" (mu4e-message-field msg :maildir))))
-;          :vars '((user-mail-address . "REDACTED@gmail.com")
-;                  (user-full-name . "Your Work Name")
-;                  (mu4e-drafts-folder . "/work/[Gmail]/Drafts")
-;                  (mu4e-sent-folder . "/work/[Gmail]/Sent Mail")
-;                  (mu4e-refile-folder . "/work/[Gmail]/All Mail")
-;                  (mu4e-trash-folder . "/work/[Gmail]/Trash")
-;                  ;; SMTP settings for sending from work
-;                  (smtpmail-smtp-server . "smtp.gmail.com")
-;                  (smtpmail-smtp-service . 587)
-;                  (smtpmail-stream-type . starttls)
-;                  (smtpmail-smtp-user . "REDACTED@gmail.com")))))
-  
-;  ;; Context switching behavior
-;  (setq mu4e-context-policy 'pick-first)
-;  (setq mu4e-compose-context-policy 'ask)
-  
-  ;; Updated maildir shortcuts for both accounts
-;  (setq mu4e-maildir-shortcuts
-;        '(;; Personal shortcuts
-;          (:maildir "/personal/Inbox"              :key ?i)
-;          (:maildir "/personal/[Gmail]/Sent Mail"  :key ?s)
-;          (:maildir "/personal/[Gmail]/Trash"      :key ?t)
-;          (:maildir "/personal/[Gmail]/Drafts"     :key ?d)
-;          (:maildir "/personal/[Gmail]/All Mail"   :key ?a)
-;          ;; Work shortcuts
-;          (:maildir "/work/Inbox"                  :key ?I)
-;          (:maildir "/work/[Gmail]/Sent Mail"      :key ?S)
-;          (:maildir "/work/[Gmail]/Trash"          :key ?T)
-;          (:maildir "/work/[Gmail]/Drafts"         :key ?D)
-;          (:maildir "/work/[Gmail]/All Mail"       :key ?A)))
-  
-;  ;; Optional: Set a default context
-;  (setq mu4e-context-policy 'pick-first)
-  
-  ;; Optional: Bookmarks for quick access to both accounts
-;  (setq mu4e-bookmarks
-;        '(;; Personal bookmarks
-;          (:name "Personal Unread" :query "flag:unread AND maildir:/personal/*" :key ?u)
-;          (:name "Personal Today" :query "date:today..now AND maildir:/personal/*" :key ?U)
-;          ;; Work bookmarks  
-;          (:name "Work Unread" :query "flag:unread AND maildir:/work/*" :key ?w)
-;          (:name "Work Today" :query "date:today..now AND maildir:/work/*" :key ?W)
-;          ;; Combined bookmarks
-;          (:name "All Unread" :query "flag:unread" :key ?n)
-;          (:name "All Today" :query "date:today..now" :key ?N))))
+	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""])
+	    ("Canvas" . "https://lrccd.instructure.com/")
+	    ("Desmos Graphing Calculator" . "https://www.desmos.com/calculator")
+)))
 
 (use-package markdown-mode
   :ensure t

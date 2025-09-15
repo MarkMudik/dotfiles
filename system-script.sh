@@ -92,3 +92,9 @@ sudo pacman -S --needed --noconfirm fzf
 
 sudo pacman -S python-pip
 sudo pacman -S fish
+
+sudo pacman -S tmux
+
+# for emacs math latex
+sudo pacman -S texlive-basic
+sudo pacman -S dvisvgm
