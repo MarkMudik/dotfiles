@@ -43,8 +43,7 @@ sudo pacman -S --needed --noconfirm network-manager-applet
 sudo pacman -S --needed --noconfirm playerctl
 sudo pacman -S --needed --noconfirm hyprcursor
 sudo pacman -S --needed --noconfirm pavucontrol
-sudo pacman -S --needed --noconfirm hyprlock
-sudo pacman -S --needed --noconfirm libnewt
+# sudo pacman -S --needed --noconfirm libnewt MAYBE DELETE
 
 sudo pacman -S --needed --noconfirm 7zip
 yay -S --needed --noconfirm obsidian
@@ -60,8 +59,6 @@ sudo pacman -S --needed --noconfirm dnsmasq
 
 sudo pacman -S --needed --noconfirm ghostty
 
-sudo pacman -S --needed --noconfirm rust
-
 yay -S --needed --noconfirm zen-browser-bin
 
 sudo pacman -S --needed --noconfirm thunar # file manager
@@ -72,15 +69,7 @@ sudo pacman -S --needed --noconfirm words
 
 sudo pacman -S --needed --noconfirm libreoffice-fresh
 
-sudo pacman -S --needed --noconfirm yazi
-
 sudo pacman -S --needed --noconfirm thunderbird
-
-# For zsh but I started using fish
-#sudo pacman -S --needed --noconfirm zsh
-#sudo pacman -S --needed --noconfirm zsh-syntax-highlighting
-#mkdir -p ~/.zsh
-#git clone https://github.com/Aloxaf/fzf-tab ~/.zsh/fzf-tab/
 
 yay -S zotero-bin
 
@@ -89,12 +78,6 @@ sudo pacman -S --needed --noconfirm slurp
 
 sudo pacman -S --needed --noconfirm fzf
 
-
 sudo pacman -S python-pip
+
 sudo pacman -S fish
-
-sudo pacman -S tmux
-
-# for emacs math latex
-sudo pacman -S texlive-basic
-sudo pacman -S dvisvgm
