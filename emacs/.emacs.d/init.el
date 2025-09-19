@@ -477,7 +477,7 @@
   :ensure t
   :bind
   (("C-:" . avy-goto-char-timer)
-   ("C-'" . avy-goto-char-2)
+   ("C-'" . avy-goto-char)
    ("M-g w" . avy-goto-word-1)))
 
   (use-package dired
@@ -535,6 +535,10 @@
     ("M-w" . nil))
   :init
   (setq magit-define-global-key-bindings nil))
+
+(use-package forge
+  :ensure t
+  :after magit)
 
 (use-package project
   :ensure nil
@@ -669,7 +673,10 @@
            "** TODO [[%^{link}][%^{title}]] %^g"
            :prepend t
            :empty-lines-before 1
-           :empty-lines-after 1))))
+           :empty-lines-after 1)
+          ("w" "Web capture" entry
+           (file+headline "~/projects/private/orgs/20250915T143238--clippings.org" "Clippings")
+           "* TODO %:description\nSCHEDULED: %t\nSource: %:link\n\n%i\n%?"))))
 
 (use-package org
   :ensure nil
@@ -685,7 +692,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (shell . t))))
+     (shell . t)
+)))
 
 (use-package org
   :ensure nil
@@ -696,6 +704,17 @@
   (setq org-html-htmlize-output-type nil)
   (setq org-html-head-include-default-style nil)
   (setq org-html-head-include-scripts nil))
+
+(use-package ox-reveal
+  :ensure t
+  :after ox
+  :config
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+
+(use-package htmlize
+  :ensure t
+  :config
+  (setq org-html-htmlize-output-type 'inline-css))
 
 (use-package org
 :ensure nil
@@ -823,11 +842,14 @@
   (setq org-agenda-entry-text-exclude-regexps nil)
   (setq org-agenda-entry-text-leaders "    > "))
 
-(use-package org-modern
-  :ensure t
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda))
+(use-package org-protocol
+  :ensure nil)
+
+;(use-package org-modern
+;  :ensure t
+;  :hook
+;  (org-mode . org-modern-mode)
+;  (org-agenda-finalize . org-modern-agenda))
 
 (use-package eww
   :ensure nil
@@ -899,9 +921,9 @@
     ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
     ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
   :config
-  (setq denote-directory (expand-file-name "~/projects/private/notes/Denote"))
+  (setq denote-directory (expand-file-name "~/projects/private/orgs"))
   ;(setq denote-file-type 'markdown-yaml)
-  (setq denote-file-type 'markdown-yaml)
+  (setq denote-file-type 'org)
   (setq denote-known-keywords '("business"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
@@ -917,6 +939,8 @@
 (use-package vterm
   :ensure t
   :commands (vterm)
+  :bind
+   ("C-c t" . vterm)
   :config
   (setq vterm-shell "/bin/bash"))
 
@@ -936,6 +960,7 @@
 	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""])
 	    ("Canvas" . "https://lrccd.instructure.com/")
 	    ("Desmos Graphing Calculator" . "https://www.desmos.com/calculator")
+	    ("Discord" . "https://discord.com/channels/@me")
 )))
 
 (use-package markdown-mode

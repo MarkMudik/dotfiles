@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Org-Protocol
+Exec=sh -c 'emacsclient "$1" && sleep 0.1 && hyprctl dispatch workspace 2' sh %u
+Type=Application
+Terminal=false
+MimeType=x-scheme-handler/org-protocol;

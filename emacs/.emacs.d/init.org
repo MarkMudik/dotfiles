@@ -724,7 +724,7 @@
   :ensure t
   :bind
   (("C-:" . avy-goto-char-timer)
-   ("C-'" . avy-goto-char-2)
+   ("C-'" . avy-goto-char)
    ("M-g w" . avy-goto-word-1)))
 
 #+end_src
@@ -786,7 +786,9 @@
 
 #+end_src
 
-* Magit
+* Git
+
+** Magit
 
 #+begin_src emacs-lisp :tangle "init.el"
 
@@ -800,6 +802,16 @@
     ("M-w" . nil))
   :init
   (setq magit-define-global-key-bindings nil))
+
+#+end_src
+
+** Forge
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package forge
+  :ensure t
+  :after magit)
 
 #+end_src
 
@@ -960,7 +972,10 @@
            "** TODO [[%^{link}][%^{title}]] %^g"
            :prepend t
            :empty-lines-before 1
-           :empty-lines-after 1))))
+           :empty-lines-after 1)
+          ("w" "Web capture" entry
+           (file+headline "~/projects/private/orgs/20250915T143238--clippings.org" "Clippings")
+           "* TODO %:description\nSCHEDULED: %t\nSource: %:link\n\n%i\n%?"))))
 
 #+end_src
 
@@ -983,7 +998,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (shell . t))))
+     (shell . t)
+)))
 
 
 #+end_src
@@ -1003,6 +1019,30 @@
   (setq org-html-head-include-scripts nil))
 
 #+end_src
+
+*** Org Export to Reveal
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package ox-reveal
+  :ensure t
+  :after ox
+  :config
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+
+#+end_src
+
+*** htmlize
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(use-package htmlize
+  :ensure t
+  :config
+  (setq org-html-htmlize-output-type 'inline-css))
+
+#+end_src
+
 
 ** Org Agenda
 
@@ -1136,15 +1176,24 @@
 
 #+end_src
 
-** Org Modern
+**  Org Protocol
 
 #+begin_src emacs-lisp :tangle "init.el"
 
-(use-package org-modern
-  :ensure t
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda))
+(use-package org-protocol
+  :ensure nil)
+
+#+end_src
+
+** Org Modern (disabled for now)
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+;(use-package org-modern
+;  :ensure t
+;  :hook
+;  (org-mode . org-modern-mode)
+;  (org-agenda-finalize . org-modern-agenda))
 
 #+end_src
 
@@ -1229,9 +1278,9 @@
     ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
     ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
   :config
-  (setq denote-directory (expand-file-name "~/projects/private/notes/Denote"))
+  (setq denote-directory (expand-file-name "~/projects/private/orgs"))
   ;(setq denote-file-type 'markdown-yaml)
-  (setq denote-file-type 'markdown-yaml)
+  (setq denote-file-type 'org)
   (setq denote-known-keywords '("business"))
   (setq denote-infer-keywords t)
   (setq denote-sort-keywords t)
@@ -1253,6 +1302,8 @@
 (use-package vterm
   :ensure t
   :commands (vterm)
+  :bind
+   ("C-c t" . vterm)
   :config
   (setq vterm-shell "/bin/bash"))
 
@@ -1278,6 +1329,7 @@
 	    ("Reddit" . [simple-query "https://www.reddit.com" "https://www.reddit.com/search/?q=" ""])
 	    ("Canvas" . "https://lrccd.instructure.com/")
 	    ("Desmos Graphing Calculator" . "https://www.desmos.com/calculator")
+	    ("Discord" . "https://discord.com/channels/@me")
 )))
 
 #+end_src
