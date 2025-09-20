@@ -653,30 +653,13 @@
   :config
   (setq org-capture-templates
         '(("b" "book" entry
-           (file+headline "20250808T153818--book-management.org" "Book List")
+           (file+headline "20250919T122651--book-tracker.org" "Book Agenda")
            "* TODO [#A] %? %^{Title} by %^{Author}"
            :prepend t)
-          ("f" "financial" entry
-           (file+headline "20250806T204718--finance-management__finance.org" "Financial Tasks")
-           "** TODO %^{priority|[#A]|[#B]|[#C]} %?"
-           :prepend t
-           :empty-lines-before 1
-           :empty-lines-after 1)
-          ("s" "shopping" entry
-           (file+headline "20250812T120909--shopping-cart__finance.org" "Shopping List")
-           "** %^{title}\n\n- link: %?\n- full name:\n- miscellaneous:"
-           :prepend t
-           :empty-lines-before 1
-           :empty-lines-after 1)
-          ("l" "link" entry
-           (file+headline "20250812T123123--content-consumption-management.org" "Content List")
-           "** TODO [[%^{link}][%^{title}]] %^g"
-           :prepend t
-           :empty-lines-before 1
-           :empty-lines-after 1)
-          ("w" "Web capture" entry
-           (file+headline "~/projects/private/orgs/20250915T143238--clippings.org" "Clippings")
-           "* TODO %:description\nSCHEDULED: %t\nSource: %:link\n\n%i\n%?"))))
+          ("w" "weight" item
+           (file+headline "20250919T130545--weight-tracking.org" "Weight")
+           "- %t : %?")
+)))
 
 (use-package org
   :ensure nil
@@ -935,6 +918,9 @@
   (setq denote-rename-buffer-format "%D")
 
   (denote-rename-buffer-mode 1))
+
+(use-package denote-org
+  :ensure t)
 
 (use-package vterm
   :ensure t
