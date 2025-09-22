@@ -15,7 +15,6 @@
 
     (setq make-backup-files nil)
     (setq create-lockfiles nil)
-    (setq use-short-answers t)
     (setq confirm-kill-emacs 'yes-or-no-p)
     (setq initial-major-mode 'lisp-interaction-mode
         initial-scratch-message ""
@@ -24,7 +23,6 @@
     (save-place-mode 1)
 
   (setq visible-bell nil)
-  (setq ring-bell-function 'ignore)
   (setq scroll-margin 6)
 
   (setq ispell-alternate-dictionary "/usr/share/dict/words")
@@ -496,9 +494,7 @@
     
     (define-key dired-jump-map (kbd "j") nil)
     (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
-    (setq dired-make-directory-clickable t)
-    (setq dired-free-space nil)
-    (setq dired-mouse-drag-files t)
+    (define-key dired-mode-map (kbd "b") #'dired-up-directory)
     (setq dired-listing-switches
         "-AGFhlv --group-directories-first --time-style=long-iso")
 
