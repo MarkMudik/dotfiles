@@ -65,8 +65,6 @@ sudo pacman -S --needed --noconfirm thunar # file manager
 
 sudo pacman -S --needed --noconfirm rclone
 
-sudo pacman -S --needed --noconfirm words
-
 sudo pacman -S --needed --noconfirm libreoffice-fresh
 
 sudo pacman -S --needed --noconfirm thunderbird

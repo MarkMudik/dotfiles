@@ -131,28 +131,6 @@
       ("l" . visual-line-mode)
       ("v" . variable-pitch-mode)))
 
-(use-package substitute
-  :ensure t
-  :defer 1
-  :hook (substitute-post-replace . substitute-report-operation)
-  :commands
-  (substitute-target-below-point
-   substitute-target-above-point
-   substitute-target-in-defun
-   substitute-target-in-buffer)
-  :config
-  (setopt substitute-highlight t)
-
-  (setq substitute-fixed-letter-case nil)
-
-  (define-key global-map (kbd "C-c r") #'substitute-prefix-map))
-
-(use-package goto-chg
-  :ensure t
-  :bind
-  (("C-(" . goto-last-change)
-   ("C-)" . goto-last-change-reverse)))
-
 (mapc
  (lambda (command)
    (put command 'disabled nil))
@@ -170,25 +148,6 @@
   :bind
   (("C-x <right>" . winner-redo)
    ("C-x <left>" . winner-undo)))
-
-(use-package outline
-  :ensure nil
-  :bind
-  ("<f10>" . outline-minor-mode)
-  :config
-  (setq outline-minor-mode-highlight nil)
-  (setq outline-minor-mode-cycle t)
-  (setq outline-minor-mode-use-buttons nil)
-  (setq outline-minor-mode-use-margins nil))
-
-(use-package dictionary
-  :ensure nil
-  :bind ("C-c d" . dictionary-search)
-  :config
-  (setq dictionary-server "dict.org"
-        dictionary-default-popup-strategy "lev"
-        dictionary-create-buttons nil
-        dictionary-use-single-buffer t))
 
 (use-package prot-simple
   :ensure nil
@@ -935,6 +894,47 @@
   :init
   (yas-global-mode 1))
 
+;; Make C-u scroll like Vim and let evil-collection own keybindings
+(setq evil-want-C-u-scroll t
+      evil-want-keybinding nil)
+
+(use-package evil
+  :ensure t
+  :init
+  ;; Optionally keep TAB for Org (so Org cycling still works)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(dolist (m '(term-mode vterm-mode eshell-mode shell-mode))
+  (add-to-list 'evil-emacs-state-modes m))
+
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-nerd-commenter
+  :after evil
+  :ensure t
+  :bind (("M-;" . evilnc-comment-or-uncomment-lines))
+  :config
+  (define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
+  (define-key evil-visual-state-map "gc" 'evilnc-comment-operator)
+  (define-key evil-normal-state-map "gcc" 'evilnc-comment-or-uncomment-lines))
+
+(use-package undo-fu
+  :ensure t)
+(with-eval-after-load 'evil
+  (setq evil-undo-system 'undo-fu))
+
 (use-package which-key
   :diminish which-key-mode
   :init
@@ -963,10 +963,10 @@
   (electric-quote-mode -1)
   (electric-indent-mode -1))
 
-  (defun efs/org-babel-tangle-config ()
-    (when (string-equal (buffer-file-name)
-                        (expand-file-name "~/projects/public/dotfiles/emacs/.emacs.d/init.org"))
-      (let ((org-confirm-babel-evaluate nil))
-        (org-babel-tangle))))
+(defun efs/org-babel-tangle-config ()
+  (when (string= (buffer-file-name)
+                 (expand-file-name "~/projects/public/dotfiles/emacs/.emacs.d/init.org"))
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
 
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+(add-hook 'after-save-hook #'efs/org-babel-tangle-config)
