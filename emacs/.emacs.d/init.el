@@ -15,6 +15,7 @@
 
     (setq make-backup-files nil)
     (setq create-lockfiles nil)
+    (setq use-short-answers t)
     (setq confirm-kill-emacs 'yes-or-no-p)
     (setq initial-major-mode 'lisp-interaction-mode
         initial-scratch-message ""
@@ -23,6 +24,7 @@
     (save-place-mode 1)
 
   (setq visible-bell nil)
+  (setq ring-bell-function 'ignore)
   (setq scroll-margin 6)
 
   (setq ispell-alternate-dictionary "/usr/share/dict/words")
@@ -718,6 +720,7 @@
   (setq org-agenda-max-todos nil)
   (setq org-agenda-max-tags nil)
   (setq org-agenda-max-effort nil)
+  (setq org-deadline-warning-days 3)
 
 (setq org-agenda-prefix-format
         '((agenda . " %i %-12:c%?-12t% s")
@@ -761,30 +764,6 @@
   (setq org-agenda-persistent-filter nil)
   (setq org-agenda-restriction-lock-highlight-subtree t)
 
-;;;;; Agenda items with deadline and scheduled timestamps
-  (setq org-agenda-include-deadlines t)
-  (setq org-deadline-warning-days 0)
-  (setq org-agenda-skip-scheduled-if-done nil)
-  (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
-  (setq org-agenda-skip-timestamp-if-deadline-is-shown t)
-  (setq org-agenda-skip-deadline-if-done nil)
-  (setq org-agenda-skip-deadline-prewarning-if-scheduled 1)
-  (setq org-agenda-skip-scheduled-delay-if-deadline nil)
-  (setq org-agenda-skip-additional-timestamps-same-entry nil)
-  (setq org-agenda-skip-timestamp-if-done nil)
-  (setq org-agenda-search-headline-for-time nil)
-  (setq org-scheduled-past-days 365)
-  (setq org-deadline-past-days 365)
-  (setq org-agenda-move-date-from-past-immediately-to-today t)
-  (setq org-agenda-show-future-repeats t)
-  (setq org-agenda-prefer-last-repeat nil)
-  (setq org-agenda-timerange-leaders
-        '("" "(%d/%d): "))
-  (setq org-agenda-scheduled-leaders
-        '("Scheduled: " "Sched.%2dx: "))
-  (setq org-agenda-inactive-leader "[")
-  (setq org-agenda-deadline-leaders
-        '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
   ;; Time grid
   (setq org-agenda-time-leading-zero t)
   (setq org-agenda-timegrid-use-ampm nil)
