@@ -432,12 +432,12 @@
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-change-readonly-file t)))
 
-(use-package avy
-  :ensure t
-  :bind
-  (("C-:" . avy-goto-char-timer)
-   ("C-'" . avy-goto-char)
-   ("M-g w" . avy-goto-word-1)))
+;; (use-package avy
+;;   :ensure t
+;;   :bind
+;;   (("C-:" . avy-goto-char-timer)
+;;    ("C-'" . avy-goto-char)
+;;    ("M-g w" . avy-goto-word-1)))
 
   (use-package dired
     :ensure nil
@@ -454,8 +454,8 @@
     (setq dired-mouse-drag-files t)
     
     (define-key dired-jump-map (kbd "j") nil)
-    (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
-    (define-key dired-mode-map (kbd "b") #'dired-up-directory)
+    ;; (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode) (Disabled for evil mode)
+    ;; (define-key dired-mode-map (kbd "b") #'dired-up-directory) (Disabled for evil mode)
     (setq dired-listing-switches
         "-AGFhlv --group-directories-first --time-style=long-iso")
 
@@ -915,6 +915,17 @@
 (dolist (m '(term-mode vterm-mode eshell-mode shell-mode))
   (add-to-list 'evil-emacs-state-modes m))
 
+(use-package evil-snipe
+  :ensure t
+  :after evil
+  :custom
+  (evil-snipe-scope 'whole-visible)
+  (evil-snipe-repeat-scope 'whole-visible)
+  (evil-snipe-smart-case t)
+  :config
+  (evil-snipe-mode +1)
+  (evil-snipe-override-mode +1))
+
 (use-package evil-surround
   :after evil
   :ensure t
@@ -926,7 +937,7 @@
   :ensure t
   :bind (("M-;" . evilnc-comment-or-uncomment-lines))
   :config
-  (define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
+  ;; (define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
   (define-key evil-visual-state-map "gc" 'evilnc-comment-operator)
   (define-key evil-normal-state-map "gcc" 'evilnc-comment-or-uncomment-lines))
 
