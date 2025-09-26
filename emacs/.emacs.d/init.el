@@ -432,12 +432,12 @@
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-change-readonly-file t)))
 
-;; (use-package avy
-;;   :ensure t
-;;   :bind
-;;   (("C-:" . avy-goto-char-timer)
-;;    ("C-'" . avy-goto-char)
-;;    ("M-g w" . avy-goto-word-1)))
+(use-package avy
+  :ensure t
+  :bind
+  (("C-:" . avy-goto-char-timer)
+   ("C-'" . avy-goto-char)
+   ("M-g w" . avy-goto-word-1)))
 
   (use-package dired
     :ensure nil
@@ -454,8 +454,8 @@
     (setq dired-mouse-drag-files t)
     
     (define-key dired-jump-map (kbd "j") nil)
-    ;; (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode) (Disabled for evil mode)
-    ;; (define-key dired-mode-map (kbd "b") #'dired-up-directory) (Disabled for evil mode)
+    (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
+    (define-key dired-mode-map (kbd "b") #'dired-up-directory)
     (setq dired-listing-switches
         "-AGFhlv --group-directories-first --time-style=long-iso")
 
@@ -610,7 +610,7 @@
   :config
   (setq org-capture-templates
         '(("b" "book" entry
-           (file+headline "20250919T122651--book-tracker.org" "Book Agenda")
+           (file+headline "20250919T122651--book-tracker.org" "Reading List")
            "* TODO [#A] %? %^{Title} by %^{Author}"
            :prepend t)
           ("w" "weight" item
@@ -893,58 +893,6 @@
   :ensure t
   :init
   (yas-global-mode 1))
-
-;; Make C-u scroll like Vim and let evil-collection own keybindings
-(setq evil-want-C-u-scroll t
-      evil-want-keybinding nil)
-
-(use-package evil
-  :ensure t
-  :init
-  ;; Optionally keep TAB for Org (so Org cycling still works)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
-
-(dolist (m '(term-mode vterm-mode eshell-mode shell-mode))
-  (add-to-list 'evil-emacs-state-modes m))
-
-(use-package evil-snipe
-  :ensure t
-  :after evil
-  :custom
-  (evil-snipe-scope 'whole-visible)
-  (evil-snipe-repeat-scope 'whole-visible)
-  (evil-snipe-smart-case t)
-  :config
-  (evil-snipe-mode +1)
-  (evil-snipe-override-mode +1))
-
-(use-package evil-surround
-  :after evil
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-nerd-commenter
-  :after evil
-  :ensure t
-  :bind (("M-;" . evilnc-comment-or-uncomment-lines))
-  :config
-  ;; (define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
-  (define-key evil-visual-state-map "gc" 'evilnc-comment-operator)
-  (define-key evil-normal-state-map "gcc" 'evilnc-comment-or-uncomment-lines))
-
-(use-package undo-fu
-  :ensure t)
-(with-eval-after-load 'evil
-  (setq evil-undo-system 'undo-fu))
 
 (use-package which-key
   :diminish which-key-mode

@@ -79,3 +79,8 @@ sudo pacman -S --needed --noconfirm fzf
 sudo pacman -S python-pip
 
 sudo pacman -S fish
+
+sudo pacman -S noto-fonts
+
+# For school
+yay -S logisim
