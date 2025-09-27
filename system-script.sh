@@ -19,6 +19,7 @@ sudo pacman -S --needed --noconfirm neovim
 sudo pacman -S --needed --noconfirm tree
 sudo pacman -S --needed --noconfirm stow
 sudo pacman -S --needed --noconfirm openvpn
+sudo pacman -S --needed --noconfirm openvpn-update-systemd-resolved
 sudo pacman -S --needed --noconfirm networkmanager-openvpn
 
 yay -S --needed --noconfirm vscode-langservers-extracted
