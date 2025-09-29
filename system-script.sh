@@ -85,3 +85,8 @@ sudo pacman -S noto-fonts
 
 # For school
 yay -S logisim
+
+# For emacs export to latex
+sudo pacman -S texlive-latex
+sudo pacman -S texlive-latexextra
+sudo pacman -S texlive-plaingeneric
