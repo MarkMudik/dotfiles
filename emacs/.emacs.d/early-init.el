@@ -9,7 +9,4 @@
         mac-right-option-modifier  'meta)
 
   (setq insert-directory-program "/opt/homebrew/bin/gls"
-        dired-use-ls-dired t)
-
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+        dired-use-ls-dired t))

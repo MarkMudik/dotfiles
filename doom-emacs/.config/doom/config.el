@@ -9,11 +9,11 @@
 
 (setq display-line-numbers-type `relative)
 
-(setq org-directory "~/projects/public/orgs/")
+(setq org-directory "~/projects/private/orgs/")
 
 (after! denote
   (setq denote-directory "~/projects/private/notes/")
-  (setq denote-file-type 'markdown-yaml))
+  (setq denote-file-type 'org))
 
 (after! evil-snipe
   (setq evil-snipe-scope 'buffer))

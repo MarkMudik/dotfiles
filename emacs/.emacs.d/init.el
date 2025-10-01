@@ -13,21 +13,21 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-    (setq make-backup-files nil)
-    (setq create-lockfiles nil)
-    (setq use-short-answers t)
-    (setq confirm-kill-emacs 'yes-or-no-p)
-    (setq initial-major-mode 'lisp-interaction-mode
-        initial-scratch-message ""
-        initial-buffer-choice t)
+(setq make-backup-files nil)
+  (setq create-lockfiles nil)
+  (setq use-short-answers t)
+  (setq confirm-kill-emacs 'yes-or-no-p)
+  (setq initial-major-mode 'lisp-interaction-mode
+      initial-scratch-message ""
+      initial-buffer-choice t)
 
-    (save-place-mode 1)
+  (save-place-mode 1)
 
-  (setq visible-bell nil)
-  (setq ring-bell-function 'ignore)
-  (setq scroll-margin 6)
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+(setq scroll-margin 6)
 
-  (setq ispell-alternate-dictionary "/usr/share/dict/words")
+(setq ispell-alternate-dictionary "/usr/share/dict/words")
 
 (when (native-comp-available-p)
   (setq native-comp-async-report-warnings-errors 'silent)
@@ -46,90 +46,90 @@
       inhibit-startup-echo-area-message user-login-name
       inhibit-startup-buffer-menu t)
 
-  (use-package recentf
-    :ensure nil
-    :hook (after-init . recentf-mode)
-    :config
-    (setq recentf-max-saved-items 100)
-    (setq recentf-max-menu-items 25)
-    (setq recentf-save-file-modes nil)
-    (setq recentf-keep nil)
-    (setq recentf-auto-cleanup nil)
-    (setq recentf-initialize-file-name-history nil)
-    (setq recentf-filename-handlers nil)
-    (setq recentf-show-file-shortcuts-flag nil))
-
-  (use-package bookmark
+(use-package recentf
   :ensure nil
-  :commands (bookmark-set bookmark-jump bookmark-bmenu-list)
-  :hook (bookmark-bmenu-mode . hl-line-mode)
+  :hook (after-init . recentf-mode)
   :config
-  (setq bookmark-use-annotations nil)
-  (setq bookmark-automatically-show-annotations nil)
-  (setq bookmark-fringe-mark nil)
-  (setq bookmark-save-flag 1))
+  (setq recentf-max-saved-items 100)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-save-file-modes nil)
+  (setq recentf-keep nil)
+  (setq recentf-auto-cleanup nil)
+  (setq recentf-initialize-file-name-history nil)
+  (setq recentf-filename-handlers nil)
+  (setq recentf-show-file-shortcuts-flag nil))
+
+(use-package bookmark
+:ensure nil
+:commands (bookmark-set bookmark-jump bookmark-bmenu-list)
+:hook (bookmark-bmenu-mode . hl-line-mode)
+:config
+(setq bookmark-use-annotations nil)
+(setq bookmark-automatically-show-annotations nil)
+(setq bookmark-fringe-mark nil)
+(setq bookmark-save-flag 1))
 
 (use-package delsel
   :ensure nil
   :hook (after-init . delete-selection-mode))
 
-  (use-package emacs
-    :ensure nil
-    :demand t
-    :config
-    (setq blink-matching-paren nil)
-    (setq custom-unlispify-tag-names nil)
-    (setq delete-pair-blink-delay 0.1)
-    (setq delete-pair-push-mark t)
-    (setq echo-keystrokes-help nil)
-    (setq epa-keys-select-method 'minibuffer)
-    (setq eval-expression-print-length nil)
-    (setq find-library-include-other-files nil)
-    (setq help-window-select t)
-    (setq kill-do-not-save-duplicates t)
-    (setq mode-require-final-newline 'visit-save)
-    (setq next-error-recenter '(4))
-    (setq remote-file-name-inhibit-auto-save t)
-    (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
-    (setq save-interprogram-paste-before-kill t)
-    (setq scroll-error-top-bottom t)
-    (setq tramp-connection-timeout (* 60 10))
-    (setq-default truncate-partial-width-windows nil)
-    (setq tab-first-completion 'word-or-paren-or-punct)
-    (setq-default tab-width 4
-                indent-tabs-mode nil)
-    :bind
-    ( :map global-map
-      ("<f2>" . toggle-input-method)
-      ("<insert>" . nil)
-      ("<menu>" . nil)
-      ("C-x C-d" . nil)
-      ("C-x C-v" . nil)
-      ("C-z" . nil)
-      ("C-x C-z" . nil)
-      ("C-x C-c" . nil)
-      ("C-x C-c C-c" . save-buffers-kill-emacs)
-      ("C-x C-r" . restart-emacs)
-      ("C-h h" . nil)
-      ("M-`" . nil)
-      ("M-o" . delete-blank-lines)
-      ("M-SPC" . cycle-spacing)
-      ("M-z" . zap-up-to-char)
-      ("M-c" . capitalize-dwim)
-      ("M-l" . downcase-dwim)
-      ("M-u" . upcase-dwim)
-      ("M-=" . count-words)
-      ("C-x O" . next-multiframe-window)
-      ("C-h K" . describe-keymap)
-      ("C-x k" . kill-current-buffer)
-      ("C-x K" . kill-buffer)
-      ("C-c s" . scratch-buffer)
+(use-package emacs
+  :ensure nil
+  :demand t
+  :config
+  (setq blink-matching-paren nil)
+  (setq custom-unlispify-tag-names nil)
+  (setq delete-pair-blink-delay 0.1)
+  (setq delete-pair-push-mark t)
+  (setq echo-keystrokes-help nil)
+  (setq epa-keys-select-method 'minibuffer)
+  (setq eval-expression-print-length nil)
+  (setq find-library-include-other-files nil)
+  (setq help-window-select t)
+  (setq kill-do-not-save-duplicates t)
+  (setq mode-require-final-newline 'visit-save)
+  (setq next-error-recenter '(4))
+  (setq remote-file-name-inhibit-auto-save t)
+  (setq remote-file-name-inhibit-delete-by-moving-to-trash t)
+  (setq save-interprogram-paste-before-kill t)
+  (setq scroll-error-top-bottom t)
+  (setq tramp-connection-timeout (* 60 10))
+  (setq-default truncate-partial-width-windows nil)
+  (setq tab-first-completion 'word-or-paren-or-punct)
+  (setq-default tab-width 4
+              indent-tabs-mode nil)
+  :bind
+  ( :map global-map
+    ("<f2>" . toggle-input-method)
+    ("<insert>" . nil)
+    ("<menu>" . nil)
+    ("C-x C-d" . nil)
+    ("C-x C-v" . nil)
+    ("C-z" . nil)
+    ("C-x C-z" . nil)
+    ("C-x C-c" . nil)
+    ("C-x C-c C-c" . save-buffers-kill-emacs)
+    ("C-x C-r" . restart-emacs)
+    ("C-h h" . nil)
+    ("M-`" . nil)
+    ("M-o" . delete-blank-lines)
+    ("M-SPC" . cycle-spacing)
+    ("M-z" . zap-up-to-char)
+    ("M-c" . capitalize-dwim)
+    ("M-l" . downcase-dwim)
+    ("M-u" . upcase-dwim)
+    ("M-=" . count-words)
+    ("C-x O" . next-multiframe-window)
+    ("C-h K" . describe-keymap)
+    ("C-x k" . kill-current-buffer)
+    ("C-x K" . kill-buffer)
+    ("C-c s" . scratch-buffer)
 
-      :map ctl-x-x-map
-      ("f" . follow-mode)
-      ("r" . rename-uniquely)
-      ("l" . visual-line-mode)
-      ("v" . variable-pitch-mode)))
+    :map ctl-x-x-map
+    ("f" . follow-mode)
+    ("r" . rename-uniquely)
+    ("l" . visual-line-mode)
+    ("v" . variable-pitch-mode)))
 
 (mapc
  (lambda (command)
@@ -218,9 +218,9 @@
     ;; Commands for files
     ("C-x r ." . prot-simple-file-to-register)))
 
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
 (let ((mono-spaced-font "Iosevka Nerd Font Mono")
       (proportionately-spaced-font "SF Pro"))
@@ -228,29 +228,29 @@
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
   (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
-  (use-package modus-themes
-    :ensure t
-    :config
-    (setq modus-themes-mode-line '(accented borderless)
-          modus-themes-bold-constructs t
-          modus-themes-italic-constructs t
-          modus-themes-fringes 'subtle
-          modus-themes-tabs-accented t
-          modus-themes-paren-match '(bold intense)
-          modus-themes-prompts '(bold intense)
-          modus-themes-org-blocks 'tinted-background
-          modus-themes-scale-headings t
-          modus-themes-region '(bg-only)
-          modus-themes-headings
-          '((1 . (rainbow overline background 1.2))
-            (2 . (rainbow background 1.1))
-            (3 . (rainbow bold 1.1))
-            (t . (semilight 1.1))))
-    (load-theme 'modus-operandi t))
-
-  (use-package spacious-padding
+(use-package modus-themes
   :ensure t
-  :hook (after-init . spacious-padding-mode))
+  :config
+  (setq modus-themes-mode-line '(accented borderless)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-fringes 'subtle
+        modus-themes-tabs-accented t
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(bold intense)
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-scale-headings t
+        modus-themes-region '(bg-only)
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.2))
+          (2 . (rainbow background 1.1))
+          (3 . (rainbow bold 1.1))
+          (t . (semilight 1.1))))
+  (load-theme 'modus-operandi t))
+
+(use-package spacious-padding
+:ensure t
+:hook (after-init . spacious-padding-mode))
 
 (use-package display-line-numbers
   :ensure nil
@@ -321,33 +321,33 @@
   :config
   (setq marginalia-max-relative-age 0))
 
-  (use-package consult
-    :ensure t
-    :hook (completion-list-mode . consult-preview-at-point-mode)
-    :bind
-    ( :map global-map
-      ("M-g M-g" . consult-goto-line)
-      ("M-s M-b" . consult-buffer)
-      ("M-s M-f" . consult-find)
-      ("M-s M-g" . consult-grep)
-      ("M-s M-h" . consult-history)
-      ("M-s M-i" . consult-imenu)
-      ("M-s M-l" . consult-line)
-      ("M-s M-m" . consult-mark)
-      ("M-s M-y" . consult-yank-pop)
-      ("M-s M-s" . consult-outline)
-      :map consult-narrow-map
-      ("?" . consult-narrow-help))
-    :config
-    (setq consult-line-numbers-widen t)
-    (setq consult-async-min-input 3)
-    (setq consult-async-input-debounce 0.5)
-    (setq consult-async-input-throttle 0.8)
-    (setq consult-narrow-key nil)
-    (setq consult-find-args
-          (concat "find . -not ( "
-                  "-path */.git* -prune "
-                  "-or -path */.cache* -prune )")))
+(use-package consult
+  :ensure t
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :bind
+  ( :map global-map
+    ("M-g M-g" . consult-goto-line)
+    ("M-s M-b" . consult-buffer)
+    ("M-s M-f" . consult-find)
+    ("M-s M-g" . consult-grep)
+    ("M-s M-h" . consult-history)
+    ("M-s M-i" . consult-imenu)
+    ("M-s M-l" . consult-line)
+    ("M-s M-m" . consult-mark)
+    ("M-s M-y" . consult-yank-pop)
+    ("M-s M-s" . consult-outline)
+    :map consult-narrow-map
+    ("?" . consult-narrow-help))
+  :config
+  (setq consult-line-numbers-widen t)
+  (setq consult-async-min-input 3)
+  (setq consult-async-input-debounce 0.5)
+  (setq consult-async-input-throttle 0.8)
+  (setq consult-narrow-key nil)
+  (setq consult-find-args
+        (concat "find . -not ( "
+                "-path */.git* -prune "
+                "-or -path */.cache* -prune )")))
 
 (use-package orderless
   :ensure t
@@ -358,15 +358,15 @@
   (setq completion-category-overrides nil)
   (setq orderless-matching-styles '(orderless-prefixes orderless-regexp)))
 
-  (use-package savehist
-  :ensure nil
-  :hook (after-init . savehist-mode)
-  :config
-  (setq savehist-file (locate-user-emacs-file "savehist"))
-  (setq history-length 100)
-  (setq history-delete-duplicates t)
-  (setq savehist-save-minibuffer-history t)
-  (add-to-list 'savehist-additional-variables 'kill-ring))
+(use-package savehist
+:ensure nil
+:hook (after-init . savehist-mode)
+:config
+(setq savehist-file (locate-user-emacs-file "savehist"))
+(setq history-length 100)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history t)
+(add-to-list 'savehist-additional-variables 'kill-ring))
 
 (use-package corfu
   :ensure t
@@ -439,41 +439,41 @@
    ("C-'" . avy-goto-char)
    ("M-g w" . avy-goto-word-1)))
 
-  (use-package dired
-    :ensure nil
-    :commands (dired)
-    :config
-    (setq dired-kill-when-opening-new-dired-buffer t)
-    (setq dired-recursive-copies 'always)
-    (setq dired-recursive-deletes 'always)
-    (setq delete-by-moving-to-trash t)
-    (setq dired-dwim-target t)
-    (setq dired-auto-revert-buffer #'dired-directory-changed-p)
-    (setq dired-make-directory-clickable t)
-    (setq dired-free-space nil)
-    (setq dired-mouse-drag-files t)
-    
-    (define-key dired-jump-map (kbd "j") nil)
-    (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
-    (define-key dired-mode-map (kbd "b") #'dired-up-directory)
-    (setq dired-listing-switches
-        "-AGFhlv --group-directories-first --time-style=long-iso")
+(use-package dired
+  :ensure nil
+  :commands (dired)
+  :config
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  (setq dired-recursive-copies 'always)
+  (setq dired-recursive-deletes 'always)
+  (setq delete-by-moving-to-trash t)
+  (setq dired-dwim-target t)
+  (setq dired-auto-revert-buffer #'dired-directory-changed-p)
+  (setq dired-make-directory-clickable t)
+  (setq dired-free-space nil)
+  (setq dired-mouse-drag-files t)
+  
+  (define-key dired-jump-map (kbd "j") nil)
+  (define-key dired-mode-map (kbd "e") #'wdired-change-to-wdired-mode)
+  (define-key dired-mode-map (kbd "b") #'dired-up-directory)
+  (setq dired-listing-switches
+      "-AGFhlv --group-directories-first --time-style=long-iso")
 
-    (add-hook 'dired-mode-hook #'dired-hide-details-mode)
-    (add-hook 'dired-mode-hook #'hl-line-mode))
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook #'hl-line-mode))
 
 
-  (use-package dired-subtree
-    :ensure t
-    :after dired
-    :bind
-    ( :map dired-mode-map
-      ("<tab>" . dired-subtree-toggle)
-      ("TAB" . dired-subtree-toggle)
-      ("<backtab>" . dired-subtree-remove)
-      ("S-TAB" . dired-subtree-remove))
-    :config
-    (setq dired-subtree-use-backgrounds nil))
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :bind
+  ( :map dired-mode-map
+    ("<tab>" . dired-subtree-toggle)
+    ("TAB" . dired-subtree-toggle)
+    ("<backtab>" . dired-subtree-remove)
+    ("S-TAB" . dired-subtree-remove))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
 
 (use-package wdired
   :ensure nil
@@ -482,16 +482,16 @@
   (setq wdired-allow-to-change-permissions t)
   (setq wdired-create-parent-directories t))
 
-  (use-package magit
-  :ensure t
-  :bind
-  ( :map global-map
-    ("C-c g" . magit-status)
-    :map magit-mode-map
-    ("C-w" . nil)
-    ("M-w" . nil))
-  :init
-  (setq magit-define-global-key-bindings nil))
+(use-package magit
+:ensure t
+:bind
+( :map global-map
+  ("C-c g" . magit-status)
+  :map magit-mode-map
+  ("C-w" . nil)
+  ("M-w" . nil))
+:init
+(setq magit-define-global-key-bindings nil))
 
 (use-package forge
   :ensure t
@@ -519,90 +519,90 @@
   (setq calendar-date-style 'iso)
   (setq calendar-time-zone-style 'numeric))
 
-      (use-package org
-        :ensure nil
-        :init
-        (setq org-tags-column 0)
-        (setq org-tag-alist nil)
-        (setq org-auto-align-tags nil)
-        (setq org-directory (expand-file-name "~/projects/private/orgs"))
-        (setq org-imenu-depth 7)
-      :bind
-      ( :map global-map
-        ("C-c l" . org-store-link)
-        ("C-c o" . org-open-at-point-global)
-        :map org-mode-map
-        ("C-a" . nil)
-        ("C-d" . nil)
-        ("C-S-d" . nil)
-        ("C-'" . nil)
-        ("C-," . nil)
-        ("M-;" . nil)
-        ("<C-return>" . nil)
-        ("<C-S-return>" . nil)
-        ("C-M-S-<right>" . nil)
-        ("C-M-S-<left>" . nil)
-        ("C-c ;" . nil)
-        ("C-c M-l" . org-insert-last-stored-link)
-        ("C-c C-M-l" . org-toggle-link-display)
-        ("M-." . org-edit-special)
-        :map org-src-mode-map
-        ("M-," . org-edit-src-exit)
-        :map narrow-map
-        ("b" . org-narrow-to-block)
-        ("e" . org-narrow-to-element)
-        ("s" . org-narrow-to-subtree))
-      :config
-      (setq org-ellipsis "⮧")
-      (setq org-special-ctrl-a/e nil)
-      (setq org-special-ctrl-k nil)
-      (setq org-M-RET-may-split-line '((default . nil)))
-      (setq org-hide-emphasis-markers nil)
-      (setq org-hide-macro-markers nil)
-      (setq org-hide-leading-stars nil)
-      (setq org-cycle-separator-lines 0)
-      (setq org-fold-catch-invisible-edits 'show)
-      (setq org-return-follows-link nil)
-      (setq org-loop-over-headlines-in-active-region 'start-level)
-      (setq org-fontify-quote-and-verse-blocks t)
-      (setq org-fontify-whole-block-delimiter-line t)
-      (setq org-track-ordered-property-with-tag t)
-      (setq org-highest-priority ?A)
-      (setq org-lowest-priority ?C)
-      (setq org-default-priority ?A)
-      (setq org-priority-faces nil)
-      (setq org-adapt-indentation nil)
-      (setq org-indent-mode-turns-on-hiding-stars nil)
-      (setq org-indent-indentation-per-level 4)
+(use-package org
+      :ensure nil
+      :init
+      (setq org-tags-column 0)
+      (setq org-tag-alist nil)
+      (setq org-auto-align-tags nil)
+      (setq org-directory (expand-file-name "~/projects/private/orgs"))
+      (setq org-imenu-depth 7)
+    :bind
+    ( :map global-map
+      ("C-c l" . org-store-link)
+      ("C-c o" . org-open-at-point-global)
+      :map org-mode-map
+      ("C-a" . nil)
+      ("C-d" . nil)
+      ("C-S-d" . nil)
+      ("C-'" . nil)
+      ("C-," . nil)
+      ("M-;" . nil)
+      ("<C-return>" . nil)
+      ("<C-S-return>" . nil)
+      ("C-M-S-<right>" . nil)
+      ("C-M-S-<left>" . nil)
+      ("C-c ;" . nil)
+      ("C-c M-l" . org-insert-last-stored-link)
+      ("C-c C-M-l" . org-toggle-link-display)
+      ("M-." . org-edit-special)
+      :map org-src-mode-map
+      ("M-," . org-edit-src-exit)
+      :map narrow-map
+      ("b" . org-narrow-to-block)
+      ("e" . org-narrow-to-element)
+      ("s" . org-narrow-to-subtree))
+    :config
+    (setq org-ellipsis "⮧")
+    (setq org-special-ctrl-a/e nil)
+    (setq org-special-ctrl-k nil)
+    (setq org-M-RET-may-split-line '((default . nil)))
+    (setq org-hide-emphasis-markers nil)
+    (setq org-hide-macro-markers nil)
+    (setq org-hide-leading-stars nil)
+    (setq org-cycle-separator-lines 0)
+    (setq org-fold-catch-invisible-edits 'show)
+    (setq org-return-follows-link nil)
+    (setq org-loop-over-headlines-in-active-region 'start-level)
+    (setq org-fontify-quote-and-verse-blocks t)
+    (setq org-fontify-whole-block-delimiter-line t)
+    (setq org-track-ordered-property-with-tag t)
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority ?C)
+    (setq org-default-priority ?A)
+    (setq org-priority-faces nil)
+    (setq org-adapt-indentation nil)
+    (setq org-indent-mode-turns-on-hiding-stars nil)
+    (setq org-indent-indentation-per-level 4)
 
-  (setq org-refile-targets
-        '((org-agenda-files . (:maxlevel . 2))
-          (nil . (:maxlevel . 2))))
-  (setq org-refile-use-outline-path t)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-  (setq org-refile-use-cache t)
-  (setq org-reverse-note-order nil)
+(setq org-refile-targets
+      '((org-agenda-files . (:maxlevel . 2))
+        (nil . (:maxlevel . 2))))
+(setq org-refile-use-outline-path t)
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-refile-use-cache t)
+(setq org-reverse-note-order nil)
 
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "MAYBE(m)" "|" "CANCELLED(c@)" "DONE(d!)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "MAYBE(m)" "|" "CANCELLED(c@)" "DONE(d!)")))
 
-  (setq org-use-fast-todo-selection 'expert)
+(setq org-use-fast-todo-selection 'expert)
 
-  (setq org-fontify-done-headline nil)
-  (setq org-fontify-todo-headline nil)
-  (setq org-fontify-whole-heading-line nil)
-  (setq org-enforce-todo-dependencies t)
-  (setq org-enforce-todo-checkbox-dependencies t)
+(setq org-fontify-done-headline nil)
+(setq org-fontify-todo-headline nil)
+(setq org-fontify-whole-heading-line nil)
+(setq org-enforce-todo-dependencies t)
+(setq org-enforce-todo-checkbox-dependencies t)
 
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-log-note-clock-out nil)
-  (setq org-log-redeadline 'time)
-  (setq org-log-reschedule 'time)
-  (setq org-return-follows-link t)
-  (setq org-link-context-for-files t)
-  (setq org-link-keep-stored-after-insertion nil)
-  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)
+(setq org-log-note-clock-out nil)
+(setq org-log-redeadline 'time)
+(setq org-log-reschedule 'time)
+(setq org-return-follows-link t)
+(setq org-link-context-for-files t)
+(setq org-link-keep-stored-after-insertion nil)
+(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
 (use-package org-capture
   :ensure nil
@@ -864,7 +864,7 @@
   :config
   (setq vterm-shell "/bin/bash"))
 
- (use-package webjump
+(use-package webjump
    :defer
    :ensure nil
    :bind
