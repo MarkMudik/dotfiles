@@ -12,7 +12,7 @@
 (setq org-directory "~/projects/private/orgs/")
 
 (after! denote
-  (setq denote-directory "~/projects/private/notes/")
+  (setq denote-directory "~/projects/private/orgs/")
   (setq denote-file-type 'org))
 
 (after! evil-snipe
