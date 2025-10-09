@@ -30,3 +30,7 @@
 (map! :leader
       :desc "Webjump"
       "o w" #'webjump)
+
+(map! :leader
+      :desc "Grep"
+      "p /" #'projectile-grep)
