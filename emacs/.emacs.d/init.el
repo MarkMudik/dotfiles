@@ -37,6 +37,7 @@
   :config
   (column-number-mode)
   (global-display-line-numbers-mode t)
+  (global-visual-line-mode t)
   (setopt ring-bell-function 'ignore)
   ;; UI cleanup
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -84,7 +85,7 @@
     
     "b"  '(:ignore t :which-key "buffer")
     "bb" 'switch-to-buffer
-    "bk" 'kill-this-buffer
+    "bk" 'kill-buffer
 
     "o"  '(:ignore t :which-key "open")
     "od" 'dictionary-search
@@ -125,6 +126,10 @@
   :init
   (marginalia-mode))
 
+;; Org Mode
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)")))
+
 ;; Dictionary
 (use-package dictionary
   :ensure nil
@@ -134,6 +139,13 @@
 ;; Magit
 (use-package magit
   :commands magit-status)
+
+;; Snippets
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-global-mode 1)) 
 
 ;; Webjump
 (use-package webjump
