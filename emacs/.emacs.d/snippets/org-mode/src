@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Source Block
+# key: src
+# --
+
+#+begin_src ${1:$$(yas-choose-value '("sh" "python"))}
+$0
+#+end_src
