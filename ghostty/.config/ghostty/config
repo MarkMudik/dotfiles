@@ -1,0 +1,7 @@
+font-family = FiraCode Nerd Font Mono
+window-padding-x = 2
+theme = Adwaita
+font-size = 20
+
+font-feature = calt
+font-feature = liga
