@@ -3,6 +3,6 @@
 # key: src
 # --
 
-#+begin_src ${1:$$(yas-choose-value '("sh" "python"))}
+#+begin_src ${1:$$(yas-choose-value '("sh" "emacs-lisp" "python"))}
 $0
 #+end_src

@@ -22,13 +22,15 @@
   ;; Lines
   (display-line-numbers-type 'relative)
   (scroll-margin 6)
-  (scroll-step 1)
   ;; Backup Files
   (make-backup-files nil)
   (create-lockfiles nil)
-  ;; Simple Basic Settings
+  ;; Simple Quality of Life Improvements
   (use-short-answers t)
   (visible-bell nil)
+  (global-auto-revert-mode t)
+  (savehist-mode t)
+  (recentf-mode t)
   ;; Start Buffer
   (initial-major-mode 'org-mode)
   (initial-scratch-message "")
@@ -66,7 +68,8 @@
 (use-package general
   :config
   (general-create-definer my-leader-def
-    :keymaps '(normal insert visual emacs)
+    :states '(normal motion visual)
+    :keymaps 'override
     :prefix "SPC"
     :global-prefix "C-SPC")
 
@@ -74,6 +77,8 @@
 
     "f"  '(:ignore t :which-key "file")
     "ff" 'find-file
+    "fD" 'dired-jump
+    "fr" 'recentf
 
     "w"  '(:ignore t :which-key "window")
     "ws" 'split-window-below
@@ -136,6 +141,24 @@
   :custom
   (dictionary-server "dict.org"))
 
+;; Dired
+(use-package dired
+  :ensure nil
+  :custom
+  (dired-listing-switches "-agho --group-directories-first")
+  (dired-dwim-target t)
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  (dired-kill-when-opening-new-buffer t)
+  :config
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (evil-define-key 'normal dired-mode-map
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file))
+
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
+
 ;; Magit
 (use-package magit
   :commands magit-status)
@@ -157,6 +180,7 @@
 ;; Timer (tmr)
 (use-package tmr
   :ensure t
-  :custom
-  (tmr-notification-urgency 'normal)
-  (tmr-description-list 'tmr-description-history))
+  :config
+  (setq tmr-sound-file (expand-file-name "sounds/SMA2_Sound.oga" user-emacs-directory)
+        tmr-notification-urgency 'normal
+        tmr-description-list 'tmr-description-history))
