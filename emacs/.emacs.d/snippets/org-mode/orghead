@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Org Mode Header
+# key: orghead
+# --
+
+#+TITLE: ${1:Document Title}
+#+AUTHOR: ${2:Mark}
+#+DATE: <`(format-time-string "%Y-%m-%d %a")`>
+#+DESCRIPTION: $0

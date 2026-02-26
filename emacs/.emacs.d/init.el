@@ -37,6 +37,9 @@
   (initial-buffer-choice t)
   (inhibit-startup-screen t)
   :config
+  (set-face-attribute 'default nil 
+		      :font "FiraCode Nerd Font Mono" 
+		      :height 200)
   (column-number-mode)
   (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
@@ -45,6 +48,20 @@
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (if (fboundp 'menu-bar-mode) (menu-bar-mode -1)))
+
+;; Appearance
+(use-package modus-themes
+  :ensure t
+  :custom
+  (modus-themes-italic-constructs t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-headings
+   '((1 . (variable-pitch 1.3))
+     (2 . (variable-pitch 1.2))
+     (3 . (variable-pitch 1.1))
+     (t . (variable-pitch 1.0))))
+  :config
+  (load-theme 'modus-operandi t))
 
 ;; Evil Mode
 (use-package evil
@@ -74,6 +91,8 @@
     :global-prefix "C-SPC")
 
 (my-leader-def
+
+    "X" 'org-capture
 
     "f"  '(:ignore t :which-key "file")
     "ff" 'find-file
@@ -132,8 +151,33 @@
   (marginalia-mode))
 
 ;; Org Mode
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)")))
+(use-package org
+  :ensure nil
+  :custom
+  (org-directory "~/projects/orgs")
+  (org-agenda-files '("~/projects/orgs/"))
+  (org-ellipsis " ▾")
+  (org-hide-emphasis-markers t)
+  (org-return-follows-link t)
+  (org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)")))
+  :config
+  (setq org-todo-keyword-faces
+        '(("DOING" . "orange")))
+  (setq org-capture-templates
+        `(("l" "Location" entry (file+headline ,(concat org-directory "/locations.org") "Locations")
+           "** %^{Name}
+:PROPERTIES:
+:Visited: %^{Visited|false|true}
+:Address: %^{Address}
+:Price: %^{Price}
+:Rating: %^{Rating}
+:Phone: %^{Phone}
+:Link: %^{Link}
+:Description: %^{Description}
+:END:
+%?"
+           :prepend t
+	   :empty-lines-after 0))))
 
 ;; Dictionary
 (use-package dictionary
@@ -145,7 +189,7 @@
 (use-package dired
   :ensure nil
   :custom
-  (dired-listing-switches "-agho --group-directories-first")
+  (dired-listing-switches "-agho")
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
@@ -156,19 +200,19 @@
     (kbd "h") 'dired-up-directory
     (kbd "l") 'dired-find-file))
 
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  
+  (evil-define-key 'normal dired-mode-map
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file))
+
+;; Dired Nerd Icons
 (use-package nerd-icons-dired
   :hook (dired-mode . nerd-icons-dired-mode))
 
 ;; Magit
 (use-package magit
   :commands magit-status)
-
-;; Snippets
-(use-package yasnippet
-  :ensure t
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  (yas-global-mode 1)) 
 
 ;; Webjump
 (use-package webjump
@@ -184,3 +228,9 @@
   (setq tmr-sound-file (expand-file-name "sounds/SMA2_Sound.oga" user-emacs-directory)
         tmr-notification-urgency 'normal
         tmr-description-list 'tmr-description-history))
+
+;; Snippets
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
