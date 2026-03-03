@@ -15,7 +15,14 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; General Improvements and UI Elements
+;; Mac Specific
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns x))
+  :config
+  (exec-path-from-shell-initialize))
+
+;; Improvements and UI Elements
 (use-package emacs
   :ensure nil
   :custom
@@ -27,7 +34,6 @@
   (create-lockfiles nil)
   ;; Simple Quality of Life Improvements
   (use-short-answers t)
-  (visible-bell nil)
   (global-auto-revert-mode t)
   (savehist-mode t)
   (recentf-mode t)
@@ -41,8 +47,11 @@
 		      :font "FiraCode Nerd Font Mono" 
 		      :height 200)
   (column-number-mode)
-  (global-display-line-numbers-mode t)
   (global-visual-line-mode t)
+  ;; Relative line numbers
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'text-mode-hook 'display-line-numbers-mode)
+  (add-hook 'conf-mode-hook 'display-line-numbers-mode)
   (setopt ring-bell-function 'ignore)
   ;; UI cleanup
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -83,6 +92,8 @@
 
 ;; Keyboard (General.el)
 (use-package general
+  :ensure t
+  :demand t
   :config
   (general-create-definer my-leader-def
     :states '(normal motion visual)
@@ -90,22 +101,22 @@
     :prefix "SPC"
     :global-prefix "C-SPC")
 
-(my-leader-def
-
+  (my-leader-def
     "X" 'org-capture
 
     "f"  '(:ignore t :which-key "file")
     "ff" 'find-file
+    "fn" 'denote-open-or-create
     "fD" 'dired-jump
     "fr" 'recentf
 
     "w"  '(:ignore t :which-key "window")
     "ws" 'split-window-below
     "wv" 'split-window-right
-    "wh"  'evil-window-left
-    "wj"  'evil-window-down
-    "wk"  'evil-window-up
-    "wl"  'evil-window-right
+    "wh" 'evil-window-left
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right
     
     "b"  '(:ignore t :which-key "buffer")
     "bb" 'switch-to-buffer
@@ -115,6 +126,10 @@
     "od" 'dictionary-search
     "ow" 'webjump
     "ot" 'tmr
+    "o/" 'vterm
+
+    "oa"  '(:ignore t :which-key "org")
+    "oaa" 'org-agenda
 
     "g"   '(:ignore t :which-key "git")
     "gg"  'magit-status))
@@ -161,6 +176,11 @@
   (org-return-follows-link t)
   (org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)")))
   :config
+  ;; org habit
+  (add-to-list 'org-modules 'org-habit)
+  (require 'org-habit)
+  (setq org-habit-graph-column 50)
+  (setq org-habit-show-habits-only-for-today t)
   (setq org-todo-keyword-faces
         '(("DOING" . "orange")))
   (setq org-capture-templates
@@ -191,17 +211,9 @@
   :custom
   (dired-listing-switches "-agho")
   (dired-dwim-target t)
-  (dired-recursive-copies 'always)
-  (dired-recursive-deletes 'always)
-  (dired-kill-when-opening-new-buffer t)
+  (dired-kill-when-opening-new-dired-buffer t)
   :config
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-  (evil-define-key 'normal dired-mode-map
-    (kbd "h") 'dired-up-directory
-    (kbd "l") 'dired-find-file))
-
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-  
   (evil-define-key 'normal dired-mode-map
     (kbd "h") 'dired-up-directory
     (kbd "l") 'dired-find-file))
@@ -221,6 +233,14 @@
   :custom
   (webjump-sites '(("Google" . [simple-query "www.google.com" "www.google.com/search?q=" ""]))))
 
+;; Denote
+(use-package denote
+  :ensure t
+  :config
+  (setq denote-directory (expand-file-name "~/projects/orgs/"))
+  (setq denote-file-type 'org)
+  (denote-rename-buffer-mode 1))
+
 ;; Timer (tmr)
 (use-package tmr
   :ensure t
@@ -233,4 +253,14 @@
 (use-package yasnippet
   :ensure t
   :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-global-mode 1))
+
+;; Vterm
+(use-package vterm
+  :ensure t
+  :custom
+  (vterm-max-scrollback 10000)
+  :config
+  (setq evil-vterm-cursor-config t)
+  (advice-add 'vterm-send-escape :before 'evil-insert-state))
