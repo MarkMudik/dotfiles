@@ -43,9 +43,9 @@
   (initial-buffer-choice t)
   (inhibit-startup-screen t)
   :config
-  (set-face-attribute 'default nil 
-		      :font "FiraCode Nerd Font Mono" 
-		      :height 200)
+;;(set-face-attribute 'default nil 
+;;      :font "FiraCode Nerd Font Mono" 
+;;      :height 200)
   (column-number-mode)
   (global-visual-line-mode t)
   ;; Relative line numbers
@@ -63,12 +63,7 @@
   :ensure t
   :custom
   (modus-themes-italic-constructs t)
-  (modus-themes-bold-constructs t)
-  (modus-themes-headings
-   '((1 . (variable-pitch 1.3))
-     (2 . (variable-pitch 1.2))
-     (3 . (variable-pitch 1.1))
-     (t . (variable-pitch 1.0))))
+  (modus-themes-bold-constructs t) 
   :config
   (load-theme 'modus-operandi t))
 
@@ -126,10 +121,16 @@
     "od" 'dictionary-search
     "ow" 'webjump
     "ot" 'tmr
-    "o/" 'vterm
 
     "oa"  '(:ignore t :which-key "org")
     "oaa" 'org-agenda
+
+    "l"  '(:ignore t :which-key "lsp")
+    "la" 'eglot-code-actions
+    "lr" 'eglot-rename
+    "lf" 'eglot-format
+    "lh" 'eldoc
+    "ls" 'consult-eglot-symbols
 
     "g"   '(:ignore t :which-key "git")
     "gg"  'magit-status))
@@ -172,15 +173,9 @@
   (org-directory "~/projects/orgs")
   (org-agenda-files '("~/projects/orgs/"))
   (org-ellipsis " ▾")
-  (org-hide-emphasis-markers t)
   (org-return-follows-link t)
   (org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)")))
   :config
-  ;; org habit
-  (add-to-list 'org-modules 'org-habit)
-  (require 'org-habit)
-  (setq org-habit-graph-column 50)
-  (setq org-habit-show-habits-only-for-today t)
   (setq org-todo-keyword-faces
         '(("DOING" . "orange")))
   (setq org-capture-templates
@@ -198,6 +193,13 @@
 %?"
            :prepend t
 	   :empty-lines-after 0))))
+
+;; Org Babel
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((calc . t)
+     ;; (python . t)
+     ))
 
 ;; Dictionary
 (use-package dictionary
@@ -256,11 +258,14 @@
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (yas-global-mode 1))
 
-;; Vterm
-(use-package vterm
-  :ensure t
-  :custom
-  (vterm-max-scrollback 10000)
+;; LSP (Language Server Protocol)
+(use-package eglot
+  :ensure nil
+  :hook ((python-mode . eglot-ensure))
   :config
-  (setq evil-vterm-cursor-config t)
-  (advice-add 'vterm-send-escape :before 'evil-insert-state))
+  (setq eglot-extend-to-xref t)
+  (setq eglot-autoshutdown t))
+
+(use-package consult-eglot
+  :ensure t
+  :after (eglot consult))
